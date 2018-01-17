@@ -9,5 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="cscore-sources" level="project" />
     <orderEntry type="library" name="docs" level="project" />
+    <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="CTRE_Phoenix-sources" level="project" />
   </component>
 </module>
