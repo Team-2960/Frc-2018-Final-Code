@@ -8,8 +8,12 @@
 package org.usfirst.frc.team2960.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2960.robot.Subsytems.Drive;
+import org.usfirst.frc.team2960.robot.Subsytems.Elevator;
+import org.usfirst.frc.team2960.robot.Subsytems.SubsystemBase;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,6 +29,13 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 
+
+	private OI oi;
+
+	private Joystick joystick;
+
+	private SubsystemBase[] mSubsytemArray;
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -34,6 +45,11 @@ public class Robot extends IterativeRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
+
+		oi = new OI();
+		joystick = new Joystick(0);
+
+		mSubsytemArray = new SubsystemBase[]{Drive.getInstance(), Elevator.getInstance()};
 	}
 
 	/**
@@ -68,6 +84,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		oi.DriveRobot(joystick);
+
+		toSmartDashboard();
+	}
+
+	/**
+	 * Reports all things to smartDashboard
+	 */
+	private void toSmartDashboard() {
+		for (SubsystemBase subsystem: mSubsytemArray) {
+			subsystem.toSmartDashboard();
+		}
 	}
 
 	/**

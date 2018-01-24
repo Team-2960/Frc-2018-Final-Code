@@ -52,7 +52,7 @@ public class Drive extends Subsystem implements SubsystemBase {
     }
 
     /**
-     * Method to setup settings on the 6 mRightMasterons
+     * Method to setup settings on the 6 mRightMaster talons
      */
     private void setupTalons() {
         //Right Master
@@ -102,6 +102,11 @@ public class Drive extends Subsystem implements SubsystemBase {
         mLeftSlave.follow(mLeftMaster);
     }
 
+    public void setSpeed(double right, double left){
+        mRightMaster.set(ControlMode.PercentOutput, right);
+        mLeftMaster.set(ControlMode.PercentOutput, left);
+    }
+
     /**
      * Function to get the private instance of Drive
      * @return Singleton of the drive class
@@ -117,8 +122,8 @@ public class Drive extends Subsystem implements SubsystemBase {
      * A Function to move forward a certain amount of inch's with motion Magic
      * @param inch How many inches you want to move
      */
-    public void moveforwardInch(double inch) {
-        double pos = inch / Constants.inchPerRotation;
+    public void moveForwardInch(double inch) {
+        double pos = inch / Constants.inchPerTick;
 
         mRightMaster.set(ControlMode.MotionMagic, pos);
         mLeftMaster.set(ControlMode.MotionMagic, pos);

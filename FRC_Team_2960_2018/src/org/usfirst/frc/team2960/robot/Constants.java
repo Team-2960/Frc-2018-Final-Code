@@ -10,7 +10,9 @@ public class Constants extends ConstantsBase {
     public static int mRightSlaveId = 2;
     public static int mLeftSlaveId = 3;
 
-    public static double inchPerRotation = 6 * Math.PI;
+    // TODO: 1/17/18 Change wheel diameter to 6 when we get the real robot
+    public static double wheelDiameter = 4;
+    public static double inchPerRotation = wheelDiameter * Math.PI;
     public static double inchPerTick = inchPerRotation / 4096;
 
     //Talon Constants
@@ -18,6 +20,10 @@ public class Constants extends ConstantsBase {
     public static int kTimeoutMs = 10;
     public static int kSlotIdx = 0;
 
-    public static int kCruiseVelocity; //Sensor UnitPer100ms
-    public static int kAcceleration; //Sensor UnitPer100ms
+    public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms
+    public static int kAcceleration = 3000; //Sensor UnitPer100ms
+
+    //DIO (Digital In And Out)
+    public static int kBottomPhotoEyeId = 1;
+
 }
