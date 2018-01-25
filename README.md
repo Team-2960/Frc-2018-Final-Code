@@ -18,3 +18,11 @@ The code for the 2018 FRC Robot for team 2960
 
 - Screensteps Live: TBD
 
+# Code Styling
+- all function's documented with javadoc comments 
+- good names for all variables no mTalonMaster !!!!!!
+- good names include "m"SubsystemName"Master/Slave"
+
+# Subsystem Style 
+- should have a state machine for all functions of the subsystem 
+- most functions should be private
