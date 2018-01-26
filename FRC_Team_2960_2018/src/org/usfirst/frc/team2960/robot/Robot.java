@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Subsytems.Drive;
 import org.usfirst.frc.team2960.robot.Subsytems.Elevator;
+import org.usfirst.frc.team2960.robot.Subsytems.Intake;
 import org.usfirst.frc.team2960.robot.Subsytems.SubsystemBase;
 
 /**
@@ -32,7 +33,8 @@ public class Robot extends IterativeRobot {
 
 	private OI oi;
 
-	private Joystick joystick;
+	private Joystick driveJoystick;
+	private Joystick operateJoystick;
 
 	private SubsystemBase[] mSubsytemArray;
 
@@ -47,9 +49,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto choices", m_chooser);
 
 		oi = new OI();
-		joystick = new Joystick(0);
+		driveJoystick = new Joystick(0);
+		operateJoystick = new Joystick(1);
 
-		mSubsytemArray = new SubsystemBase[]{Drive.getInstance(), Elevator.getInstance()};
+		mSubsytemArray = new SubsystemBase[]{Drive.getInstance(), Elevator.getInstance(), Intake.getInstance()};
 	}
 
 	/**
@@ -84,7 +87,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		oi.DriveRobot(joystick);
+		oi.driveRobot(driveJoystick);
+		oi.operateRobot(operateJoystick);
 
 		toSmartDashboard();
 	}

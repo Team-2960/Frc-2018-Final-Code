@@ -9,6 +9,8 @@ public class Constants extends ConstantsBase {
     public static int mLeftMasterId = 1;
     public static int mRightSlaveId = 2;
     public static int mLeftSlaveId = 3;
+    public static int mIntakeMasterId = 4;
+    public static int mIntakeSlaveId = 5;
 
     // TODO: 1/17/18 Change wheel diameter to 6 when we get the real robot
     public static double wheelDiameter = 4;
