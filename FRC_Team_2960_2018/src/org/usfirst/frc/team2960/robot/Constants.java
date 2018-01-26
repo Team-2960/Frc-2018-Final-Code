@@ -13,6 +13,7 @@ public class Constants extends ConstantsBase {
     public static int mIntakeSlaveId = 5;
 
     // TODO: 1/17/18 Change wheel diameter to 6 when we get the real robot
+    // Robot Contraints
     public static double wheelDiameter = 4;
     public static double inchPerRotation = wheelDiameter * Math.PI;
     public static double inchPerTick = inchPerRotation / 4096;
