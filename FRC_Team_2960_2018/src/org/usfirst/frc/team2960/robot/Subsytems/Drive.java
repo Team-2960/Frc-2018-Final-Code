@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
@@ -31,6 +32,10 @@ public class Drive extends Subsystem implements SubsystemBase {
     // Talons
     // TODO: 1/17/18 The Talons have to be changed for when we move to the new drivetrain!
     private TalonSRX mRightMaster, mRightSlave, mLeftMaster, mLeftSlave;
+
+    private Ultrasonic mRight1, mRight2, mLeft1, mLeft2, front;
+
+    private Ultrasonic[] mUltrasonics;
     /**
      * Private constructor for Drive Class
      */
@@ -39,6 +44,12 @@ public class Drive extends Subsystem implements SubsystemBase {
         setupTalons();
         //NavX
         navX = new AHRS(SPI.Port.kMXP);
+
+        //Ultrasonic setup
+
+
+
+
     }
 
     /**

@@ -1,4 +1,4 @@
-package org.usfirst.team2960.Util;
+package org.usfirst.frc.team2960.Util;
 
 public class Util {
 }
