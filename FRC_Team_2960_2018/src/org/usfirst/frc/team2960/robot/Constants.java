@@ -1,6 +1,6 @@
 package org.usfirst.frc.team2960.robot;
 
-import org.usfirst.team2960.Util.ConstantsBase;
+import org.usfirst.frc.team2960.Util.ConstantsBase;
 
 public class Constants extends ConstantsBase {
 
@@ -28,5 +28,16 @@ public class Constants extends ConstantsBase {
 
     //DIO (Digital In And Out)
     public static int kBottomPhotoEyeId = 1;
+    public static int mUltrasonicRight1In = 2;
+    public static int mUltrasonicRight1Out = 3;
+    public static int mUltrasonicRight2In = 4;
+    public static int mUltrasonicRight2Out = 5;
+    public static int mUltrasonicLeft1In = 6;
+    public static int mUltrasonicLeft1Out = 7;
+    public static int mUltrasonicLeft2In = 8;
+    public static int mUltrasonicLeft2Out = 9;
+
+    //Analog
+    public static int mUltrasonicFront = 1;
 
 }

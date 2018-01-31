@@ -5,7 +5,9 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
@@ -31,6 +33,17 @@ public class Drive extends Subsystem implements SubsystemBase {
     // Talons
     // TODO: 1/17/18 The Talons have to be changed for when we move to the new drivetrain!
     private TalonSRX mRightMaster, mRightSlave, mLeftMaster, mLeftSlave;
+
+    /**
+     * Ultrasonic Sensors, all but front are vex sensors
+     */
+    private Ultrasonic mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2;
+    private AnalogInput mUltraFront;
+
+    /**
+     * The array for the Ultrasonic Sensors
+     */
+    private Ultrasonic[] mUltrasonics;
     /**
      * Private constructor for Drive Class
      */
@@ -39,6 +52,23 @@ public class Drive extends Subsystem implements SubsystemBase {
         setupTalons();
         //NavX
         navX = new AHRS(SPI.Port.kMXP);
+
+        //Ultrasonic setup
+        mUltraRight1 = new Ultrasonic(Constants.mUltrasonicRight1Out, Constants.mUltrasonicRight1In);
+        // TODO: 1/30/18 DO Not put here 
+        mUltraRight1.setAutomaticMode(true);
+        //mUltraRight2 = new Ultrasonic(Constants.mUltrasonicRight2Out, Constants.mUltrasonicRight2In);
+        //mUltraLeft1 = new Ultrasonic(Constants.mUltrasonicLeft1Out, Constants.mUltrasonicLeft1In);
+        //mUltraLeft2 = new Ultrasonic(Constants.mUltrasonicLeft2Out, Constants.mUltrasonicLeft2In);
+        //mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
+        mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
+
+
+
+
+
+
+
     }
 
     /**
@@ -149,6 +179,7 @@ public class Drive extends Subsystem implements SubsystemBase {
      */
     @Override
     public void toSmartDashboard() {
+        /*
         SmartDashboard.putNumber("SensorVelRight", mRightMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("SensorPosRight",  mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("MotorOutputPercentRight", mRightMaster.getMotorOutputPercent());
@@ -158,6 +189,12 @@ public class Drive extends Subsystem implements SubsystemBase {
         SmartDashboard.putNumber("SensorPosLeft",  mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("MotorOutputPercentLeft", mLeftMaster.getMotorOutputPercent());
         SmartDashboard.putNumber("ClosedLoopErrorLeft", mLeftMaster.getClosedLoopError(Constants.kPIDLoopIDx));
+        */
+
+        //for(Ultrasonic ultra: mUltrasonics){
+            //SmartDashboard.putNumber("Ultra Value: ", mUltraRight1.getRangeInches());
+        //}
+        SmartDashboard.putNumber("Ultra Value: analog ultra", mUltraFront.getValue());
     }
 
     /**
