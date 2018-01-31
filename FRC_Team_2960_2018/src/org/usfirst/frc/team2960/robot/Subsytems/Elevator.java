@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2960.robot.Subsytems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,9 +16,10 @@ public class Elevator implements SubsystemBase{
     //Sensors for Elevator
 
     private DigitalInput mBottomPhotoeye;
+    private DigitalInput mTopPhotoeye;
 
     //Talons for Elevator
-
+    private TalonSRX mElevatorMaster, mElevatorSlave;
     /**
      * Method to get Singleton of the Subsystem
      * @return Elevator Instance
@@ -33,10 +35,17 @@ public class Elevator implements SubsystemBase{
 
     private Elevator() {
 
-        mBottomPhotoeye = new DigitalInput(Constants.kBottomPhotoEyeId);
+        mBottomPhotoeye = new DigitalInput(Constants.kBottomPhotoeyeId);
+        mTopPhotoeye = new DigitalInput(Constants.kTopPhotoeyeId);
+        setupTalons();
+    }
+    private void setupTalons() {
 
     }
+    private void photoeyeSensing() {
 
+
+    }
     /**
      * Updates the Subsystem
      */
@@ -58,9 +67,7 @@ public class Elevator implements SubsystemBase{
      */
     @Override
     public void toSmartDashboard() {
-
         SmartDashboard.putBoolean("Bottom Photoeye", mBottomPhotoeye.get());
-
     }
 
     /**
