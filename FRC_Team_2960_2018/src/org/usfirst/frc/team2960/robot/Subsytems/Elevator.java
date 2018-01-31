@@ -33,19 +33,45 @@ public class Elevator implements SubsystemBase{
         return mInstance;
     }
 
+
+    /**
+     * Private Constructors for Elevator Class
+     */
     private Elevator() {
 
         mBottomPhotoeye = new DigitalInput(Constants.kBottomPhotoeyeId);
         mTopPhotoeye = new DigitalInput(Constants.kTopPhotoeyeId);
         setupTalons();
     }
+
+    /**
+     * Function to setup Talons
+     */
     private void setupTalons() {
-
+        mElevatorMaster = new TalonSRX(Constants.mElevatorMasterId);
+        mElevatorSlave = new TalonSRX(Constants.mElevatorSlaveId);
+        
+        mElevatorSlave.follow(mElevatorMaster);
+        // TODO: 1/31/2018 Might have to invert slave above  
     }
-    private void photoeyeSensing() {
 
-
+    /**
+     * Get The State of the Bottom Photoeye
+     * @return State of the Bottom Photoeye
+     */
+    private Boolean getBottomPhotoeye(){
+         return mBottomPhotoeye.get();
     }
+
+    /**
+     * Get The State of the Top Photoeye
+     * @return State of the Top Photoeye
+     */
+    private Boolean getTopPhotoeye(){
+        return mTopPhotoeye.get();
+    }
+
+
     /**
      * Updates the Subsystem
      */
@@ -67,7 +93,8 @@ public class Elevator implements SubsystemBase{
      */
     @Override
     public void toSmartDashboard() {
-        SmartDashboard.putBoolean("Bottom Photoeye", mBottomPhotoeye.get());
+        SmartDashboard.putBoolean("Bottom Photoeye", getBottomPhotoeye());
+        SmartDashboard.putBoolean("Top Photoeye", getTopPhotoeye());
     }
 
     /**
