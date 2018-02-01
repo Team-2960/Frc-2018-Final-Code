@@ -52,3 +52,5 @@ fabric.properties
 FRC_Team_2960_2018/FRC_Team_2960_2018\.iml
 
 \.idea/
+
+*.iml
