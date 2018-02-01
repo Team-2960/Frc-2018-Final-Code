@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot {
 
 
 		toSmartDashboard();
-		LEDs.getInstance().sendData("BlueBanner"); 
+		LEDs.getInstance().sendData("BlueBanner");
 	}
 
 	/**
