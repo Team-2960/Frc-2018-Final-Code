@@ -27,7 +27,8 @@ public class Constants extends ConstantsBase {
     public static int kAcceleration = 3000; //Sensor UnitPer100ms
 
     //DIO (Digital In And Out)
-    public static int kBottomPhotoEyeId = 1;
+    public static int kBottomPhotoeyeId = 0;
+    public static int kTopPhotoeyeId = 1;
     public static int mUltrasonicRight1In = 2;
     public static int mUltrasonicRight1Out = 3;
     public static int mUltrasonicRight2In = 4;

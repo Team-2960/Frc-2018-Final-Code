@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2960.robot.Subsytems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,9 +16,10 @@ public class Elevator implements SubsystemBase{
     //Sensors for Elevator
 
     private DigitalInput mBottomPhotoeye;
+    private DigitalInput mTopPhotoeye;
 
     //Talons for Elevator
-
+    private TalonSRX mElevatorMaster, mElevatorSlave;
     /**
      * Method to get Singleton of the Subsystem
      * @return Elevator Instance
@@ -31,11 +33,44 @@ public class Elevator implements SubsystemBase{
         return mInstance;
     }
 
+
+    /**
+     * Private Constructors for Elevator Class
+     */
     private Elevator() {
 
-        mBottomPhotoeye = new DigitalInput(Constants.kBottomPhotoEyeId);
-
+        mBottomPhotoeye = new DigitalInput(Constants.kBottomPhotoeyeId);
+        mTopPhotoeye = new DigitalInput(Constants.kTopPhotoeyeId);
+        setupTalons();
     }
+
+    /**
+     * Function to setup Talons
+     */
+    private void setupTalons() {
+        mElevatorMaster = new TalonSRX(Constants.mElevatorMasterId);
+        mElevatorSlave = new TalonSRX(Constants.mElevatorSlaveId);
+        
+        mElevatorSlave.follow(mElevatorMaster);
+        // TODO: 1/31/2018 Might have to invert slave above  
+    }
+
+    /**
+     * Get The State of the Bottom Photoeye
+     * @return State of the Bottom Photoeye
+     */
+    private Boolean getBottomPhotoeye(){
+         return mBottomPhotoeye.get();
+    }
+
+    /**
+     * Get The State of the Top Photoeye
+     * @return State of the Top Photoeye
+     */
+    private Boolean getTopPhotoeye(){
+        return mTopPhotoeye.get();
+    }
+
 
     /**
      * Updates the Subsystem
@@ -58,9 +93,8 @@ public class Elevator implements SubsystemBase{
      */
     @Override
     public void toSmartDashboard() {
-
-        SmartDashboard.putBoolean("Bottom Photoeye", mBottomPhotoeye.get());
-
+        SmartDashboard.putBoolean("Bottom Photoeye", getBottomPhotoeye());
+        SmartDashboard.putBoolean("Top Photoeye", getTopPhotoeye());
     }
 
     /**
