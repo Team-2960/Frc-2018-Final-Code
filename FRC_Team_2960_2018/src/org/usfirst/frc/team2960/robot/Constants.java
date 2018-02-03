@@ -6,11 +6,18 @@ public class Constants extends ConstantsBase {
 
     //Talon Ids
     public static int mRightMasterId = 0;
-    public static int mLeftMasterId = 1;
-    public static int mRightSlaveId = 2;
-    public static int mLeftSlaveId = 3;
-    public static int mIntakeMasterId = 4;
-    public static int mIntakeSlaveId = 5;
+    public static int mRightSlave1Id = 1;
+    public static int mRightSlave2Id = 2;
+    public static int mLeftMasterId = 3;
+    public static int mLeftSlave1Id = 4;
+    public static int mLeftSlave2Id = 5;
+    public static int mWinchMasterId = 6;
+    public static int mWinchSlaveId = 7;
+    public static int mElevatorMasterId = 8;
+    public static int mElevatorSlaveId = 9;
+    public static int mIntakeMasterId = 10;
+    public static int mIntakeSlaveId = 11;
+    public static int mHookId = 12;
 
     // TODO: 1/17/18 Change wheel diameter to 6 when we get the real robot
     // Robot Contraints

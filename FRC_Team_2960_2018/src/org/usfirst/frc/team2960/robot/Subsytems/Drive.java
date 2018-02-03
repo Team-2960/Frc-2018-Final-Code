@@ -32,7 +32,7 @@ public class Drive extends Subsystem implements SubsystemBase {
 
     // Talons
     // TODO: 1/17/18 The Talons have to be changed for when we move to the new drivetrain!
-    private TalonSRX mRightMaster, mRightSlave, mLeftMaster, mLeftSlave;
+    private TalonSRX mRightMaster, mRightSlave1, mRightSlave2, mLeftMaster, mLeftSlave1, mLeftSlave2;
 
     /**
      * Ultrasonic Sensors, all but front are vex sensors
@@ -104,9 +104,12 @@ public class Drive extends Subsystem implements SubsystemBase {
         mRightMaster.configMotionCruiseVelocity(Constants.kCruiseVelocity, Constants.kTimeoutMs);
         mRightMaster.configMotionAcceleration(Constants.kAcceleration, Constants.kTimeoutMs);
 
-        //Right Slave
-        mRightSlave = new TalonSRX(Constants.mRightSlaveId);
-        mRightSlave.follow(mRightMaster);
+        //Right Slaves
+        mRightSlave1 = new TalonSRX(Constants.mRightSlave1Id);
+        mRightSlave1.follow(mRightMaster);
+
+        mRightSlave2 = new TalonSRX(Constants.mRightSlave2Id);
+        mRightSlave2.follow(mRightMaster);
 
         //Left Master
         mLeftMaster = new TalonSRX(Constants.mLeftMasterId);
@@ -128,8 +131,11 @@ public class Drive extends Subsystem implements SubsystemBase {
         mLeftMaster.configMotionAcceleration(Constants.kAcceleration, Constants.kTimeoutMs);
 
         //Left Slave
-        mLeftSlave = new TalonSRX(Constants.mLeftSlaveId);
-        mLeftSlave.follow(mLeftMaster);
+        mLeftSlave1 = new TalonSRX(Constants.mLeftSlave1Id);
+        mLeftSlave1.follow(mLeftMaster);
+
+        mLeftSlave2 = new TalonSRX(Constants.mLeftSlave2Id);
+        mLeftSlave2.follow(mLeftMaster);
     }
 
     public void setSpeed(double right, double left){
