@@ -1,3 +1,5 @@
+#include <Adafruit_NeoPixel.h>
+
 #include <Wire.h>
 
 String Code = "not";
@@ -24,4 +26,6 @@ void receiveLEDCode(int howMany){
 
   Serial.print(Code);
 }
+
+void sendled(String )
 

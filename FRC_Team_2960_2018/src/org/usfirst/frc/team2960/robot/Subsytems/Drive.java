@@ -55,15 +55,15 @@ public class Drive extends Subsystem implements SubsystemBase {
 
         //Ultrasonic setup
         mUltraRight1 = new Ultrasonic(Constants.mUltrasonicRight1Out, Constants.mUltrasonicRight1In);
-        // TODO: 1/30/18 DO Not put here 
         mUltraRight1.setAutomaticMode(true);
-        //mUltraRight2 = new Ultrasonic(Constants.mUltrasonicRight2Out, Constants.mUltrasonicRight2In);
-        //mUltraLeft1 = new Ultrasonic(Constants.mUltrasonicLeft1Out, Constants.mUltrasonicLeft1In);
-        //mUltraLeft2 = new Ultrasonic(Constants.mUltrasonicLeft2Out, Constants.mUltrasonicLeft2In);
-        //mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
+        mUltraRight2 = new Ultrasonic(Constants.mUltrasonicRight2Out, Constants.mUltrasonicRight2In);
+        mUltraRight2.setAutomaticMode(true);
+        mUltraLeft1 = new Ultrasonic(Constants.mUltrasonicLeft1Out, Constants.mUltrasonicLeft1In);
+        mUltraLeft1.setAutomaticMode(true);
+        mUltraLeft2 = new Ultrasonic(Constants.mUltrasonicLeft2Out, Constants.mUltrasonicLeft2In);
+        mUltraLeft2.setAutomaticMode(true);
+        mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
         mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
-
-
 
 
 
@@ -87,22 +87,6 @@ public class Drive extends Subsystem implements SubsystemBase {
     private void setupTalons() {
         //Right Master
         mRightMaster = new TalonSRX(Constants.mRightMasterId);
-        /* first choose the sensor */
-        mRightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
-        mRightMaster.setSensorPhase(true);
-        mRightMaster.setInverted(false);
-        /* Set relevant frame periods to be at least as fast as periodic rate */
-        mRightMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-        mRightMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-        /* set closed loop gains in slot0 - see documentation */
-        mRightMaster.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIDx);
-        mRightMaster.config_kF(0, 0.2, Constants.kTimeoutMs);
-        mRightMaster.config_kP(0, 0.2, Constants.kTimeoutMs);
-        mRightMaster.config_kI(0, 0, Constants.kTimeoutMs);
-        mRightMaster.config_kD(0, 0, Constants.kTimeoutMs);
-        /* set acceleration and cruise velocity */
-        mRightMaster.configMotionCruiseVelocity(Constants.kCruiseVelocity, Constants.kTimeoutMs);
-        mRightMaster.configMotionAcceleration(Constants.kAcceleration, Constants.kTimeoutMs);
 
         //Right Slaves
         mRightSlave1 = new TalonSRX(Constants.mRightSlave1Id);
@@ -113,22 +97,6 @@ public class Drive extends Subsystem implements SubsystemBase {
 
         //Left Master
         mLeftMaster = new TalonSRX(Constants.mLeftMasterId);
-        /* first choose the sensor */
-        mLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
-        mLeftMaster.setSensorPhase(true);
-        mLeftMaster.setInverted(false);
-        /* Set relevant frame periods to be at least as fast as periodic rate */
-        mLeftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-        mLeftMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-        /* set closed loop gains in slot0 - see documentation */
-        mLeftMaster.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIDx);
-        mLeftMaster.config_kF(0, 0.2, Constants.kTimeoutMs);
-        mLeftMaster.config_kP(0, 0.2, Constants.kTimeoutMs);
-        mLeftMaster.config_kI(0, 0, Constants.kTimeoutMs);
-        mLeftMaster.config_kD(0, 0, Constants.kTimeoutMs);
-        /* set acceleration and cruise velocity */
-        mLeftMaster.configMotionCruiseVelocity(Constants.kCruiseVelocity, Constants.kTimeoutMs);
-        mLeftMaster.configMotionAcceleration(Constants.kAcceleration, Constants.kTimeoutMs);
 
         //Left Slave
         mLeftSlave1 = new TalonSRX(Constants.mLeftSlave1Id);
@@ -154,16 +122,6 @@ public class Drive extends Subsystem implements SubsystemBase {
         return m_Instance;
     }
 
-    /**
-     * A Function to move forward a certain amount of inch's with motion Magic
-     * @param inch How many inches you want to move
-     */
-    public void moveForwardInch(double inch) {
-        double pos = inch / Constants.inchPerTick;
-
-        mRightMaster.set(ControlMode.MotionMagic, pos);
-        mLeftMaster.set(ControlMode.MotionMagic, pos);
-    }
     /**
      * Updates the Subsystem
      */
@@ -216,7 +174,6 @@ public class Drive extends Subsystem implements SubsystemBase {
      */
     @Override
     public void zeroSensors() {
-        mRightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
-        mLeftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
+
     }
 }

@@ -49,7 +49,7 @@ public class Robot extends IterativeRobot {
 		driveJoystick = new Joystick(0);
 		operateJoystick = new Joystick(1);
 
-		mSubsytemArray = new SubsystemBase[]{Drive.getInstance(), Elevator.getInstance(), Intake.getInstance(), LEDs.getInstance()};
+		mSubsytemArray = new SubsystemBase[]{Drive.getInstance(), Elevator.getInstance(), Intake.getInstance(), Winch.getInstance(), LEDs.getInstance()};
 
 	}
 

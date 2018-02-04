@@ -17,7 +17,7 @@ public class Constants extends ConstantsBase {
     public static int mElevatorSlaveId = 9;
     public static int mIntakeMasterId = 10;
     public static int mIntakeSlaveId = 11;
-    public static int mHookId = 12;
+    public static int mHookDeploymentId = 12;
 
     // TODO: 1/17/18 Change wheel diameter to 6 when we get the real robot
     // Robot Contraints
@@ -47,5 +47,13 @@ public class Constants extends ConstantsBase {
 
     //Analog
     public static int mUltrasonicFront = 1;
+
+
+    //PID Constants
+    public static double mElevator_kF = 0.2;
+    public static double mElevator_kP = 0.2;
+    public static double mElevator_kI = 0;
+    public static double mElevator_kD = 0;
+
 
 }

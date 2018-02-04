@@ -2,20 +2,20 @@ package org.usfirst.frc.team2960.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import org.usfirst.frc.team2960.robot.Subsytems.Drive;
+import org.usfirst.frc.team2960.robot.Subsytems.Elevator;
 import org.usfirst.frc.team2960.robot.Subsytems.Intake;
+import org.usfirst.frc.team2960.robot.Subsytems.Winch;
 
 public class OI {
 
     private Drive drive = Drive.getInstance();
     private Intake intake = Intake.getInstance();
+    private Winch winch = Winch.getInstance();
+    private Elevator elevator = Elevator.getInstance();
 
 
     public void driveRobot(Joystick joystick) {
         drive.setSpeed(-joystick.getRawAxis(5), joystick.getRawAxis(1));
-
-        if(joystick.getRawButton(1)) {
-            drive.moveForwardInch(10);
-        }
 
         if(joystick.getRawButton(2)) {
             drive.zeroSensors();
@@ -25,6 +25,7 @@ public class OI {
     }
 
     public void operateRobot(Joystick joystick) {
+        //Intake
         if(joystick.getRawButton(1)) {
             intake.setIntakeState(Intake.mIntakeState.forward);
         }
@@ -34,6 +35,25 @@ public class OI {
         else {
             intake.setIntakeState(Intake.mIntakeState.stop);
         }
+        //Winch
+        if(joystick.getRawButton(3)) {
+            winch.setWinchState(Winch.mWinchState.winchUp);
+        }
+        else {
+            winch.setWinchState(Winch.mWinchState.winchStop);
+        }
+
+        if(joystick.getRawButton(4)) {
+            winch.setWinchState(Winch.mWinchState.hookDeployment);
+        }
+        //Elevator
+        if(joystick.getRawButton(5)) {
+            elevator.testElevator(1.0);
+        }
+        else {
+            elevator.testElevator(0);
+        }
+
     }
 
 }
