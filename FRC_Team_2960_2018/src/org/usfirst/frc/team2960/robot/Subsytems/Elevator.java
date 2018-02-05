@@ -8,10 +8,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.sun.tools.classfile.ConstantPool;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
+import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
 
-public class Elevator implements SubsystemBase{
+public class Elevator extends Subsystem implements SubsystemBase{
 
     /**
      * Private Instance of the Subsystem
@@ -50,6 +52,16 @@ public class Elevator implements SubsystemBase{
     }
 
     /**
+     * Initialize the default command for a subsystem By default subsystems have no default command,
+     * but if they do, the default command is set with this method. It is called on all Subsystems by
+     * CommandBase in the users program after all the Subsystems are created.
+     */
+    @Override
+    protected void initDefaultCommand() {
+
+    }
+
+    /**
      * Function to setup Talons
      */
     private void setupTalons() {
@@ -78,6 +90,8 @@ public class Elevator implements SubsystemBase{
         mElevatorSlave.follow(mElevatorMaster);
         // TODO: 1/31/2018 Might have to invert slave above  
     }
+
+
 
     // TODO: 2/3/18 Delete below function after testing talons
     public void testElevator(double speed) {

@@ -112,6 +112,14 @@ public class Drive extends Subsystem implements SubsystemBase {
     }
 
     /**
+     * Function to get the array of ultrasonics
+     * @return The array of ultrasonics on the Drive train
+     */
+    public Ultrasonic[] getUltrasonics() {
+        return mUltrasonics;
+    }
+
+    /**
      * Function to get the private instance of Drive
      * @return Singleton of the drive class
      */

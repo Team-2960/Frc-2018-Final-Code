@@ -2,15 +2,30 @@ package org.usfirst.frc.team2960.robot.Subsytems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team2960.robot.Constants;
 
-public class Winch implements SubsystemBase {
+/**
+ * Winch Subsystem for the 2018 FRC robot
+ *
+ * Contains 2 775 pros on talon SRXs to einch up are robot for the end game also includes a snowBlower motor for the hook
+ * @author malcolmmachesky
+ */
+public class Winch extends Subsystem implements SubsystemBase {
 
 
     private static Winch mInstance;
 
+    /**
+     * States of the winch Subsystem
+     */
     public enum mWinchState {hookDeployment, winchUp, winchStop}
 
+
+    /**
+     * Gets the private instance of the winch subsystem
+     * @return The private instance of the winch Subsystem
+     */
     public static Winch getInstance() {
         if (mInstance == null) {
             mInstance = new Winch();
@@ -18,11 +33,26 @@ public class Winch implements SubsystemBase {
         return mInstance;
     }
 
+    /**
+     * Talons for the winch and hook motors
+     */
     private TalonSRX mWinchMaster, mWinchSlave, mHookDeployment;
 
-
+    /**
+     * Private Constructor for Winch Subsystem
+     */
     private Winch() {
         setupTalons();
+    }
+
+    /**
+     * Initialize the default command for a subsystem By default subsystems have no default command,
+     * but if they do, the default command is set with this method. It is called on all Subsystems by
+     * CommandBase in the users program after all the Subsystems are created.
+     */
+    @Override
+    protected void initDefaultCommand() {
+
     }
 
 
@@ -36,6 +66,10 @@ public class Winch implements SubsystemBase {
     }
 
 
+    /**
+     * Used to set the state of the winch
+     * @param state The desired state for the winch
+     */
     public void setWinchState(mWinchState state) {
         switch (state) {
             case winchStop:
@@ -84,7 +118,8 @@ public class Winch implements SubsystemBase {
      */
     @Override
     public void stop() {
-
+        mWinchMaster.set(ControlMode.PercentOutput, 0);
+        mHookDeployment.set(ControlMode.PercentOutput, 0);
     }
 
     /**

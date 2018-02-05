@@ -1,8 +1,6 @@
 package org.usfirst.frc.team2960.robot;
 
-import org.usfirst.frc.team2960.Util.ConstantsBase;
-
-public class Constants extends ConstantsBase {
+public class Constants {
 
     //Talon Ids
     public static int mRightMasterId = 0;
@@ -19,11 +17,7 @@ public class Constants extends ConstantsBase {
     public static int mIntakeSlaveId = 11;
     public static int mHookDeploymentId = 12;
 
-    // TODO: 1/17/18 Change wheel diameter to 6 when we get the real robot
     // Robot Contraints
-    public static double wheelDiameter = 4;
-    public static double inchPerRotation = wheelDiameter * Math.PI;
-    public static double inchPerTick = inchPerRotation / 4096;
 
     //Talon Constants
     public static int kPIDLoopIDx = 0;
