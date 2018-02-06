@@ -4,18 +4,20 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.IllegalUseOfCommandException;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import org.usfirst.frc.team2960.robot.Robot;
+import org.usfirst.frc.team2960.robot.Subsytems.Drive;
 
 public class MoveForwardTime extends Command {
 
 
     double time;
+    double speed;
     boolean done;
     Timer timeToMove;
 
-    public MoveForwardTime(double time) {
+    public MoveForwardTime(double time, double speed) {
         super("MoveForwardTime");
         this.time = time;
+        this.speed = speed;
         done = false;
         timeToMove = new Timer();
     }
@@ -63,7 +65,7 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected void execute() {
-
+        Drive.getInstance().setSpeed(speed, speed);
     }
 
     /**
@@ -72,7 +74,9 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected void end() {
-
+        Drive.getInstance().setSpeed(0, 0);
+        timeToMove.stop();
+        timeToMove.reset();
     }
 
     /**
@@ -87,7 +91,6 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected void interrupted() {
-
     }
 
     /**
@@ -99,6 +102,5 @@ public class MoveForwardTime extends Command {
      */
     @Override
     public synchronized void start() {
-
     }
 }
