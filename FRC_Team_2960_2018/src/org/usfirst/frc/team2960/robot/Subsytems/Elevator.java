@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.sun.tools.classfile.ConstantPool;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -90,7 +89,15 @@ public class Elevator extends Subsystem implements SubsystemBase{
         mElevatorSlave.follow(mElevatorMaster);
         // TODO: 1/31/2018 Might have to invert slave above  
     }
+    
+    public void goToLevel(int level) {
+        // TODO: 2/6/18 Implement 
+    }
 
+    public Boolean atLevel(int level) {
+        // TODO: 2/6/18 Implement
+        return false;
+    }
 
 
     // TODO: 2/3/18 Delete below function after testing talons

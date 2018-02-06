@@ -1,30 +1,20 @@
 package org.usfirst.frc.team2960.robot.Commands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.IllegalUseOfCommandException;
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import org.usfirst.frc.team2960.robot.Subsytems.Drive;
+import org.usfirst.frc.team2960.robot.Subsytems.Elevator;
 
-public class MoveForwardTime extends Command {
+public class ElevatorMove extends Command{
 
+    int level;
+    Elevator elevator = Elevator.getInstance();
 
-    double time;
-    double speed;
-    boolean done;
-    Timer timeToMove;
+    public ElevatorMove(int level) {
+        super("ElevatorMove");
 
-    public MoveForwardTime(double time, double speed) {
-        super("MoveForwardTime");
-        this.time = time;
-        this.speed = speed;
-        done = false;
-        timeToMove = new Timer();
+        this.level = level;
     }
-
-
-
-
 
     /**
      * Returns whether this command is finished. If it is, then the command will be removed and {@link
@@ -43,10 +33,9 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected boolean isFinished() {
-        if(timeToMove.get() >= time) {
+        if(elevator.atLevel(level)) {
             return true;
-        }
-        else {
+        }else {
             return false;
         }
     }
@@ -56,7 +45,6 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected void initialize() {
-        timeToMove.start();
 
     }
 
@@ -65,7 +53,7 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected void execute() {
-        Drive.getInstance().setSpeed(speed, speed);
+        elevator.goToLevel(level);
     }
 
     /**
@@ -74,9 +62,7 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected void end() {
-        Drive.getInstance().setSpeed(0, 0);
-        timeToMove.stop();
-        timeToMove.reset();
+
     }
 
     /**
@@ -91,6 +77,7 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected void interrupted() {
+
     }
 
     /**
@@ -102,5 +89,6 @@ public class MoveForwardTime extends Command {
      */
     @Override
     public synchronized void start() {
+
     }
 }

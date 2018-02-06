@@ -17,16 +17,6 @@ public class Constants {
     public static int mIntakeSlaveId = 11;
     public static int mHookDeploymentId = 12;
 
-    // Robot Contraints
-
-    //Talon Constants
-    public static int kPIDLoopIDx = 0;
-    public static int kTimeoutMs = 10;
-    public static int kSlotIdx = 0;
-
-    public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms
-    public static int kAcceleration = 3000; //Sensor UnitPer100ms
-
     //DIO (Digital In And Out)
     public static int kBottomPhotoeyeId = 0;
     public static int kTopPhotoeyeId = 1;
@@ -40,8 +30,20 @@ public class Constants {
     public static int mUltrasonicLeft2Out = 9;
 
     //Analog
-    public static int mUltrasonicFront = 1;
+    public static int mUltrasonicFront = 0;
 
+
+
+
+    // Robot Contraints
+
+    //Talon Constants
+    public static int kPIDLoopIDx = 0;
+    public static int kTimeoutMs = 10;
+    public static int kSlotIdx = 0;
+
+    public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms
+    public static int kAcceleration = 3000; //Sensor UnitPer100ms
 
     //PID Constants
     public static double mElevator_kF = 0.2;
