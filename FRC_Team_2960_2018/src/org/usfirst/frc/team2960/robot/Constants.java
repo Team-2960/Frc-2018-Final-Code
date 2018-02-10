@@ -51,5 +51,10 @@ public class Constants {
     public static double mElevator_kI = 0;
     public static double mElevator_kD = 0;
 
+    //Elevator Heights
+    public static double mElevatorLevel1 = 0;
+    public static double mElevatorLevel2 = 1;
+    public static double mElevator_Level3 = 2;
+
 
 }

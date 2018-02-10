@@ -48,11 +48,15 @@ public class OI {
         }
         //Elevator
         if(joystick.getRawButton(5)) {
-            elevator.testElevator(1.0);
+            elevator.testElevator(joystick.getRawAxis(1));
         }
-        else {
-            elevator.testElevator(0);
-        }
+
+        //else if(joystick.getRawButton(6)){
+        //    elevator.testElevator(2.0);
+        //}
+        //else if(joystick.getRawButton(7)){
+        //    elevator.testElevator(0.0);
+        //}
 
     }
 

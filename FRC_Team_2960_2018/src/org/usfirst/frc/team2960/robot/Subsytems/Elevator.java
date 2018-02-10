@@ -26,6 +26,8 @@ public class Elevator extends Subsystem implements SubsystemBase{
 
     //Talons for Elevator
     private TalonSRX mElevatorMaster, mElevatorSlave;
+
+
     /**
      * Method to get Singleton of the Subsystem
      * @return Elevator Instance
@@ -90,19 +92,37 @@ public class Elevator extends Subsystem implements SubsystemBase{
         // TODO: 1/31/2018 Might have to invert slave above  
     }
     
-    public void goToLevel(int level) {
-        // TODO: 2/6/18 Implement 
+    public void goToLevel(double level) {
+        // TODO: Make sure that its position(if at 100, you set to 50, then it goes to 50, not 150)
+        double targetPosition = 4096 * 10 * level; //4096 ticks/rev, should change depending on where level is
+        mElevatorMaster.set(ControlMode.MotionMagic, targetPosition);
+        if(getBottomPhotoeye() || getTopPhotoeye()){
+            mElevatorMaster.set(ControlMode.Velocity, 0);
+        }
+        else{
+            mElevatorMaster.set(ControlMode.MotionMagic, targetPosition);
+        }
     }
 
-    public Boolean atLevel(int level) {
-        // TODO: 2/6/18 Implement
-        return false;
+    public boolean atLevel(){
+        if(mElevatorMaster.getMotorOutputPercent() == 0)
+            return true;
+
+        else
+            return false;
+        
     }
+
 
 
     // TODO: 2/3/18 Delete below function after testing talons
     public void testElevator(double speed) {
-        mElevatorMaster.set(ControlMode.PercentOutput, speed);
+        if(getBottomPhotoeye() || getTopPhotoeye()){
+            mElevatorMaster.set(ControlMode.Velocity, 0);
+        }
+        else {
+            mElevatorMaster.set(ControlMode.PercentOutput, speed);
+        }
     }
 
     /**
