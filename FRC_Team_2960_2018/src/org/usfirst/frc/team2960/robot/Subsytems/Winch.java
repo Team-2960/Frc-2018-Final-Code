@@ -8,7 +8,7 @@ import org.usfirst.frc.team2960.robot.Constants;
 /**
  * Winch Subsystem for the 2018 FRC robot
  *
- * Contains 2 775 pros on talon SRXs to einch up are robot for the end game also includes a snowBlower motor for the hook
+ * Contains 2 775 pros on talon SRXs to winch up are robot for the end game also includes a snowBlower motor for the hook
  * @author malcolmmachesky
  */
 public class Winch extends Subsystem implements SubsystemBase {
