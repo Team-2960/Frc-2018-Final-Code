@@ -68,27 +68,28 @@ public class Elevator extends Subsystem implements SubsystemBase{
     private void setupTalons() {
         mElevatorMaster = new TalonSRX(Constants.mElevatorMasterId);
 
-        /* first choose the sensor */
-        mElevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
-        mElevatorMaster.setSensorPhase(true);
-        mElevatorMaster.setInverted(false);
-        /* Set relevant frame periods to be at least as fast as periodic rate */
-        mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-        mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-        /* set closed loop gains in slot0 - see documentation */
-        mElevatorMaster.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIDx);
-        mElevatorMaster.config_kF(Constants.kSlotIdx, Constants.mElevator_kF, Constants.kTimeoutMs);
-        mElevatorMaster.config_kP(Constants.kSlotIdx, Constants.mElevator_kP, Constants.kTimeoutMs);
-        mElevatorMaster.config_kI(Constants.kSlotIdx, Constants.mElevator_kI, Constants.kTimeoutMs);
-        mElevatorMaster.config_kD(Constants.kSlotIdx, Constants.mElevator_kD, Constants.kTimeoutMs);
-        /* set acceleration and cruise velocity */
-        mElevatorMaster.configMotionCruiseVelocity(Constants.kCruiseVelocity, Constants.kTimeoutMs);
-        mElevatorMaster.configMotionAcceleration(Constants.kAcceleration, Constants.kTimeoutMs);
-
+//        /* first choose the sensor */
+//        mElevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
+//        mElevatorMaster.setSensorPhase(true);
+//        mElevatorMaster.setInverted(false);
+//        /* Set relevant frame periods to be at least as fast as periodic rate */
+//        mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
+//        mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+//        /* set closed loop gains in slot0 - see documentation */
+//        mElevatorMaster.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIDx);
+//        mElevatorMaster.config_kF(Constants.kSlotIdx, Constants.mElevator_kF, Constants.kTimeoutMs);
+//        mElevatorMaster.config_kP(Constants.kSlotIdx, Constants.mElevator_kP, Constants.kTimeoutMs);
+//        mElevatorMaster.config_kI(Constants.kSlotIdx, Constants.mElevator_kI, Constants.kTimeoutMs);
+//        mElevatorMaster.config_kD(Constants.kSlotIdx, Constants.mElevator_kD, Constants.kTimeoutMs);
+//        /* set acceleration and cruise velocity */
+//        mElevatorMaster.configMotionCruiseVelocity(Constants.kCruiseVelocity, Constants.kTimeoutMs);
+//        mElevatorMaster.configMotionAcceleration(Constants.kAcceleration, Constants.kTimeoutMs);
+//
 
         mElevatorSlave = new TalonSRX(Constants.mElevatorSlaveId);
         
         mElevatorSlave.follow(mElevatorMaster);
+        mElevatorSlave.setInverted(true);
         // TODO: 1/31/2018 Might have to invert slave above  
     }
     
@@ -117,12 +118,12 @@ public class Elevator extends Subsystem implements SubsystemBase{
 
     // TODO: 2/3/18 Delete below function after testing talons
     public void testElevator(double speed) {
-        if(getBottomPhotoeye() || getTopPhotoeye()){
-            mElevatorMaster.set(ControlMode.Velocity, 0);
-        }
-        else {
+        //if(getBottomPhotoeye() || getTopPhotoeye()){
+            //mElevatorMaster.set(ControlMode.Velocity, 0);
+        //}
+        //else {
             mElevatorMaster.set(ControlMode.PercentOutput, speed);
-        }
+        //}
     }
 
     /**

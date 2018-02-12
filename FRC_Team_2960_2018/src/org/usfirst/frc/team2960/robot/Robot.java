@@ -9,9 +9,12 @@ package org.usfirst.frc.team2960.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Subsytems.*;
+
+import javax.sound.sampled.Port;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,6 +29,7 @@ public class Robot extends IterativeRobot {
 	private static final String kCustomAuto = "My Auto";
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
+	private PowerDistributionPanel pdp;
 
 
 	private OI oi;
@@ -48,6 +52,9 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		driveJoystick = new Joystick(0);
 		operateJoystick = new Joystick(1);
+
+		pdp = new PowerDistributionPanel();
+
 
 		mSubsytemArray = new SubsystemBase[]{Drive.getInstance(), Elevator.getInstance(), Intake.getInstance(), Winch.getInstance(), LEDs.getInstance()};
 
@@ -91,6 +98,7 @@ public class Robot extends IterativeRobot {
 
 		toSmartDashboard();
 		LEDs.getInstance().sendData("BlueBanner");
+		SmartDashboard.putData("PDP", pdp);
 	}
 
 	/**
