@@ -10,8 +10,10 @@ package org.usfirst.frc.team2960.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2960.robot.Commands.Auto.AutoCross;
 import org.usfirst.frc.team2960.robot.Subsytems.*;
 
 import javax.sound.sampled.Port;
@@ -27,6 +29,7 @@ public class Robot extends IterativeRobot {
 	//Look at
 	private static final String kDefaultAuto = "Default";
 	private static final String kCustomAuto = "My Auto";
+	private Command kAutonomousCommand = null;
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	private PowerDistributionPanel pdp;
@@ -74,8 +77,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		m_autoSelected = m_chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
+		switch (m_autoSelected) {
+			case kDefaultAuto:
+				kAutonomousCommand = new AutoCross();
+		}
+
 		System.out.println("Auto selected: " + m_autoSelected);
 	}
 
@@ -84,7 +90,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-
+		if(kAutonomousCommand != null) kAutonomousCommand.start();
 	}
 
 	/**
