@@ -2,6 +2,7 @@ package org.usfirst.frc.team2960.robot.Subsytems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team2960.robot.Constants;
 
 /**
@@ -9,7 +10,7 @@ import org.usfirst.frc.team2960.robot.Constants;
  *
  * Includes 2 TalonSRX speed controllers to control 2 bag motors on 70 to 1 Vex versa planetary gearboxes
  */
-public class Intake implements SubsystemBase{
+public class Intake extends Subsystem implements SubsystemBase{
 
 
     private static Intake mInstance;
@@ -34,6 +35,16 @@ public class Intake implements SubsystemBase{
     }
     private Intake() {
         setupTalons();
+    }
+
+    /**
+     * Initialize the default command for a subsystem By default subsystems have no default command,
+     * but if they do, the default command is set with this method. It is called on all Subsystems by
+     * CommandBase in the users program after all the Subsystems are created.
+     */
+    @Override
+    protected void initDefaultCommand() {
+
     }
 
     /**

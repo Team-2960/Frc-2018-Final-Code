@@ -54,3 +54,7 @@ FRC_Team_2960_2018/FRC_Team_2960_2018\.iml
 \.idea/
 
 *.iml
+
+FRC_Team_2960_2018/build/jars/
+
+FRC_Team_2960_2018/build/

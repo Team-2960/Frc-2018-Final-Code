@@ -1,8 +1,6 @@
 package org.usfirst.frc.team2960.robot;
 
-import org.usfirst.frc.team2960.Util.ConstantsBase;
-
-public class Constants extends ConstantsBase {
+public class Constants {
 
     //Talon Ids
     public static int mRightMasterId = 0;
@@ -17,21 +15,7 @@ public class Constants extends ConstantsBase {
     public static int mElevatorSlaveId = 9;
     public static int mIntakeMasterId = 10;
     public static int mIntakeSlaveId = 11;
-    public static int mHookId = 12;
-
-    // TODO: 1/17/18 Change wheel diameter to 6 when we get the real robot
-    // Robot Contraints
-    public static double wheelDiameter = 4;
-    public static double inchPerRotation = wheelDiameter * Math.PI;
-    public static double inchPerTick = inchPerRotation / 4096;
-
-    //Talon Constants
-    public static int kPIDLoopIDx = 0;
-    public static int kTimeoutMs = 10;
-    public static int kSlotIdx = 0;
-
-    public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms
-    public static int kAcceleration = 3000; //Sensor UnitPer100ms
+    public static int mHookDeploymentId = 12;
 
     //DIO (Digital In And Out)
     public static int kBottomPhotoeyeId = 0;
@@ -46,6 +30,45 @@ public class Constants extends ConstantsBase {
     public static int mUltrasonicLeft2Out = 9;
 
     //Analog
-    public static int mUltrasonicFront = 1;
+    public static int mUltrasonicFront = 0;
+
+
+
+
+    // Robot Contraints
+    public static double kDistanceBetweenWheels = .5;//In Meters
+    public static double kMaxVelocityOfTrajectory = 2;//In m/s
+
+    //Talon Constants
+    public static int kPIDLoopIDx = 0;
+    public static int kTimeoutMs = 10;
+    public static int kSlotIdx = 0;
+
+    public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms
+    public static int kAcceleration = 3000; //Sensor UnitPer100ms
+
+    //PID Constants
+    public static double kElevator_kF = 0.2;
+    public static double kElevator_kP = 0.2;
+    public static double kElevator_kI = 0;
+    public static double kElevator_kD = 0;
+
+    //Elevator Heights
+    public static double kElevatorLevel1 = 0;
+    public static double kElevatorLevel2 = 1;
+    public static double kElevator_Level3 = 2;
+
+    //Trajectory Constants
+    public static double kLeftTrajectoryP = 1.0;
+    public static double kLeftTrajectoryI = 0;//Not used
+    public static double kLeftTrajectoryD = 0;
+    public static double kTrajectoryVelocityRatio = 1 / kMaxVelocityOfTrajectory;
+    public static double kLeftTrajectoryAccelerationGain = 0;
+    public static double kRightTrajectoryP = 1.0;
+    public static double kRightTrajectoryI = 0;//Not used
+    public static double kRightTrajectoryD = 0;
+    public static double kRightTrajectoryAccelerationGain = 0;
+
+
 
 }

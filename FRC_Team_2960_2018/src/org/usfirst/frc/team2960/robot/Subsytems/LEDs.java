@@ -1,9 +1,10 @@
 package org.usfirst.frc.team2960.robot.Subsytems;
 
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class LEDs implements SubsystemBase{
+public class LEDs extends Subsystem implements SubsystemBase{
 
     /**
      * Private instance of LEDs class
@@ -15,15 +16,19 @@ public class LEDs implements SubsystemBase{
      */
     private I2C Wire;
 
-    /**
-     * String of selected led state
-     */
-    private String data;
-
     //Constructor
     private LEDs() {
         Wire = new I2C(I2C.Port.kOnboard, 4);
-        data = "No Data";
+    }
+
+    /**
+     * Initialize the default command for a subsystem By default subsystems have no default command,
+     * but if they do, the default command is set with this method. It is called on all Subsystems by
+     * CommandBase in the users program after all the Subsystems are created.
+     */
+    @Override
+    protected void initDefaultCommand() {
+
     }
 
     /**
@@ -57,7 +62,6 @@ public class LEDs implements SubsystemBase{
      */
     @Override
     public void update() {
-
     }
 
     /**
@@ -73,7 +77,6 @@ public class LEDs implements SubsystemBase{
      */
     @Override
     public void toSmartDashboard() {
-        SmartDashboard.putString("Led Data", data);
     }
 
     /**
