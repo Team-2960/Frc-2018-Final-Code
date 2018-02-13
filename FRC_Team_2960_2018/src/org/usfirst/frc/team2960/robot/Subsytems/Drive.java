@@ -88,6 +88,7 @@ public class Drive extends Subsystem implements SubsystemBase {
     private void setupTalons() {
         //Right Master
         mRightMaster = new TalonSRX(Constants.mRightMasterId);
+        mRightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
 
         //Right Slaves
         mRightSlave1 = new TalonSRX(Constants.mRightSlave1Id);
@@ -98,6 +99,7 @@ public class Drive extends Subsystem implements SubsystemBase {
 
         //Left Master
         mLeftMaster = new TalonSRX(Constants.mLeftMasterId);
+        mLeftMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
 
         //Left Slave
         mLeftSlave1 = new TalonSRX(Constants.mLeftSlave1Id);
@@ -129,6 +131,18 @@ public class Drive extends Subsystem implements SubsystemBase {
             m_Instance = new Drive();
         }
         return m_Instance;
+    }
+
+    public double getRightEncoder() {
+        return mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
+    }
+
+    public double getLeftEncoder() {
+        return mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
+    }
+
+    public double getHeading() {
+       return navX.getAngle();
     }
 
     /**

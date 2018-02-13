@@ -36,6 +36,8 @@ public class Constants {
 
 
     // Robot Contraints
+    public static double kDistanceBetweenWheels = .5;//In Meters
+    public static double kMaxVelocityOfTrajectory = 2;//In m/s
 
     //Talon Constants
     public static int kPIDLoopIDx = 0;
@@ -46,15 +48,27 @@ public class Constants {
     public static int kAcceleration = 3000; //Sensor UnitPer100ms
 
     //PID Constants
-    public static double mElevator_kF = 0.2;
-    public static double mElevator_kP = 0.2;
-    public static double mElevator_kI = 0;
-    public static double mElevator_kD = 0;
+    public static double kElevator_kF = 0.2;
+    public static double kElevator_kP = 0.2;
+    public static double kElevator_kI = 0;
+    public static double kElevator_kD = 0;
 
     //Elevator Heights
-    public static double mElevatorLevel1 = 0;
-    public static double mElevatorLevel2 = 1;
-    public static double mElevator_Level3 = 2;
+    public static double kElevatorLevel1 = 0;
+    public static double kElevatorLevel2 = 1;
+    public static double kElevator_Level3 = 2;
+
+    //Trajectory Constants
+    public static double kLeftTrajectoryP = 1.0;
+    public static double kLeftTrajectoryI = 0;//Not used
+    public static double kLeftTrajectoryD = 0;
+    public static double kTrajectoryVelocityRatio = 1 / kMaxVelocityOfTrajectory;
+    public static double kLeftTrajectoryAccelerationGain = 0;
+    public static double kRightTrajectoryP = 1.0;
+    public static double kRightTrajectoryI = 0;//Not used
+    public static double kRightTrajectoryD = 0;
+    public static double kRightTrajectoryAccelerationGain = 0;
+
 
 
 }
