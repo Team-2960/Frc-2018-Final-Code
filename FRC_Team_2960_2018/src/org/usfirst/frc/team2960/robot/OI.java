@@ -16,12 +16,6 @@ public class OI {
 
     public void driveRobot(Joystick joystick) {
         drive.setSpeed(-joystick.getRawAxis(5), joystick.getRawAxis(1));
-
-        if(joystick.getRawButton(2)) {
-            drive.zeroSensors();
-        }
-
-
     }
 
     public void operateRobot(Joystick joystick) {
@@ -42,32 +36,22 @@ public class OI {
         else {
             winch.setWinchState(Winch.mWinchState.winchStop);
         }
-
+        //Hook
         if(joystick.getRawButton(4)) {
-            winch.setWinchState(Winch.mWinchState.hookDeployment);
+            winch.setHookState(Winch.mHookState.hookDeployment);
         }else if (joystick.getRawButton(5)){
-            winch.setWinchState(Winch.mWinchState.hookDeploymentbackword);
+            winch.setHookState(Winch.mHookState.hookDeploymentbackword);
         } else {
-            winch.setWinchState(Winch.mWinchState.hookDeploymentStop);
+            winch.setHookState(Winch.mHookState.hookDeploymentStop);
         }
-
         //Elevator
-        //if(joystick.getRawButton(5)) {
-            //elevator.testElevator(joystick.getRawAxis(1));
         if (joystick.getRawAxis(1) >= 1) {
             elevator.testElevator(joystick.getRawAxis(1));
         }
         else {
             elevator.testElevator(joystick.getRawAxis(1));
         }
-        //}
 
-        //else if(joystick.getRawButton(6)){
-        //    elevator.testElevator(2.0);
-        //}
-        //else if(joystick.getRawButton(7)){
-        //    elevator.testElevator(0.0);
-        //}
 
     }
 
