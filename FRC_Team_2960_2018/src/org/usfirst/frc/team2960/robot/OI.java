@@ -45,10 +45,21 @@ public class OI {
 
         if(joystick.getRawButton(4)) {
             winch.setWinchState(Winch.mWinchState.hookDeployment);
+        }else if (joystick.getRawButton(5)){
+            winch.setWinchState(Winch.mWinchState.hookDeploymentbackword);
+        } else {
+            winch.setWinchState(Winch.mWinchState.hookDeploymentStop);
         }
+
         //Elevator
         //if(joystick.getRawButton(5)) {
+            //elevator.testElevator(joystick.getRawAxis(1));
+        if (joystick.getRawAxis(1) >= 1) {
             elevator.testElevator(joystick.getRawAxis(1));
+        }
+        else {
+            elevator.testElevator(joystick.getRawAxis(1));
+        }
         //}
 
         //else if(joystick.getRawButton(6)){

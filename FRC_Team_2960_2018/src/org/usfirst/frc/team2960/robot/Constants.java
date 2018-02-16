@@ -18,16 +18,16 @@ public class Constants {
     public static int mHookDeploymentId = 12;
 
     //DIO (Digital In And Out)
-    public static int kBottomPhotoeyeId = 0;
-    public static int kTopPhotoeyeId = 1;
-    public static int mUltrasonicRight1In = 2;
-    public static int mUltrasonicRight1Out = 3;
-    public static int mUltrasonicRight2In = 4;
-    public static int mUltrasonicRight2Out = 5;
-    public static int mUltrasonicLeft1In = 6;
-    public static int mUltrasonicLeft1Out = 7;
-    public static int mUltrasonicLeft2In = 8;
-    public static int mUltrasonicLeft2Out = 9;
+    public static int kBottomPhotoeyeId = 8;
+    public static int kTopPhotoeyeId = 9;
+    public static int mUltrasonicRight1In = 1;
+    public static int mUltrasonicRight1Out = 0;
+    public static int mUltrasonicRight2In = 3;
+    public static int mUltrasonicRight2Out = 2;
+    public static int mUltrasonicLeft1In = 5;
+    public static int mUltrasonicLeft1Out = 4;
+    public static int mUltrasonicLeft2In = 7;
+    public static int mUltrasonicLeft2Out = 6;
 
     //Analog
     public static int mUltrasonicFront = 0;
