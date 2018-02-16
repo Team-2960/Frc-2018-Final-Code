@@ -19,7 +19,8 @@ public class Winch extends Subsystem implements SubsystemBase {
     /**
      * States of the winch Subsystem
      */
-    public enum mWinchState {hookDeployment, winchUp, winchStop}
+    public enum mWinchState { winchUp, winchStop}
+    public enum mHookState {hookDeployment, hookDeploymentStop, hookDeploymentbackword};
 
 
     /**
@@ -60,7 +61,8 @@ public class Winch extends Subsystem implements SubsystemBase {
         mWinchMaster = new TalonSRX(Constants.mWinchMasterId);
 
         mWinchSlave = new TalonSRX(Constants.mWinchSlaveId);
-        mWinchSlave.follow(mWinchMaster);
+        //mWinchSlave.follow(mWinchMaster);
+        //mWinchSlave.setInverted(true);
 
         mHookDeployment = new TalonSRX(Constants.mHookDeploymentId);
     }
@@ -74,17 +76,34 @@ public class Winch extends Subsystem implements SubsystemBase {
         switch (state) {
             case winchStop:
                 mWinchMaster.set(ControlMode.PercentOutput, 0);
+                mWinchSlave.set(ControlMode.PercentOutput, 0);
                 break;
             case winchUp:
-                mWinchMaster.set(ControlMode.PercentOutput, 1.0);
+                mWinchMaster.set(ControlMode.PercentOutput, -.5);
+                mWinchSlave.set(ControlMode.PercentOutput, 5);
                 break;
-            case hookDeployment:
-                mHookDeployment.set(ControlMode.PercentOutput, 0);
-                break;
+
             default:
 
                 break;
 
+        }
+    }
+
+    public void setHookState(mHookState state) {
+        switch (state) {
+            case hookDeployment:
+                mHookDeployment.set(ControlMode.PercentOutput, .5);
+                break;
+            case hookDeploymentStop:
+                mHookDeployment.set(ControlMode.PercentOutput, 0);
+                break;
+            case hookDeploymentbackword:
+                mHookDeployment.set(ControlMode.PercentOutput, -.5);
+                break;
+            default:
+
+                break;
         }
     }
 
