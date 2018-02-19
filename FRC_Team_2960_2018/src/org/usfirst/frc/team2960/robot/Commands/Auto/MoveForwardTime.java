@@ -21,10 +21,7 @@ public class MoveForwardTime extends Command {
         done = false;
         timeToMove = new Timer();
     }
-
-
-
-
+    
 
     /**
      * Returns whether this command is finished. If it is, then the command will be removed and {@link

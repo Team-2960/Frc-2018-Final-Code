@@ -6,7 +6,7 @@ public class AutoCross extends CommandGroup
 {
 
     public AutoCross() {
-        addSequential(new MoveForwardTime(3, .5));
+        addSequential(new MoveForwardTime(4, .5));
     }
 
 }

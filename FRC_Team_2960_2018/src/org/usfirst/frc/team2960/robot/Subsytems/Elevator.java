@@ -68,23 +68,22 @@ public class Elevator extends Subsystem implements SubsystemBase{
     private void setupTalons() {
         mElevatorMaster = new TalonSRX(Constants.mElevatorMasterId);
 
-//        /* first choose the sensor */
-//        mElevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
-//        mElevatorMaster.setSensorPhase(true);
-//        mElevatorMaster.setInverted(false);
-//        /* Set relevant frame periods to be at least as fast as periodic rate */
-//        mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
-//        mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
-//        /* set closed loop gains in slot0 - see documentation */
-//        mElevatorMaster.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIDx);
-//        mElevatorMaster.config_kF(Constants.kSlotIdx, Constants.mElevator_kF, Constants.kTimeoutMs);
-//        mElevatorMaster.config_kP(Constants.kSlotIdx, Constants.mElevator_kP, Constants.kTimeoutMs);
-//        mElevatorMaster.config_kI(Constants.kSlotIdx, Constants.mElevator_kI, Constants.kTimeoutMs);
-//        mElevatorMaster.config_kD(Constants.kSlotIdx, Constants.mElevator_kD, Constants.kTimeoutMs);
-//        /* set acceleration and cruise velocity */
-//        mElevatorMaster.configMotionCruiseVelocity(Constants.kCruiseVelocity, Constants.kTimeoutMs);
-//        mElevatorMaster.configMotionAcceleration(Constants.kAcceleration, Constants.kTimeoutMs);
-//
+        /* first choose the sensor */
+        mElevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
+        mElevatorMaster.setSensorPhase(true);
+        mElevatorMaster.setInverted(false);
+        /* Set relevant frame periods to be at least as fast as periodic rate */
+        mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
+        mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+        /* set closed loop gains in slot0 - see documentation */
+        mElevatorMaster.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIDx);
+        mElevatorMaster.config_kF(Constants.kSlotIdx, Constants.mElevator_kF, Constants.kTimeoutMs);
+        mElevatorMaster.config_kP(Constants.kSlotIdx, Constants.mElevator_kP, Constants.kTimeoutMs);
+        mElevatorMaster.config_kI(Constants.kSlotIdx, Constants.mElevator_kI, Constants.kTimeoutMs);
+        mElevatorMaster.config_kD(Constants.kSlotIdx, Constants.mElevator_kD, Constants.kTimeoutMs);
+        /* set acceleration and cruise velocity */
+        mElevatorMaster.configMotionCruiseVelocity(Constants.kCruiseVelocity, Constants.kTimeoutMs);
+        mElevatorMaster.configMotionAcceleration(Constants.kAcceleration, Constants.kTimeoutMs);
 
         mElevatorSlave = new TalonSRX(Constants.mElevatorSlaveId);
         
@@ -166,9 +165,10 @@ public class Elevator extends Subsystem implements SubsystemBase{
     public void toSmartDashboard() {
         SmartDashboard.putBoolean("Bottom Photoeye", getBottomPhotoeye());
         SmartDashboard.putBoolean("Top Photoeye", getTopPhotoeye());
-        /*
+
         SmartDashboard.putNumber("SensorVel", mElevatorMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("SensorPos", mElevatorMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
+        /*
         SmartDashboard.putNumber("MotorOutputPercent", mElevatorMaster.getMotorOutputPercent());
         SmartDashboard.putNumber("Closed Loop error", mElevatorMaster.getClosedLoopError(Constants.kPIDLoopIDx));
         */

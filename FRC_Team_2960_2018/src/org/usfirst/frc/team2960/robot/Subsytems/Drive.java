@@ -5,9 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
@@ -51,7 +49,7 @@ public class Drive extends Subsystem implements SubsystemBase {
         //Talons
         setupTalons();
         //NavX
-        navX = new AHRS(SPI.Port.kMXP);
+        navX = new AHRS(I2C.Port.kMXP);
 
         //Ultrasonic setup
 
@@ -163,19 +161,25 @@ public class Drive extends Subsystem implements SubsystemBase {
      */
     @Override
     public void toSmartDashboard() {
-        /*
+
         SmartDashboard.putNumber("SensorVelRight", mRightMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("SensorPosRight",  mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
-        SmartDashboard.putNumber("MotorOutputPercentRight", mRightMaster.getMotorOutputPercent());
-        SmartDashboard.putNumber("ClosedLoopErrorRight", mRightMaster.getClosedLoopError(Constants.kPIDLoopIDx));
+        //SmartDashboard.putNumber("MotorOutputPercentRight", mRightMaster.getMotorOutputPercent());
+        //SmartDashboard.putNumber("ClosedLoopErrorRight", mRightMaster.getClosedLoopError(Constants.kPIDLoopIDx));
 
         SmartDashboard.putNumber("SensorVelLeft", mLeftMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("SensorPosLeft",  mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
-        SmartDashboard.putNumber("MotorOutputPercentLeft", mLeftMaster.getMotorOutputPercent());
-        SmartDashboard.putNumber("ClosedLoopErrorLeft", mLeftMaster.getClosedLoopError(Constants.kPIDLoopIDx));
-        */
-        SmartDashboard.putNumber("The BAD ULtra", mUltraLeft2.getRangeInches());
+        //SmartDashboard.putNumber("MotorOutputPercentLeft", mLeftMaster.getMotorOutputPercent());
+        //SmartDashboard.putNumber("ClosedLoopErrorLeft", mLeftMaster.getClosedLoopError(Constants.kPIDLoopIDx));
 
+        SmartDashboard.putNumber("The BAD ULtra", mUltraLeft2.getRangeInches());
+        SmartDashboard.putNumber("NAVX ANGLE", navX.getAngle());
+        SmartDashboard.putNumber("BARometric Pressure", navX.getBarometricPressure());
+        SmartDashboard.putNumber("YAW", navX.getYaw());
+        SmartDashboard.putNumber("Navx Rate", navX.getRate());
+        SmartDashboard.putNumber("Gyro x", navX.getRawGyroX());
+        SmartDashboard.putNumber("Gyro y", navX.getRawGyroY());
+        SmartDashboard.putNumber("Gyro z", navX.getRawGyroZ());
         for(Ultrasonic ultra: mUltrasonics){
             SmartDashboard.putNumber("Ultra Value: " + ultra.getName(), ultra.getRangeInches());
         }
@@ -195,6 +199,10 @@ public class Drive extends Subsystem implements SubsystemBase {
      */
     @Override
     public void zeroSensors() {
-
+        mRightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
+        mLeftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
+        //navX.zeroYaw();
     }
+
+
 }

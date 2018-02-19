@@ -3,6 +3,7 @@ package org.usfirst.frc.team2960.robot.Subsytems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
 
 /**
@@ -111,7 +112,6 @@ public class Intake extends Subsystem implements SubsystemBase{
      */
     @Override
     public void toSmartDashboard() {
-
     }
 
     /**

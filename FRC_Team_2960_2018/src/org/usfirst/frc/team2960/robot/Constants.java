@@ -41,17 +41,17 @@ public class Constants {
 
     //Talon Constants
     public static int kPIDLoopIDx = 0;
-    public static int kTimeoutMs = 10;
+    public static int kTimeoutMs = 0;
     public static int kSlotIdx = 0;
 
     public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms
     public static int kAcceleration = 3000; //Sensor UnitPer100ms
 
     //PID Constants
-    public static double kElevator_kF = 0.2;
-    public static double kElevator_kP = 0.2;
-    public static double kElevator_kI = 0;
-    public static double kElevator_kD = 0;
+    public static double mElevator_kF = 0.2;
+    public static double mElevator_kP = 0.2;
+    public static double mElevator_kI = 0;
+    public static double mElevator_kD = 0;
 
     //Elevator Heights
     public static double kElevatorLevel1 = 0;
