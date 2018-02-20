@@ -16,6 +16,7 @@ public class FollowTrajectory extends Command{
     private TankModifier modifier;
     DistanceFollower left;
     DistanceFollower right;
+
     private Drive drive = Drive.getInstance();
     public FollowTrajectory(Trajectory trajectory) {
         this.trajectory = trajectory;
@@ -27,12 +28,12 @@ public class FollowTrajectory extends Command{
      */
     @Override
     protected void initialize() {
-        left = new DistanceFollower();
-        right = new DistanceFollower();
+        left = new DistanceFollower(modifier.getLeftTrajectory());
+        right = new DistanceFollower(modifier.getRightTrajectory());
         left.configurePIDVA(Constants.kLeftTrajectoryP, Constants.kLeftTrajectoryI, Constants.kLeftTrajectoryD,
-                Constants.kTrajectoryVelocityRatio, Constants.kLeftTrajectoryAccelerationGain);
+        Constants.kTrajectoryVelocityRatio, Constants.kLeftTrajectoryAccelerationGain);
         right.configurePIDVA(Constants.kRightTrajectoryP, Constants.kRightTrajectoryI, Constants.kRightTrajectoryD,
-                Constants.kTrajectoryVelocityRatio, Constants.kRightTrajectoryAccelerationGain);
+        Constants.kTrajectoryVelocityRatio, Constants.kRightTrajectoryAccelerationGain);
     }
 
     /**
@@ -40,6 +41,10 @@ public class FollowTrajectory extends Command{
      */
     @Override
     protected void execute() {
+
+        System.out.println(drive.getLeftEncoder());
+
+
         double leftOutput = left.calculate(drive.getLeftEncoder());
         double rightOutput = right.calculate(drive.getRightEncoder());
 
@@ -50,6 +55,7 @@ public class FollowTrajectory extends Command{
         double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
 
         drive.setSpeed(rightOutput - turn, leftOutput + turn);
+
     }
 
     /**

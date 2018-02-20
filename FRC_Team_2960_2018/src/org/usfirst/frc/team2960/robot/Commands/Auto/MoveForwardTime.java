@@ -16,12 +16,13 @@ public class MoveForwardTime extends Command {
 
     public MoveForwardTime(double time, double speed) {
         super("MoveForwardTime");
+        requires(Drive.getInstance());
         this.time = time;
         this.speed = speed;
         done = false;
         timeToMove = new Timer();
     }
-    
+
 
     /**
      * Returns whether this command is finished. If it is, then the command will be removed and {@link
@@ -62,7 +63,7 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected void execute() {
-        Drive.getInstance().setSpeed(speed, speed);
+        Drive.getInstance().setSpeed(-speed, speed);
     }
 
     /**

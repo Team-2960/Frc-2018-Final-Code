@@ -11,9 +11,11 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Commands.Auto.AutoCross;
+import org.usfirst.frc.team2960.robot.Commands.Auto.TestAuto;
 import org.usfirst.frc.team2960.robot.Subsytems.*;
 
 import javax.sound.sampled.Port;
@@ -76,13 +78,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autoSelected = m_chooser.getSelected();
-		switch (m_autoSelected) {
-			case kDefaultAuto:
-				kAutonomousCommand = new AutoCross();
-		}
+		//m_autoSelected = m_chooser.getSelected();
+		//switch (m_autoSelected) {
+			//case kCustomAuto:
+				kAutonomousCommand = new TestAuto();
+		//}
 
 		System.out.println("Auto selected: " + m_autoSelected);
+		if(kAutonomousCommand != null) kAutonomousCommand.start();
 	}
 
 	/**
@@ -90,7 +93,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		if(kAutonomousCommand != null) kAutonomousCommand.start();
+		Scheduler.getInstance().run();
 	}
 
 	/**

@@ -19,7 +19,7 @@ public class Winch extends Subsystem implements SubsystemBase {
     /**
      * States of the winch Subsystem
      */
-    public enum mWinchState { winchUp, winchStop}
+    public enum mWinchState { winchUp, winchStop, winchDown}
     public enum mHookState {hookDeployment, hookDeploymentStop, hookDeploymentbackword};
 
 
@@ -82,7 +82,9 @@ public class Winch extends Subsystem implements SubsystemBase {
                 mWinchMaster.set(ControlMode.PercentOutput, -.5);
                 mWinchSlave.set(ControlMode.PercentOutput, 5);
                 break;
-
+            case winchDown:
+                mWinchMaster.set(ControlMode.PercentOutput, 5);
+                mWinchSlave.set(ControlMode.PercentOutput, -5);
             default:
 
                 break;

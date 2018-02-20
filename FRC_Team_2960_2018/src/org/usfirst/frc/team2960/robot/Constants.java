@@ -36,8 +36,8 @@ public class Constants {
 
 
     // Robot Contraints
-    public static double kDistanceBetweenWheels = .5;//In Meters
-    public static double kMaxVelocityOfTrajectory = 2;//In m/s
+    public static double kDistanceBetweenWheels = 0.6223;//In Meters
+    public static double kMaxVelocityOfTrajectory = 5;//In m/s
 
     //Talon Constants
     public static int kPIDLoopIDx = 0;
