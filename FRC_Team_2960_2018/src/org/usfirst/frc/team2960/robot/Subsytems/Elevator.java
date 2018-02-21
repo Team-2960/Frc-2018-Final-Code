@@ -70,11 +70,18 @@ public class Elevator extends Subsystem implements SubsystemBase{
 
         /* first choose the sensor */
         mElevatorMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
+
         mElevatorMaster.setSensorPhase(true);
-        mElevatorMaster.setInverted(false);
+        mElevatorMaster.setInverted(true);
         /* Set relevant frame periods to be at least as fast as periodic rate */
         mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
         mElevatorMaster.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
+
+        /* set the peak and nominal outputs */
+        mElevatorMaster.configNominalOutputForward(0, Constants.kTimeoutMs);
+        mElevatorMaster.configNominalOutputReverse(0, Constants.kTimeoutMs);
+        mElevatorMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
+        mElevatorMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
         /* set closed loop gains in slot0 - see documentation */
         mElevatorMaster.selectProfileSlot(Constants.kSlotIdx, Constants.kPIDLoopIDx);
         mElevatorMaster.config_kF(Constants.kSlotIdx, Constants.mElevator_kF, Constants.kTimeoutMs);
@@ -85,22 +92,23 @@ public class Elevator extends Subsystem implements SubsystemBase{
         mElevatorMaster.configMotionCruiseVelocity(Constants.kCruiseVelocity, Constants.kTimeoutMs);
         mElevatorMaster.configMotionAcceleration(Constants.kAcceleration, Constants.kTimeoutMs);
 
+
         mElevatorSlave = new TalonSRX(Constants.mElevatorSlaveId);
         
         mElevatorSlave.follow(mElevatorMaster);
-        mElevatorSlave.setInverted(true);
+        mElevatorSlave.setInverted(false);
         // TODO: 1/31/2018 Might have to invert slave above  
     }
     
-    public void goToLevel(double level) {
+    public void goToLevel(int level) {
         // TODO: Make sure that its position(if at 100, you set to 50, then it goes to 50, not 150)
-        double targetPosition = 4096 * 10 * level; //4096 ticks/rev, should change depending on where level is
-        mElevatorMaster.set(ControlMode.MotionMagic, targetPosition);
-        if(getBottomPhotoeye() || getTopPhotoeye()){
-            mElevatorMaster.set(ControlMode.Velocity, 0);
-        }
-        else{
-            mElevatorMaster.set(ControlMode.MotionMagic, targetPosition);
+        switch (level) {
+            case 1:
+                mElevatorMaster.set(ControlMode.MotionMagic, -10000);
+                break;
+
+            default:
+                break;
         }
     }
 

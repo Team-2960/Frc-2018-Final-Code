@@ -128,16 +128,24 @@ public class Drive extends Subsystem implements SubsystemBase {
         return m_Instance;
     }
 
-    public double getRightEncoder() {
+    public int getRightEncoder() {
         return mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
     }
 
-    public double getLeftEncoder() {
+    public int getLeftEncoder() {
         return mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
     }
 
     public double getHeading() {
        return navX.getAngle();
+    }
+
+    public double getRightDistanceInMeters() {
+        return getRightEncoder() * Constants.inchesPerTick * Constants.meterConversion;
+    }
+
+    public double getLeftDistanceInMeters() {
+        return getLeftEncoder() * Constants.inchesPerTick * Constants.meterConversion;
     }
 
     /**

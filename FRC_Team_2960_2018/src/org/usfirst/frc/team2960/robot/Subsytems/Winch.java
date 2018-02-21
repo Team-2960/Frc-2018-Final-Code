@@ -79,12 +79,12 @@ public class Winch extends Subsystem implements SubsystemBase {
                 mWinchSlave.set(ControlMode.PercentOutput, 0);
                 break;
             case winchUp:
-                mWinchMaster.set(ControlMode.PercentOutput, -.5);
-                mWinchSlave.set(ControlMode.PercentOutput, 5);
+                mWinchMaster.set(ControlMode.PercentOutput, .5);
+                mWinchSlave.set(ControlMode.PercentOutput, -.5);
                 break;
             case winchDown:
-                mWinchMaster.set(ControlMode.PercentOutput, 5);
-                mWinchSlave.set(ControlMode.PercentOutput, -5);
+                mWinchMaster.set(ControlMode.PercentOutput, -.5);
+                mWinchSlave.set(ControlMode.PercentOutput, .5);
             default:
 
                 break;

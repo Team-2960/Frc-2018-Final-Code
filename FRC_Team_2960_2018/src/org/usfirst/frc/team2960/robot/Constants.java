@@ -33,23 +33,27 @@ public class Constants {
     public static int mUltrasonicFront = 0;
 
 
+    //Math
+    public static double inchPerRevolution = 6 * Math.PI;
+    public static double inchesPerTick = inchPerRevolution/4096;
+    public static double meterConversion = 0.0254;
 
 
     // Robot Contraints
     public static double kDistanceBetweenWheels = 0.6223;//In Meters
-    public static double kMaxVelocityOfTrajectory = 5;//In m/s
+    public static double kMaxVelocityOfTrajectory = .5;//In m/s
 
     //Talon Constants
     public static int kPIDLoopIDx = 0;
-    public static int kTimeoutMs = 0;
+    public static int kTimeoutMs = 10;
     public static int kSlotIdx = 0;
 
-    public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms
-    public static int kAcceleration = 3000; //Sensor UnitPer100ms
+    public static int kCruiseVelocity = 498; //Sensor UnitPer100ms 498 for practice 1000
+    public static int kAcceleration = 1000; //Sensor UnitPer100ms
 
     //PID Constants
     public static double mElevator_kF = 0.2;
-    public static double mElevator_kP = 0.2;
+    public static double mElevator_kP = 1; // for practice 5
     public static double mElevator_kI = 0;
     public static double mElevator_kD = 0;
 
@@ -59,12 +63,12 @@ public class Constants {
     public static double kElevator_Level3 = 2;
 
     //Trajectory Constants
-    public static double kLeftTrajectoryP = 1.0;
+    public static double kLeftTrajectoryP = .1;
     public static double kLeftTrajectoryI = 0;//Not used
     public static double kLeftTrajectoryD = 0;
     public static double kTrajectoryVelocityRatio = 1 / kMaxVelocityOfTrajectory;
     public static double kLeftTrajectoryAccelerationGain = 0;
-    public static double kRightTrajectoryP = 1.0;
+    public static double kRightTrajectoryP = .1;
     public static double kRightTrajectoryI = 0;//Not used
     public static double kRightTrajectoryD = 0;
     public static double kRightTrajectoryAccelerationGain = 0;

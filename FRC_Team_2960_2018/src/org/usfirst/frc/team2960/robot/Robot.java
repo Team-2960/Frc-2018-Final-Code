@@ -10,6 +10,7 @@ package org.usfirst.frc.team2960.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -94,6 +95,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		toSmartDashboard();
 	}
 
 	/**
@@ -101,15 +103,16 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		//Elevator.getInstance().zeroSensors();
 		oi.driveRobot(driveJoystick);
 		oi.operateRobot(operateJoystick);
-
+		SmartDashboard.putNumber("Joystick Value", driveJoystick.getRawAxis(1));
 
 		toSmartDashboard();
 		LEDs.getInstance().sendData("BlueBanner");
 		SmartDashboard.putData("PDP", pdp);
 
-
+		Timer.delay(.005);
 	}
 
 	/**
@@ -118,7 +121,9 @@ public class Robot extends IterativeRobot {
 	private void toSmartDashboard() {
 		for (SubsystemBase subsystem: mSubsytemArray) {
 			subsystem.toSmartDashboard();
+
 		}
+
 	}
 
 	/**

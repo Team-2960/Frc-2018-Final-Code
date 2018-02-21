@@ -53,7 +53,7 @@ public class ElevatorMove extends Command{
      */
     @Override
     protected void execute() {
-        elevator.goToLevel(level);
+        //elevator.goToLevel(level);
     }
 
     /**
