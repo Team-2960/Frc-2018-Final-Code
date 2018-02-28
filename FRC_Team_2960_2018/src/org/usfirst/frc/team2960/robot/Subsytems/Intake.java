@@ -19,7 +19,7 @@ public class Intake extends Subsystem implements SubsystemBase{
     /**
      * Enum for the different states of the intake
      */
-    public enum mIntakeState {forward, backward, stop}
+    public enum mIntakeState {forward, backward, stop, rotate}
 
     private TalonSRX mIntakeMaster, mIntakeSlave;
 
@@ -74,10 +74,18 @@ public class Intake extends Subsystem implements SubsystemBase{
                 setIntakeZero();
                 break;
             case forward:
+                mIntakeSlave.setInverted(true);
                 mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
+
                 break;
             case backward:
+                mIntakeSlave.setInverted(true);
                 mIntakeMaster.set(ControlMode.PercentOutput, -1.0);
+
+                break;
+            case rotate:
+                mIntakeSlave.setInverted(false);
+                mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
                 break;
             default:
                 break;

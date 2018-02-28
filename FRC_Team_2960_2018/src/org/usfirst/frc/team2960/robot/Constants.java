@@ -48,27 +48,29 @@ public class Constants {
     public static int kTimeoutMs = 10;
     public static int kSlotIdx = 0;
 
-    public static int kCruiseVelocity = 498; //Sensor UnitPer100ms 498 for practice 1000
-    public static int kAcceleration = 1000; //Sensor UnitPer100ms
+    public static int kCruiseVelocity = 1000; //Sensor UnitPer100ms (Comp) 498 (practice) 1000
+    public static int kAcceleration = 500; //Sensor UnitPer100ms
 
     //PID Constants
     public static double mElevator_kF = 0.2;
-    public static double mElevator_kP = 1; // for practice 5
+    public static double mElevator_kP = 5; // (practice) 5 (Comp) 1 for now
     public static double mElevator_kI = 0;
     public static double mElevator_kD = 0;
 
     //Elevator Heights
-    public static double kElevatorLevel1 = 0;
-    public static double kElevatorLevel2 = 1;
-    public static double kElevator_Level3 = 2;
+    public static double kElevatorSwitch =  -5097.0;
+    public static double kElevatorGround = 0;
+    public static double kElevatorScaleUp = -19099.0;
+    public static double kElevatorScaleDown = -14550.0;
+    public static double kElevatorScaleBalanced = -15877.0;
 
     //Trajectory Constants
-    public static double kLeftTrajectoryP = .1;
+    public static double kLeftTrajectoryP = 1;
     public static double kLeftTrajectoryI = 0;//Not used
     public static double kLeftTrajectoryD = 0;
     public static double kTrajectoryVelocityRatio = 1 / kMaxVelocityOfTrajectory;
     public static double kLeftTrajectoryAccelerationGain = 0;
-    public static double kRightTrajectoryP = .1;
+    public static double kRightTrajectoryP = 1;
     public static double kRightTrajectoryI = 0;//Not used
     public static double kRightTrajectoryD = 0;
     public static double kRightTrajectoryAccelerationGain = 0;

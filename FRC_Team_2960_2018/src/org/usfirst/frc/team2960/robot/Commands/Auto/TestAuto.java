@@ -12,16 +12,10 @@ import java.io.File;
 
 public class TestAuto extends CommandGroup{
 
-    public TestAuto() {
+    public TestAuto(Trajectory trajectory) {
         //File testAuto = new File("TESTS.csv");
         //Trajectory testAutoTrajectory = Pathfinder.readFromCSV(testAuto);
-        Drive.getInstance().zeroSensors();
-        Waypoint[] points = new Waypoint[] {
-                new Waypoint(0,0,0),
-                new Waypoint(.2,0,0)
-        };
-        Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.05, Constants.kMaxVelocityOfTrajectory, .2, 60.0);
-        Trajectory testAutoTrajectory = Pathfinder.generate(points, config);
-        addSequential(new FollowTrajectory(testAutoTrajectory));
+
+        addSequential(new FollowTrajectory(trajectory));
     }
 }

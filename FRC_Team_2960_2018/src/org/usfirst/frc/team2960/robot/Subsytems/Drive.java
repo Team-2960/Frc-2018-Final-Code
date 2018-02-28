@@ -2,9 +2,11 @@ package org.usfirst.frc.team2960.robot.Subsytems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,6 +44,7 @@ public class Drive extends Subsystem implements SubsystemBase {
      * The array for the Ultrasonic Sensors
      */
     private Ultrasonic[] mUltrasonics;
+
     /**
      * Private constructor for Drive Class
      */
@@ -64,8 +67,8 @@ public class Drive extends Subsystem implements SubsystemBase {
 
 
 
-
     }
+
 
     /**
      * Initialize the default command for a subsystem By default subsystems have no default command,
@@ -179,7 +182,7 @@ public class Drive extends Subsystem implements SubsystemBase {
         SmartDashboard.putNumber("SensorPosLeft",  mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
         //SmartDashboard.putNumber("MotorOutputPercentLeft", mLeftMaster.getMotorOutputPercent());
         //SmartDashboard.putNumber("ClosedLoopErrorLeft", mLeftMaster.getClosedLoopError(Constants.kPIDLoopIDx));
-
+        /*
         SmartDashboard.putNumber("The BAD ULtra", mUltraLeft2.getRangeInches());
         SmartDashboard.putNumber("NAVX ANGLE", navX.getAngle());
         SmartDashboard.putNumber("BARometric Pressure", navX.getBarometricPressure());
@@ -192,6 +195,7 @@ public class Drive extends Subsystem implements SubsystemBase {
             SmartDashboard.putNumber("Ultra Value: " + ultra.getName(), ultra.getRangeInches());
         }
         //SmartDashboard.putNumber("Ultra Value: analog ultra", mUltraFront.getValue());
+        */
     }
 
     /**
@@ -210,6 +214,15 @@ public class Drive extends Subsystem implements SubsystemBase {
         mRightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
         mLeftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
         //navX.zeroYaw();
+    }
+
+    public void setNeturalMode(NeutralMode mode) {
+        mRightMaster.setNeutralMode(mode);
+        mRightSlave1.setNeutralMode(mode);
+        mRightSlave2.setNeutralMode(mode);
+        mLeftMaster.setNeutralMode(mode);
+        mLeftSlave1.setNeutralMode(mode);
+        mLeftSlave2.setNeutralMode(mode);
     }
 
 

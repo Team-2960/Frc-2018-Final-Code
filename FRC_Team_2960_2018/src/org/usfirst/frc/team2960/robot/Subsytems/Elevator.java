@@ -1,9 +1,7 @@
 package org.usfirst.frc.team2960.robot.Subsytems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.StatusFrame;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.ParamEnum;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
@@ -27,6 +25,10 @@ public class Elevator extends Subsystem implements SubsystemBase{
     //Talons for Elevator
     private TalonSRX mElevatorMaster, mElevatorSlave;
 
+    /**
+     * States of the Elevator Subsystem
+     */
+    public enum mElevatorState {Switch, ScaleDown, ScaleBalanced, ScaleUp, Ground};
 
     /**
      * Method to get Singleton of the Subsystem
@@ -41,6 +43,30 @@ public class Elevator extends Subsystem implements SubsystemBase{
         return mInstance;
     }
 
+    /**
+     * Sets the state of the Elevator subsystem to a specific state
+     * @param state the desired state of the elevator
+     * @see mElevatorState
+     */
+    public void setState(mElevatorState state) {
+        switch (state) {
+            case Ground:
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorGround);
+                break;
+            case Switch:
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorSwitch);
+                break;
+            case ScaleUp:
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleUp);
+                break;
+            case ScaleDown:
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleDown);
+                break;
+            case ScaleBalanced:
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleBalanced);
+                break;
+        }
+    }
 
     /**
      * Private Constructors for Elevator Class
@@ -97,20 +123,11 @@ public class Elevator extends Subsystem implements SubsystemBase{
         
         mElevatorSlave.follow(mElevatorMaster);
         mElevatorSlave.setInverted(false);
-        // TODO: 1/31/2018 Might have to invert slave above  
+
+        setupLimitSwiches();
     }
     
-    public void goToLevel(int level) {
-        // TODO: Make sure that its position(if at 100, you set to 50, then it goes to 50, not 150)
-        switch (level) {
-            case 1:
-                mElevatorMaster.set(ControlMode.MotionMagic, -10000);
-                break;
 
-            default:
-                break;
-        }
-    }
 
     public boolean atLevel(){
         if(mElevatorMaster.getMotorOutputPercent() == 0)
@@ -171,8 +188,8 @@ public class Elevator extends Subsystem implements SubsystemBase{
      */
     @Override
     public void toSmartDashboard() {
-        SmartDashboard.putBoolean("Bottom Photoeye", getBottomPhotoeye());
-        SmartDashboard.putBoolean("Top Photoeye", getTopPhotoeye());
+        //SmartDashboard.putBoolean("Bottom Photoeye", getBottomPhotoeye());
+        //SmartDashboard.putBoolean("Top Photoeye", getTopPhotoeye());
 
         SmartDashboard.putNumber("SensorVel", mElevatorMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("SensorPos", mElevatorMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
@@ -197,5 +214,11 @@ public class Elevator extends Subsystem implements SubsystemBase{
     public void zeroSensors() {
         mElevatorMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
 
+    }
+
+    public void setupLimitSwiches(){
+        mElevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+        mElevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+        //mElevatorMaster.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, Constants.kTimeoutMs);
     }
 }

@@ -32,27 +32,34 @@ public class OI {
 
     }
 
+
+
     public void operateRobot(Joystick joystick) {
+        /*
         //Intake
-        if(joystick.getRawButton(1)) {
+        //if(joystick.getRawButton(1)) {
             // TODO: 2/20/18 Change back for testing
 
-            elevator.goToLevel(1);
+            //elevator.setState(Elevator.mElevatorState.Switch);
 
-        }
-        if (joystick.getRawButton(2)) {
-
-
-                elevator.testElevator(joystick.getRawAxis(1));
+        //}
+        //if (joystick.getRawButton(2)) {
 
 
-        }
+           // elevator.testElevator(joystick.getRawAxis(1));
+
+
+        //}
         //else {
             //elevator.testElevator(0);
         //}
         //else {
             //intake.setIntakeState(Intake.mIntakeState.stop);
         //}
+
+        if(joystick.getRawButton(1)) {
+            intake.setIntakeState(Intake.mIntakeState.rotate);
+        }
         //Winch
         if(joystick.getRawButton(3)) {
             winch.setWinchState(Winch.mWinchState.winchUp);
@@ -73,13 +80,34 @@ public class OI {
         }
         //Elevator
 
+        */
 
-
-        if (joystick.getRawButton(6)) {
+        if (joystick.getRawButton(7)) {
             elevator.zeroSensors();
         }
 
+      //Elevator
 
+        if(joystick.getRawButton(1)) {
+            elevator.setState(Elevator.mElevatorState.Ground);
+        }
+        if (joystick.getRawButton(2)) {
+            elevator.setState(Elevator.mElevatorState.Switch);
+        }
+        if (joystick.getRawButton(3)) {
+            elevator.setState(Elevator.mElevatorState.ScaleDown);
+        }
+        if(joystick.getRawButton(4)) {
+            elevator.setState(Elevator.mElevatorState.ScaleBalanced);
+        }
+        if(joystick.getRawButton(5)) {
+            elevator.setState(Elevator.mElevatorState.ScaleUp);
+        }
+
+
+        if(joystick.getRawButton(6)) {
+            elevator.testElevator(joystick.getRawAxis(1));
+        }
     }
 
 }

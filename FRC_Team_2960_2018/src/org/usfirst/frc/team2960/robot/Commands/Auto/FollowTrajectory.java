@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2960.robot.Commands.Auto;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,6 +19,27 @@ public class FollowTrajectory extends Command{
     private TankModifier modifier;
     EncoderFollower left;
     EncoderFollower right;
+    public Runnable run = new Runnable() {
+        @Override
+        public void run() {
+            System.out.println(drive.getLeftEncoder());
+
+
+            double leftOutput = left.calculate(-drive.getRightEncoder());
+            double rightOutput = right.calculate(drive.getLeftEncoder());
+
+            double gyroHeading = drive.getHeading();
+            double desiredHeading = Pathfinder.r2d(left.getHeading());
+
+            double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
+            double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
+
+            drive.setSpeed((rightOutput /*- turn*/), -(leftOutput /*+ turn*/));
+            SmartDashboard.putNumber("Right Drive", rightOutput);
+            SmartDashboard.putNumber("Left Drive", leftOutput);
+        }
+    };
+    public Notifier notifier = new Notifier(run);
 
     private Drive drive = Drive.getInstance();
     public FollowTrajectory(Trajectory trajectory) {
@@ -38,6 +60,7 @@ public class FollowTrajectory extends Command{
         Constants.kTrajectoryVelocityRatio, Constants.kLeftTrajectoryAccelerationGain);
         right.configurePIDVA(Constants.kRightTrajectoryP, Constants.kRightTrajectoryI, Constants.kRightTrajectoryD,
         Constants.kTrajectoryVelocityRatio, Constants.kRightTrajectoryAccelerationGain);
+        notifier.startPeriodic(.05);
     }
 
     /**
@@ -55,22 +78,11 @@ public class FollowTrajectory extends Command{
     @Override
     protected void execute() {
 
-        System.out.println(drive.getLeftEncoder());
 
-
-        double leftOutput = left.calculate(-drive.getRightEncoder());
-        double rightOutput = right.calculate(drive.getLeftEncoder());
-
-        double gyroHeading = drive.getHeading();
-        double desiredHeading = Pathfinder.r2d(left.getHeading());
-
-        double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-        double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
-
-        drive.setSpeed((rightOutput /*- turn*/), -(leftOutput /*+ turn*/));
-        SmartDashboard.putNumber("Right Drive", rightOutput);
-        SmartDashboard.putNumber("Left Drive", leftOutput);
     }
+
+
+
 
     /**
      * Returns whether this command is finished. If it is, then the command will be removed and {@link
