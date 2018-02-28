@@ -79,9 +79,6 @@ public class Drive extends Subsystem implements SubsystemBase {
                         mCSVWriter.add(mPathFollower.getDebug());
                     }
                     return;
-                case TURN_TO_HEADING:
-                    updateTurnToHeading(timestamp);
-                    return;
             }
         }
 
@@ -120,6 +117,8 @@ public class Drive extends Subsystem implements SubsystemBase {
         navX = new NavX(I2C.Port.kMXP);
 
         //Ultrasonic setup
+
+        reloadGains();
 
         mUltraRight1 = new Ultrasonic(Constants.mUltrasonicRight1Out, Constants.mUltrasonicRight1In);
         mUltraRight2 = new Ultrasonic(Constants.mUltrasonicRight2Out, Constants.mUltrasonicRight2In);
@@ -407,6 +406,11 @@ public class Drive extends Subsystem implements SubsystemBase {
         return navX.getYaw();
     }
 
+    public synchronized void setGyroAngle(Rotation2d angle) {
+        navX.reset();
+        navX.setAngleAdjustment(angle);
+    }
+
     public double getLeftDistanceInches() {
         return rotationsToInches(mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
     }
@@ -441,74 +445,6 @@ public class Drive extends Subsystem implements SubsystemBase {
         }
     }
 
-    private void updateTurnToHeading(double timestamp) {
-
-        final Rotation2d field_to_robot = mRobotState.getLatestFieldToVehicle().getValue().getRotation();
-
-        // Figure out the rotation necessary to turn to face the goal.
-        final Rotation2d robot_to_target = field_to_robot.inverse().rotateBy(mTargetHeading);
-
-        // Check if we are on target
-        final double kGoalPosTolerance = 0.75; // degrees
-        final double kGoalVelTolerance = 5.0; // inches per second
-        if (Math.abs(robot_to_target.getDegrees()) < kGoalPosTolerance
-                && Math.abs(getLeftVelocityInchesPerSec()) < kGoalVelTolerance
-                && Math.abs(getRightVelocityInchesPerSec()) < kGoalVelTolerance) {
-            // Use the current setpoint and base lock.
-            mIsOnTarget = true;
-            updatePositionSetpoint(getLeftDistanceInches(), getRightDistanceInches());
-            return;
-        }
-
-        Kinematics.DriveVelocity wheel_delta = Kinematics
-                .inverseKinematics(new Twist2d(0, 0, robot_to_target.getRadians()));
-        updatePositionSetpoint(wheel_delta.left + getLeftDistanceInches(),
-                wheel_delta.right + getRightDistanceInches());
-    }
-
-    /**
-     * Adjust position setpoint (if already in position mode)
-     *
-     * @param left_position_inches
-     * @param right_position_inches
-     */
-    private synchronized void updatePositionSetpoint(double left_position_inches, double right_position_inches) {
-        if (usesTalonPositionControl(mDriveControlState)) {
-            mLeftMaster.set(ControlMode.Position, inchesToRotations(left_position_inches));
-            mRightMaster.set(ControlMode.Position, inchesToRotations(right_position_inches));
-        } else {
-            System.out.println("Hit a bad position control state");
-            mLeftMaster.set(ControlMode.Position, 0);
-            mRightMaster.set(ControlMode.Position, 0);
-        }
-    }
-
-    /**
-     * Check if the drive talons are configured for position control
-     */
-    protected static boolean usesTalonPositionControl(mDriveState state) {
-        if (state == mDriveState.TURN_TO_HEADING ) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Configures the drivebase to turn to a desired heading
-     */
-    public synchronized void setWantTurnToHeading(Rotation2d heading) {
-        if (mDriveControlState != mDriveState.TURN_TO_HEADING) {
-
-            mDriveControlState = mDriveState.TURN_TO_HEADING;
-            updatePositionSetpoint(getLeftDistanceInches(), getRightDistanceInches());
-        }
-        if (Math.abs(heading.inverse().rotateBy(mTargetHeading).getDegrees()) > 1E-3) {
-            mTargetHeading = heading;
-            mIsOnTarget = false;
-        }
-
-    }
-
     public synchronized void forceDoneWithPath() {
         if (mDriveControlState == mDriveState.PATH_FOLLOWING && mPathFollower != null) {
             mPathFollower.forceFinish();
@@ -516,5 +452,23 @@ public class Drive extends Subsystem implements SubsystemBase {
             System.out.println("Robot is not in path following mode");
         }
     }
+
+    public synchronized void reloadGains() {
+
+
+        /* set the peak, nominal outputs */
+        mLeftMaster.configNominalOutputForward(0, Constants.kTimeoutMs);
+        mLeftMaster.configNominalOutputReverse(0, Constants.kTimeoutMs);
+        mLeftMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
+        mLeftMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+		/* set closed loop gains in slot0 */
+        mLeftMaster.config_kF(Constants.kPIDLoopIDx, Constants.kVelocityControlKf, Constants.kTimeoutMs);
+        mLeftMaster.config_kP(Constants.kPIDLoopIDx, Constants.kVelocityControlKp, Constants.kTimeoutMs);
+        mLeftMaster.config_kI(Constants.kPIDLoopIDx, Constants.kVelocityControlKi, Constants.kTimeoutMs);
+        mLeftMaster.config_kD(Constants.kPIDLoopIDx, Constants.kVelocityControlKd, Constants.kTimeoutMs);
+    }
+
+
 
 }

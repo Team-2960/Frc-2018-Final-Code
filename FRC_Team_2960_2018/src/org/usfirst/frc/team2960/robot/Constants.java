@@ -106,7 +106,12 @@ public class Constants {
     public static double kPathFollowingGoalVelTolerance = 12.0;
     public static double kPathStopSteeringDistance = 9.0;
 
+    //Talon pidf for velocity control
 
+    public static double kVelocityControlKf = 0.0;
+    public static double kVelocityControlKp = 0.0;
+    public static double kVelocityControlKi = 0.0;
+    public static double kVelocityControlKd = 0.0;
 
 
 

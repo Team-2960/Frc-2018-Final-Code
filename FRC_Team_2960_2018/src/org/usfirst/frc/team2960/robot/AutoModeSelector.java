@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.json.simple.JSONArray;
 import org.usfirst.frc.team2960.robot.Auto.AutoModeBase;
+import org.usfirst.frc.team2960.robot.Auto.Modes.testMode;
 
 import java.util.function.Supplier;
 
@@ -26,10 +27,11 @@ public class AutoModeSelector {
         }
     }
 
-    private static final AutoModeCreator mDefaultMode = null; //new AutoModeCreator(
+    private static final AutoModeCreator mDefaultMode = new AutoModeCreator("Test Auto", () -> new testMode()); //new AutoModeCreator(
             //"AutoDetect Alliance Gear than Hopper Shoot",
             //() -> new AutoDetectAllianceGearThenShootMode());
     private static final AutoModeCreator[] mAllModes = {
+              new AutoModeCreator("Test Auto", () -> new testMode())
 //            new AutoModeCreator("Boiler Gear then 10 Ball Shoot Red", () -> new BoilerGearThenShootModeRed()),
 //            new AutoModeCreator("Boiler Gear then 10 Ball Shoot Blue", () -> new BoilerGearThenShootModeBlue()),
 //            new AutoModeCreator("Center Gear then Shoot Red", () -> new CenterGearThenShootModeRed()),
