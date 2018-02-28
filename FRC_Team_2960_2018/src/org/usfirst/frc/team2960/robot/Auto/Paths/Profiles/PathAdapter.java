@@ -1,14 +1,8 @@
 package org.usfirst.frc.team2960.robot.Auto.Paths.Profiles;
 
-import com.team254.frc2017.Constants;
-import com.team254.frc2017.paths.PathBuilder;
-import com.team254.frc2017.paths.PathBuilder.Waypoint;
-import com.team254.lib.util.control.Path;
-import com.team254.lib.util.math.RigidTransform2d;
-import com.team254.lib.util.math.Rotation2d;
-import com.team254.lib.util.math.Translation2d;
 
-import java.util.ArrayList;
+import org.usfirst.frc.team2960.Util.Math.Rotation2d;
+import org.usfirst.frc.team2960.robot.Constants;
 
 /**
  * Uses a field and robot profile to calculate Waypoints for the paths used by the GearThenHopperShoot auto modes.
@@ -28,6 +22,7 @@ public class PathAdapter {
     static final double kSmallRadius = 10;
     static final double kSpeed = 80;
 
+    /*
     // Don't mess with these
     static final double kPegOffsetX = 17.77; // center of airship to boiler peg
     static final double kPegOffsetY = 30.66; // front of airship to boiler
@@ -231,31 +226,16 @@ public class PathAdapter {
         }
         return sBlueHopperPath;
     }
-
+    */
     public static void calculatePaths() {
-        getBlueHopperPath();
-        getRedHopperPath();
-        getBlueGearPath();
-        getRedGearPath();
+        //getBlueHopperPath();
+        //getRedHopperPath();
+        //getBlueGearPath();
+        //getRedGearPath();
     }
 
     public static void main(String[] args) {
-        System.out.println("Red:\n" + getRedStartPose().getTranslation());
-        System.out.println("Center: " + getRedCenterPosition());
-        System.out.println("Gear: " + getRedGearPositionCorrected());
-        System.out.println("Gear turn: " + getRedGearTurnPosition());
-        System.out.println("Hopper turn: " + getRedHopperTurnPosition());
-        System.out.println("Hopper: " + getRedHopperPosition());
-        System.out.println("Start to boiler gear path:\n" + getRedGearPath());
-        System.out.println("Boiler gear to hopper path:\n" + getRedHopperPath());
-        System.out.println("\nBlue:\n" + getBlueStartPose().getTranslation());
-        System.out.println("Center: " + getBlueCenterPosition());
-        System.out.println("Gear: " + getBlueGearPositionCorrected());
-        System.out.println("Gear turn: " + getBlueGearTurnPosition());
-        System.out.println("Hopper turn: " + getBlueHopperTurnPosition());
-        System.out.println("Hopper: " + getBlueHopperPosition());
-        System.out.println("Start to boiler gear path:\n" + getBlueGearPath());
-        System.out.println("Boiler gear to hopper path:\n" + getBlueHopperPath());
+
     }
 
 }

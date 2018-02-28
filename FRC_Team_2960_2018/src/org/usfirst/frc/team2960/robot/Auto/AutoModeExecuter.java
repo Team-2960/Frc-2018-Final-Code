@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2960.robot.Auto;
 
-import com.team254.lib.util.CrashTrackingRunnable;
+
+import org.usfirst.frc.team2960.Util.CrashTrackingRunnable;
 
 /**
  * This class selects, runs, and stops (if necessary) a specified autonomous mode.

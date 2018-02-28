@@ -1,11 +1,12 @@
 package org.usfirst.frc.team2960.robot.Auto.Paths;
 
-import com.team254.frc2017.auto.actions.WaitForPathMarkerAction;
-import com.team254.lib.util.control.Path;
-import com.team254.lib.util.control.PathSegment;
-import com.team254.lib.util.math.RigidTransform2d;
-import com.team254.lib.util.math.Rotation2d;
-import com.team2960.lib.util.math.Translation2d;
+
+
+import org.usfirst.frc.team2960.Util.Math.RigidTransform2d;
+import org.usfirst.frc.team2960.Util.Math.Rotation2d;
+import org.usfirst.frc.team2960.Util.Math.Translation2d;
+import org.usfirst.frc.team2960.Util.control.Path;
+import org.usfirst.frc.team2960.Util.control.PathSegment;
 
 import java.util.List;
 

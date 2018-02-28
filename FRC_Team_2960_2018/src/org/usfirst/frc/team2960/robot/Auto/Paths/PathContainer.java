@@ -1,7 +1,8 @@
 package org.usfirst.frc.team2960.robot.Auto.Paths;
 
-import com.team254.lib.util.control.Path;
-import com.team254.lib.util.math.RigidTransform2d;
+
+import org.usfirst.frc.team2960.Util.Math.RigidTransform2d;
+import org.usfirst.frc.team2960.Util.control.Path;
 
 /**
  * Interface containing all information necessary for a path including the Path itself, the Path's starting pose, and

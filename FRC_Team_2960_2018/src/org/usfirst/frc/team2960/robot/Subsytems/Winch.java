@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team2960.robot.Constants;
+import org.usfirst.frc.team2960.robot.loops.Looper;
 
 /**
  * Winch Subsystem for the 2018 FRC robot
@@ -148,6 +149,11 @@ public class Winch extends Subsystem implements SubsystemBase {
      */
     @Override
     public void zeroSensors() {
+
+    }
+
+    @Override
+    public void registerEnabledLoops(Looper enabledLooper) {
 
     }
 }

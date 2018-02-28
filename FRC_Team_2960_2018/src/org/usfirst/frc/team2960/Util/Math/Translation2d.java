@@ -1,6 +1,8 @@
 package org.usfirst.frc.team2960.Util.Math;
 import java.text.DecimalFormat;
 
+import org.usfirst.frc.team2960.Util.Interpolable;
+
 /**
  * A translation in a 2d coordinate frame. Translations are simply shifts in an (x, y) plane.
  */

@@ -3,6 +3,7 @@ package org.usfirst.frc.team2960.robot.Subsytems;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.usfirst.frc.team2960.robot.loops.Looper;
 
 public class LEDs extends Subsystem implements SubsystemBase{
 
@@ -91,6 +92,11 @@ public class LEDs extends Subsystem implements SubsystemBase{
      */
     @Override
     public void zeroSensors() {
+
+    }
+
+    @Override
+    public void registerEnabledLoops(Looper enabledLooper) {
 
     }
 }

@@ -1,10 +1,11 @@
 package org.usfirst.frc.team2960.Util.Math;
-import static com.team254.lib.util.Util.epsilonEquals;
 
-import com.team254.lib.util.Interpolable;
+import org.usfirst.frc.team2960.Util.Interpolable;
 
 
 import java.text.DecimalFormat;
+
+import static org.usfirst.frc.team2960.Util.Util.epsilonEquals;
 
 /**
  * A rotation in a 2d coordinate frame represented a point on the unit circle (cosine and sine).

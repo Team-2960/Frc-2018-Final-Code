@@ -5,10 +5,10 @@ package org.usfirst.frc.team2960.Util.Math;
  *
  * A Twist can be used to represent a difference between two poses, a velocity, an acceleration, etc.
  */
-public class Twist2D {
-    protected static final Twist2D kIdentity = new Twist2D(0.0, 0.0, 0.0);
+public class Twist2d {
+    protected static final Twist2d kIdentity = new Twist2d(0.0, 0.0, 0.0);
 
-    public static final Twist2D identity() {
+    public static final Twist2d identity() {
         return kIdentity;
     }
 
@@ -16,13 +16,13 @@ public class Twist2D {
     public final double dy;
     public final double dtheta; // Radians!
 
-    public Twist2D(double dx, double dy, double dtheta) {
+    public Twist2d(double dx, double dy, double dtheta) {
         this.dx = dx;
         this.dy = dy;
         this.dtheta = dtheta;
     }
 
-    public Twist2D scaled(double scale) {
-        return new Twist2D(dx * scale, dy * scale, dtheta * scale);
+    public Twist2d scaled(double scale) {
+        return new Twist2d(dx * scale, dy * scale, dtheta * scale);
     }
 }

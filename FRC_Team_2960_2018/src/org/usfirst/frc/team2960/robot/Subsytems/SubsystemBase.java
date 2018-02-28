@@ -1,5 +1,7 @@
 package org.usfirst.frc.team2960.robot.Subsytems;
 
+import org.usfirst.frc.team2960.robot.loops.Looper;
+
 public interface SubsystemBase {
 
     /**
@@ -26,4 +28,6 @@ public interface SubsystemBase {
      * Zero all Sensors in the Subsystem
      */
     void zeroSensors();
+
+    void registerEnabledLoops(Looper enabledLooper);
 }

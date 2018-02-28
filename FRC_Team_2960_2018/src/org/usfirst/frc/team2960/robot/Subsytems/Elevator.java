@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
+import org.usfirst.frc.team2960.robot.loops.Looper;
 
 public class Elevator extends Subsystem implements SubsystemBase{
 
@@ -213,6 +214,11 @@ public class Elevator extends Subsystem implements SubsystemBase{
     @Override
     public void zeroSensors() {
         mElevatorMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
+
+    }
+
+    @Override
+    public void registerEnabledLoops(Looper enabledLooper) {
 
     }
 

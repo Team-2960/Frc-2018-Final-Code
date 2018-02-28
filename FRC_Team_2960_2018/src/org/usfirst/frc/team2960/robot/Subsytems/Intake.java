@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
+import org.usfirst.frc.team2960.robot.loops.Looper;
 
 /**
  * Class to control the intake on the 2018 robot
@@ -135,6 +136,11 @@ public class Intake extends Subsystem implements SubsystemBase{
      */
     @Override
     public void zeroSensors() {
+
+    }
+
+    @Override
+    public void registerEnabledLoops(Looper enabledLooper) {
 
     }
 

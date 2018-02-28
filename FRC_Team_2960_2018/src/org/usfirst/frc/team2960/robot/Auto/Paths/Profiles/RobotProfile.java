@@ -7,6 +7,8 @@ package org.usfirst.frc.team2960.robot.Auto.Paths.Profiles;
  */
 public interface RobotProfile {
 
+    //CHANGE
+
     // red
     public double getRedBoilerGearXCorrection();
 

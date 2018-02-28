@@ -17,11 +17,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
+import org.usfirst.frc.team2960.Util.Math.RigidTransform2d;
+import org.usfirst.frc.team2960.robot.Auto.AutoModeExecuter;
 import org.usfirst.frc.team2960.robot.Commands.Auto.AutoCross;
 import org.usfirst.frc.team2960.robot.Commands.Auto.TestAuto;
 import org.usfirst.frc.team2960.robot.Subsytems.*;
+import org.usfirst.frc.team2960.robot.loops.Looper;
 
 import javax.sound.sampled.Port;
+import java.util.Arrays;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -39,15 +43,21 @@ public class Robot extends IterativeRobot {
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	private PowerDistributionPanel pdp;
 
+	private Looper mEnabledLooper = new Looper();
+
 
 	private OI oi;
 
 	private Joystick driveJoystick;
 	private Joystick operateJoystick;
 
-	private SubsystemBase[] mSubsytemArray;
+	//private Trajectory trajectory;
 
-	private Trajectory trajectory;
+	private AutoModeExecuter mAutoModeExecuter = null;
+	private RobotState mRobotState = RobotState.getInstance();
+
+	private final SubsystemManager mSubsystemManager = new SubsystemManager(
+			Arrays.asList(Drive.getInstance(), Elevator.getInstance(), Intake.getInstance(), Winch.getInstance(), LEDs.getInstance()));
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -55,9 +65,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
-		SmartDashboard.putData("Auto choices", m_chooser);
+		//m_chooser.addDefault("Default Auto", kDefaultAuto);
+		//m_chooser.addObject("My Auto", kCustomAuto);
+		//SmartDashboard.putData("Auto choices", m_chooser);
 
 		oi = new OI();
 		driveJoystick = new Joystick(0);
@@ -65,19 +75,27 @@ public class Robot extends IterativeRobot {
 
 		pdp = new PowerDistributionPanel();
 
+		AutoModeSelector.initAutoModeSelector();
 
-		mSubsytemArray = new SubsystemBase[]{Drive.getInstance(), Elevator.getInstance(), Intake.getInstance(), Winch.getInstance(), LEDs.getInstance()};
+		zeroAllSensors();
+
 
 		CameraServer.getInstance().startAutomaticCapture();
-		Drive.getInstance().setNeturalMode(NeutralMode.Brake);
 
-		Drive.getInstance().zeroSensors();
+
+		mSubsystemManager.registerEnabledLoops(mEnabledLooper);
+
+
+
+		//Drive.getInstance().setNeturalMode(NeutralMode.Brake);
+
+		/*Drive.getInstance().zeroSensors();
 		Waypoint[] points = new Waypoint[] {
 				new Waypoint(0,0,0),
 				new Waypoint(.1,0,0)
 		};
 		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.05, Constants.kMaxVelocityOfTrajectory, .5, 60.0);
-		trajectory = Pathfinder.generate(points, config);
+		trajectory = Pathfinder.generate(points, config);*/
 	}
 
 	/**
@@ -96,11 +114,26 @@ public class Robot extends IterativeRobot {
 		//m_autoSelected = m_chooser.getSelected();
 		//switch (m_autoSelected) {
 			//case kCustomAuto:
-				kAutonomousCommand = new TestAuto(trajectory);
+				//kAutonomousCommand = new TestAuto(trajectory);
 		//}
 
-		System.out.println("Auto selected: " + m_autoSelected);
-		if(kAutonomousCommand != null) kAutonomousCommand.start();
+		//System.out.println("Auto selected: " + m_autoSelected);
+		//if(kAutonomousCommand != null) kAutonomousCommand.start();
+
+		System.out.println("Auto start timestamp: " + Timer.getFPGATimestamp());
+
+		if (mAutoModeExecuter != null) {
+			mAutoModeExecuter.stop();
+		}
+
+		zeroAllSensors();
+
+		mAutoModeExecuter = null;
+
+		mEnabledLooper.start();
+		mAutoModeExecuter = new AutoModeExecuter();
+		mAutoModeExecuter.setAutoMode(AutoModeSelector.getSelectedAutoMode());
+		mAutoModeExecuter.start();
 	}
 
 	/**
@@ -108,8 +141,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
-		toSmartDashboard();
+		//Scheduler.getInstance().run();
+		//toSmartDashboard();
+		allPeriodic();
 	}
 
 	/**
@@ -127,16 +161,15 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("PDP", pdp);
 
 		Timer.delay(.005);
+
+		allPeriodic();
 	}
 
 	/**
 	 * Reports all things to smartDashboard
 	 */
 	private void toSmartDashboard() {
-		for (SubsystemBase subsystem: mSubsytemArray) {
-			subsystem.toSmartDashboard();
-
-		}
+		mSubsystemManager.outputToSmartDashboard();
 
 	}
 
@@ -145,6 +178,22 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		allPeriodic();
+	}
+
+	public void zeroAllSensors() {
+		mRobotState.reset(Timer.getFPGATimestamp(), new RigidTransform2d());
+		mSubsystemManager.zeroSensors();
+	}
+
+	/**
+	 * Helper function that is called in all periodic functions
+	 */
+	public void allPeriodic() {
+		mRobotState.outputToSmartDashboard();
+		mSubsystemManager.outputToSmartDashboard();
+		mEnabledLooper.outputToSmartDashboard();
+
 	}
 
 }

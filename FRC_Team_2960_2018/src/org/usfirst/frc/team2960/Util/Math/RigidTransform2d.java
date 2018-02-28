@@ -1,7 +1,9 @@
 package org.usfirst.frc.team2960.Util.Math;
-import static com.team254.lib.util.Util.epsilonEquals;
 
-import com.team254.lib.util.Interpolable;
+
+import org.usfirst.frc.team2960.Util.Interpolable;
+
+import static org.usfirst.frc.team2960.Util.Util.epsilonEquals;
 
 /**
  * Represents a 2d pose (rigid transform) containing translational and rotational elements.
@@ -49,7 +51,7 @@ public class RigidTransform2d implements Interpolable<RigidTransform2d> {
      * Obtain a new RigidTransform2d from a (constant curvature) velocity. See:
      * https://github.com/strasdat/Sophus/blob/master/sophus/se2.hpp
      */
-    public static RigidTransform2d exp(Twist2D delta) {
+    public static RigidTransform2d exp(Twist2d delta) {
         double sin_theta = Math.sin(delta.dtheta);
         double cos_theta = Math.cos(delta.dtheta);
         double s, c;
@@ -67,7 +69,7 @@ public class RigidTransform2d implements Interpolable<RigidTransform2d> {
     /**
      * Logical inverse of the above.
      */
-    public static Twist2D log(RigidTransform2d transform) {
+    public static Twist2d log(RigidTransform2d transform) {
         final double dtheta = transform.getRotation().getRadians();
         final double half_dtheta = 0.5 * dtheta;
         final double cos_minus_one = transform.getRotation().cos() - 1.0;
@@ -79,7 +81,7 @@ public class RigidTransform2d implements Interpolable<RigidTransform2d> {
         }
         final Translation2d translation_part = transform.getTranslation()
                 .rotateBy(new Rotation2d(halftheta_by_tan_of_halfdtheta, -half_dtheta, false));
-        return new Twist2D(translation_part.x(), translation_part.y(), dtheta);
+        return new Twist2d(translation_part.x(), translation_part.y(), dtheta);
     }
 
     public Translation2d getTranslation() {
@@ -146,7 +148,7 @@ public class RigidTransform2d implements Interpolable<RigidTransform2d> {
      * Return true if the heading of this transform is colinear with the heading of another.
      */
     public boolean isColinear(RigidTransform2d other) {
-        final Twist2D twist = log(inverse().transformBy(other));
+        final Twist2d twist = log(inverse().transformBy(other));
         return (epsilonEquals(twist.dy, 0.0, kEpsilon) && epsilonEquals(twist.dtheta, 0.0, kEpsilon));
     }
 
@@ -172,7 +174,7 @@ public class RigidTransform2d implements Interpolable<RigidTransform2d> {
         } else if (x >= 1) {
             return new RigidTransform2d(other);
         }
-        final Twist2D twist = RigidTransform2d.log(inverse().transformBy(other));
+        final Twist2d twist = RigidTransform2d.log(inverse().transformBy(other));
         return transformBy(RigidTransform2d.exp(twist.scaled(x)));
     }
 
