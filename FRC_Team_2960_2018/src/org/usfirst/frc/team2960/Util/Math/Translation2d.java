@@ -1,38 +1,35 @@
 package org.usfirst.frc.team2960.Util.Math;
-
-import com.team254.lib.util.Interpolable;
-
 import java.text.DecimalFormat;
 
 /**
  * A translation in a 2d coordinate frame. Translations are simply shifts in an (x, y) plane.
  */
-public class Translation2D implements Interpolable<Translation2D> {
-    protected static final Translation2D kIdentity = new Translation2D();
+public class Translation2d implements Interpolable<Translation2d> {
+    protected static final Translation2d kIdentity = new Translation2d();
 
-    public static final Translation2D identity() {
+    public static final Translation2d identity() {
         return kIdentity;
     }
 
     protected double x_;
     protected double y_;
 
-    public Translation2D() {
+    public Translation2d() {
         x_ = 0;
         y_ = 0;
     }
 
-    public Translation2D(double x, double y) {
+    public Translation2d(double x, double y) {
         x_ = x;
         y_ = y;
     }
 
-    public Translation2D(Translation2D other) {
+    public Translation2d(Translation2d other) {
         x_ = other.x_;
         y_ = other.y_;
     }
 
-    public Translation2D(Translation2D start, Translation2D end) {
+    public Translation2d(Translation2d start, Translation2d end) {
         x_ = end.x_ - start.x_;
         y_ = end.y_ - start.y_;
     }
@@ -73,8 +70,8 @@ public class Translation2D implements Interpolable<Translation2D> {
      *            The other translation to add.
      * @return The combined effect of translating by this object and the other.
      */
-    public Translation2D translateBy(Translation2D other) {
-        return new Translation2D(x_ + other.x_, y_ + other.y_);
+    public Translation2d translateBy(Translation2d other) {
+        return new Translation2d(x_ + other.x_, y_ + other.y_);
     }
 
     /**
@@ -84,8 +81,8 @@ public class Translation2D implements Interpolable<Translation2D> {
      *            The rotation to apply.
      * @return This translation rotated by rotation.
      */
-    public Translation2D rotateBy(Rotation2d rotation) {
-        return new Translation2D(x_ * rotation.cos() - y_ * rotation.sin(), x_ * rotation.sin() + y_ * rotation.cos());
+    public Translation2d rotateBy(Rotation2d rotation) {
+        return new Translation2d(x_ * rotation.cos() - y_ * rotation.sin(), x_ * rotation.sin() + y_ * rotation.cos());
     }
 
     public Rotation2d direction() {
@@ -97,26 +94,26 @@ public class Translation2D implements Interpolable<Translation2D> {
      *
      * @return Translation by -x and -y.
      */
-    public Translation2D inverse() {
-        return new Translation2D(-x_, -y_);
+    public Translation2d inverse() {
+        return new Translation2d(-x_, -y_);
     }
 
     @Override
-    public Translation2D interpolate(Translation2D other, double x) {
+    public Translation2d interpolate(Translation2d other, double x) {
         if (x <= 0) {
-            return new Translation2D(this);
+            return new Translation2d(this);
         } else if (x >= 1) {
-            return new Translation2D(other);
+            return new Translation2d(other);
         }
         return extrapolate(other, x);
     }
 
-    public Translation2D extrapolate(Translation2D other, double x) {
-        return new Translation2D(x * (other.x_ - x_) + x_, x * (other.y_ - y_) + y_);
+    public Translation2d extrapolate(Translation2d other, double x) {
+        return new Translation2d(x * (other.x_ - x_) + x_, x * (other.y_ - y_) + y_);
     }
 
-    public Translation2D scale(double s) {
-        return new Translation2D(x_ * s, y_ * s);
+    public Translation2d scale(double s) {
+        return new Translation2d(x_ * s, y_ * s);
     }
 
     @Override
@@ -125,11 +122,11 @@ public class Translation2D implements Interpolable<Translation2D> {
         return "(" + fmt.format(x_) + "," + fmt.format(y_) + ")";
     }
 
-    public static double dot(Translation2D a, Translation2D b) {
+    public static double dot(Translation2d a, Translation2d b) {
         return a.x_ * b.x_ + a.y_ * b.y_;
     }
 
-    public static Rotation2d getAngle(Translation2D a, Translation2D b) {
+    public static Rotation2d getAngle(Translation2d a, Translation2d b) {
         double cos_angle = dot(a, b) / (a.norm() * b.norm());
         if (Double.isNaN(cos_angle)) {
             return new Rotation2d();
@@ -137,7 +134,7 @@ public class Translation2D implements Interpolable<Translation2D> {
         return Rotation2d.fromRadians(Math.acos(Math.min(1.0, Math.max(cos_angle, -1.0))));
     }
 
-    public static double cross(Translation2D a, Translation2D b) {
+    public static double cross(Translation2d a, Translation2d b) {
         return a.x_ * b.y_ - a.y_ * b.x_;
     }
 }
