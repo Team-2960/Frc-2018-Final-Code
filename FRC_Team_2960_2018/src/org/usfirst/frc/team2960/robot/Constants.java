@@ -18,6 +18,7 @@ public class Constants {
     public static int mHookDeploymentId = 12;
 
     //DIO (Digital In And Out)
+
     public static int kBottomPhotoeyeId = 8;
     public static int kTopPhotoeyeId = 9;
     public static int mUltrasonicRight1In = 1;

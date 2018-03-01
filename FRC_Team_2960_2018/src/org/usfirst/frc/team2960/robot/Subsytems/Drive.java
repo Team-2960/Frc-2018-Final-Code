@@ -43,9 +43,10 @@ public class Drive extends Subsystem implements SubsystemBase {
     /**
      * The array for the Ultrasonic Sensors
      */
+
     private Ultrasonic[] mUltrasonics;
 
-    /**
+
      * Private constructor for Drive Class
      */
     private Drive() {
@@ -60,13 +61,10 @@ public class Drive extends Subsystem implements SubsystemBase {
         mUltraRight2 = new Ultrasonic(Constants.mUltrasonicRight2Out, Constants.mUltrasonicRight2In);
         mUltraLeft1 = new Ultrasonic(Constants.mUltrasonicLeft1Out, Constants.mUltrasonicLeft1In);
         mUltraLeft2 = new Ultrasonic(Constants.mUltrasonicLeft2Out, Constants.mUltrasonicLeft2In);
+
         mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
         mUltraRight1.setAutomaticMode(true);
         //mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
-
-
-
-
     }
 
 
@@ -180,6 +178,7 @@ public class Drive extends Subsystem implements SubsystemBase {
 
         SmartDashboard.putNumber("SensorVelLeft", mLeftMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("SensorPosLeft",  mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
+
         //SmartDashboard.putNumber("MotorOutputPercentLeft", mLeftMaster.getMotorOutputPercent());
         //SmartDashboard.putNumber("ClosedLoopErrorLeft", mLeftMaster.getClosedLoopError(Constants.kPIDLoopIDx));
         /*
@@ -194,6 +193,7 @@ public class Drive extends Subsystem implements SubsystemBase {
         for(Ultrasonic ultra: mUltrasonics){
             SmartDashboard.putNumber("Ultra Value: " + ultra.getName(), ultra.getRangeInches());
         }
+
         //SmartDashboard.putNumber("Ultra Value: analog ultra", mUltraFront.getValue());
         */
     }
