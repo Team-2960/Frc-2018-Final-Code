@@ -29,6 +29,9 @@ public class OI {
         else {
             intake.setIntakeState(Intake.mIntakeState.stop);
         }
+        if(joystick.getRawButton(2)){
+            intake.setIntakeState(Intake.mIntakeState.rotate);
+        }
 
     }
 

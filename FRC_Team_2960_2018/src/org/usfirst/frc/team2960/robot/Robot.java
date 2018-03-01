@@ -127,6 +127,11 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("PDP", pdp);
 
 		Timer.delay(.005);
+
+		for (SubsystemBase subsystem: mSubsytemArray) {
+			subsystem.update();
+
+		}
 	}
 
 	/**
