@@ -83,7 +83,7 @@ public class Constants {
     public static double kDriveWheelDiameterInches = 6;
     public static double kTrackWidthInches = 26.655; //Look into
     public static double kTrackScrubFactor = 0.924;
-    public static double kDriveMaxSetpoint = 17.0 * 12.0; // 17 fps Change
+    public static double kDriveMaxSetpoint = 13.0 * 12.0; // 17 fps Change
 
     // Path following constants
     public static double kMinLookAhead = 12.0; // inches
@@ -108,10 +108,10 @@ public class Constants {
 
     //Talon pidf for velocity control
 
-    public static double kVelocityControlKf = 0.0;
-    public static double kVelocityControlKp = 0.0;
-    public static double kVelocityControlKi = 0.0;
-    public static double kVelocityControlKd = 0.0;
+    public static double kVelocityControlKf = 0.45;
+    public static double kVelocityControlKp = 10.0;
+    public static double kVelocityControlKi = 0.002;
+    public static double kVelocityControlKd = 100;
 
 
 

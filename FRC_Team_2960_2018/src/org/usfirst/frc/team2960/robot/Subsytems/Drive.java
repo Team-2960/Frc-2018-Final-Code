@@ -3,6 +3,7 @@ package org.usfirst.frc.team2960.robot.Subsytems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.VelocityMeasPeriod;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -44,7 +45,7 @@ public class Drive extends Subsystem implements SubsystemBase {
     // Talons
     private TalonSRX mRightMaster, mRightSlave1, mRightSlave2, mLeftMaster, mLeftSlave1, mLeftSlave2;
 
-    private mDriveState mDriveControlState;
+    private mDriveState mDriveControlState = mDriveState.OPEN_LOOP;
 
     // Logging
     private final ReflectingCSVWriter<PathFollower.DebugOutput> mCSVWriter;
@@ -170,6 +171,12 @@ public class Drive extends Subsystem implements SubsystemBase {
 
         mLeftSlave2 = new TalonSRX(Constants.mLeftSlave2Id);
         mLeftSlave2.follow(mLeftMaster);
+
+        mRightMaster.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_10Ms, Constants.kTimeoutMs);
+        mRightMaster.configVelocityMeasurementWindow(32, Constants.kTimeoutMs);
+
+        mLeftMaster.configVelocityMeasurementPeriod(VelocityMeasPeriod.Period_10Ms, Constants.kTimeoutMs);
+        mLeftMaster.configVelocityMeasurementWindow(32, Constants.kTimeoutMs);
     }
 
     public void setSpeed(double right, double left){
@@ -236,13 +243,38 @@ public class Drive extends Subsystem implements SubsystemBase {
     @Override
     public void toSmartDashboard() {
 
-        SmartDashboard.putNumber("SensorVelRight", mRightMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
-        SmartDashboard.putNumber("SensorPosRight",  mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
+
         //SmartDashboard.putNumber("MotorOutputPercentRight", mRightMaster.getMotorOutputPercent());
         //SmartDashboard.putNumber("ClosedLoopErrorRight", mRightMaster.getClosedLoopError(Constants.kPIDLoopIDx));
+        final double left_speed = getLeftVelocityInchesPerSec();
+        final double right_speed = getRightVelocityInchesPerSec();
 
-        SmartDashboard.putNumber("SensorVelLeft", mLeftMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
-        SmartDashboard.putNumber("SensorPosLeft",  mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
+        SmartDashboard.putNumber("left speed (ips)", left_speed);
+        SmartDashboard.putNumber("right speed (ips)", right_speed);
+
+        if (usesTalonVelocityControl(mDriveControlState)) {
+            SmartDashboard.putNumber("left speed error (ips)",
+                    rpmToInchesPerSecond(mLeftMaster.getClosedLoopTarget(Constants.kPIDLoopIDx)) - left_speed);
+            SmartDashboard.putNumber("right speed error (ips)",
+                    rpmToInchesPerSecond(mRightMaster.getClosedLoopTarget(Constants.kPIDLoopIDx)) - right_speed);
+        } else {
+            SmartDashboard.putNumber("left speed error (ips)", 0.0);
+            SmartDashboard.putNumber("right speed error (ips)", 0.0);
+        }
+        synchronized (this) {
+            if (mDriveControlState == mDriveState.PATH_FOLLOWING && mPathFollower != null) {
+                SmartDashboard.putNumber("drive CTE", mPathFollower.getCrossTrackError());
+                SmartDashboard.putNumber("drive ATE", mPathFollower.getAlongTrackError());
+            } else {
+                SmartDashboard.putNumber("drive CTE", 0.0);
+                SmartDashboard.putNumber("drive ATE", 0.0);
+            }
+        }
+        SmartDashboard.putNumber("left position (rotations)", mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
+        SmartDashboard.putNumber("right position (rotations)", mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
+        SmartDashboard.putNumber("gyro vel", getGyroVelocityDegreesPerSec());
+        SmartDashboard.putNumber("gyro pos", getGyroAngle().getDegrees());
+        SmartDashboard.putBoolean("drive on target", isOnTarget());
         //SmartDashboard.putNumber("MotorOutputPercentLeft", mLeftMaster.getMotorOutputPercent());
         //SmartDashboard.putNumber("ClosedLoopErrorLeft", mLeftMaster.getClosedLoopError(Constants.kPIDLoopIDx));
         /*
@@ -325,6 +357,9 @@ public class Drive extends Subsystem implements SubsystemBase {
      * @param right_inches_per_sec
      */
     private synchronized void updateVelocitySetpoint(double left_inches_per_sec, double right_inches_per_sec) {
+
+        System.out.println("left inch per sec" + left_inches_per_sec);
+        System.out.println("right inch per sec" + right_inches_per_sec);
         if (usesTalonVelocityControl(mDriveControlState)) {
             final double max_desired = Math.max(Math.abs(left_inches_per_sec), Math.abs(right_inches_per_sec));
             final double scale = max_desired > Constants.kDriveMaxSetpoint
@@ -467,8 +502,30 @@ public class Drive extends Subsystem implements SubsystemBase {
         mLeftMaster.config_kP(Constants.kPIDLoopIDx, Constants.kVelocityControlKp, Constants.kTimeoutMs);
         mLeftMaster.config_kI(Constants.kPIDLoopIDx, Constants.kVelocityControlKi, Constants.kTimeoutMs);
         mLeftMaster.config_kD(Constants.kPIDLoopIDx, Constants.kVelocityControlKd, Constants.kTimeoutMs);
+
+        /* set the peak, nominal outputs */
+        mRightMaster.configNominalOutputForward(0, Constants.kTimeoutMs);
+        mRightMaster.configNominalOutputReverse(0, Constants.kTimeoutMs);
+        mRightMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
+        mRightMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+		/* set closed loop gains in slot0 */
+        mRightMaster.config_kF(Constants.kPIDLoopIDx, Constants.kVelocityControlKf, Constants.kTimeoutMs);
+        mRightMaster.config_kP(Constants.kPIDLoopIDx, Constants.kVelocityControlKp, Constants.kTimeoutMs);
+        mRightMaster.config_kI(Constants.kPIDLoopIDx, Constants.kVelocityControlKi, Constants.kTimeoutMs);
+        mRightMaster.config_kD(Constants.kPIDLoopIDx, Constants.kVelocityControlKd, Constants.kTimeoutMs);
+
+
     }
 
+    public synchronized boolean isOnTarget() {
+        // return true;
+        return mIsOnTarget;
+    }
+
+    public synchronized double getGyroVelocityDegreesPerSec() {
+        return navX.getYawRateDegreesPerSec();
+    }
 
 
 }

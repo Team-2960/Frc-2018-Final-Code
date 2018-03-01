@@ -12,11 +12,7 @@ import java.io.File;
 public class RightSwitchAuto extends CommandGroup{
 
     public RightSwitchAuto() {
-        File leftSwitchAuto = new File("CenterRightS.csv");
-        Trajectory leftSwitchTrajectory = Pathfinder.readFromCSV(leftSwitchAuto);
-        addParallel(new FollowTrajectory(leftSwitchTrajectory));
-        addParallel(new ElevatorMove(1));
-        addSequential(new IntakeMove(Intake.mIntakeState.forward), 10);
+
     }
 
 }

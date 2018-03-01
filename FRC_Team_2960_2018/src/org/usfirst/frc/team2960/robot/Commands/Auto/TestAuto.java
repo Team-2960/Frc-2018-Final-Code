@@ -16,6 +16,6 @@ public class TestAuto extends CommandGroup{
         //File testAuto = new File("TESTS.csv");
         //Trajectory testAutoTrajectory = Pathfinder.readFromCSV(testAuto);
 
-        addSequential(new FollowTrajectory(trajectory));
+
     }
 }
