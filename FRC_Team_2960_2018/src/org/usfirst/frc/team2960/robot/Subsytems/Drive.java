@@ -37,13 +37,13 @@ public class Drive extends Subsystem implements SubsystemBase {
     /**
      * Ultrasonic Sensors, all but front are vex sensors
      */
-    //private Ultrasonic mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2;
+    private Ultrasonic mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2;
     //private AnalogInput mUltraFront;
 
     /**
      * The array for the Ultrasonic Sensors
      */
-   // private Ultrasonic[] mUltrasonics;
+    //private Ultrasonic[] mUltrasonics;
     /**
      * Private constructor for Drive Class
      */
@@ -54,7 +54,7 @@ public class Drive extends Subsystem implements SubsystemBase {
         navX = new AHRS(SPI.Port.kMXP);
 
         //Ultrasonic setup
-        /*
+
         mUltraRight1 = new Ultrasonic(Constants.mUltrasonicRight1Out, Constants.mUltrasonicRight1In);
         mUltraRight1.setAutomaticMode(true);
         mUltraRight2 = new Ultrasonic(Constants.mUltrasonicRight2Out, Constants.mUltrasonicRight2In);
@@ -63,9 +63,9 @@ public class Drive extends Subsystem implements SubsystemBase {
         mUltraLeft1.setAutomaticMode(true);
         mUltraLeft2 = new Ultrasonic(Constants.mUltrasonicLeft2Out, Constants.mUltrasonicLeft2In);
         mUltraLeft2.setAutomaticMode(true);
-        mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
-        mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
-        */
+        //mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
+        //mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
+
 
 
 
@@ -179,7 +179,10 @@ public class Drive extends Subsystem implements SubsystemBase {
         */
 
         //for(Ultrasonic ultra: mUltrasonics){
-            //SmartDashboard.putNumber("Ultra Value: ", mUltraRight1.getRangeInches());
+        SmartDashboard.putNumber("Ultra Value1: ", mUltraRight1.getRangeInches());
+        SmartDashboard.putNumber("Ultra Value2: ", mUltraRight2.getRangeInches());
+        SmartDashboard.putNumber("Ultra Value3: ", mUltraLeft1.getRangeInches());
+        SmartDashboard.putNumber("Ultra Value4: ", mUltraLeft2.getRangeInches());
         //}
         //SmartDashboard.putNumber("Ultra Value: analog ultra", mUltraFront.getValue());
     }
