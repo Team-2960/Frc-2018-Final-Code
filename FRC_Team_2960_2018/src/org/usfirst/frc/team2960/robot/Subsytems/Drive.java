@@ -2,12 +2,12 @@ package org.usfirst.frc.team2960.robot.Subsytems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
@@ -43,34 +43,30 @@ public class Drive extends Subsystem implements SubsystemBase {
     /**
      * The array for the Ultrasonic Sensors
      */
-    //private Ultrasonic[] mUltrasonics;
-    /**
+
+    private Ultrasonic[] mUltrasonics;
+
+
      * Private constructor for Drive Class
      */
     private Drive() {
         //Talons
         setupTalons();
         //NavX
-        navX = new AHRS(SPI.Port.kMXP);
+        navX = new AHRS(I2C.Port.kMXP);
 
         //Ultrasonic setup
 
         mUltraRight1 = new Ultrasonic(Constants.mUltrasonicRight1Out, Constants.mUltrasonicRight1In);
-        mUltraRight1.setAutomaticMode(true);
         mUltraRight2 = new Ultrasonic(Constants.mUltrasonicRight2Out, Constants.mUltrasonicRight2In);
-        mUltraRight2.setAutomaticMode(true);
         mUltraLeft1 = new Ultrasonic(Constants.mUltrasonicLeft1Out, Constants.mUltrasonicLeft1In);
-        mUltraLeft1.setAutomaticMode(true);
         mUltraLeft2 = new Ultrasonic(Constants.mUltrasonicLeft2Out, Constants.mUltrasonicLeft2In);
-        mUltraLeft2.setAutomaticMode(true);
-        //mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
+
+        mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
+        mUltraRight1.setAutomaticMode(true);
         //mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
-
-
-
-
-
     }
+
 
     /**
      * Initialize the default command for a subsystem By default subsystems have no default command,
@@ -133,16 +129,24 @@ public class Drive extends Subsystem implements SubsystemBase {
         return m_Instance;
     }
 
-    public double getRightEncoder() {
+    public int getRightEncoder() {
         return mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
     }
 
-    public double getLeftEncoder() {
+    public int getLeftEncoder() {
         return mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
     }
 
     public double getHeading() {
        return navX.getAngle();
+    }
+
+    public double getRightDistanceInMeters() {
+        return getRightEncoder() * Constants.inchesPerTick * Constants.meterConversion;
+    }
+
+    public double getLeftDistanceInMeters() {
+        return getLeftEncoder() * Constants.inchesPerTick * Constants.meterConversion;
     }
 
     /**
@@ -166,25 +170,32 @@ public class Drive extends Subsystem implements SubsystemBase {
      */
     @Override
     public void toSmartDashboard() {
-        /*
+
         SmartDashboard.putNumber("SensorVelRight", mRightMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("SensorPosRight",  mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
-        SmartDashboard.putNumber("MotorOutputPercentRight", mRightMaster.getMotorOutputPercent());
-        SmartDashboard.putNumber("ClosedLoopErrorRight", mRightMaster.getClosedLoopError(Constants.kPIDLoopIDx));
+        //SmartDashboard.putNumber("MotorOutputPercentRight", mRightMaster.getMotorOutputPercent());
+        //SmartDashboard.putNumber("ClosedLoopErrorRight", mRightMaster.getClosedLoopError(Constants.kPIDLoopIDx));
 
         SmartDashboard.putNumber("SensorVelLeft", mLeftMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("SensorPosLeft",  mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
-        SmartDashboard.putNumber("MotorOutputPercentLeft", mLeftMaster.getMotorOutputPercent());
-        SmartDashboard.putNumber("ClosedLoopErrorLeft", mLeftMaster.getClosedLoopError(Constants.kPIDLoopIDx));
-        */
 
-        //for(Ultrasonic ultra: mUltrasonics){
-        SmartDashboard.putNumber("Ultra Value1: ", mUltraRight1.getRangeInches());
-        SmartDashboard.putNumber("Ultra Value2: ", mUltraRight2.getRangeInches());
-        SmartDashboard.putNumber("Ultra Value3: ", mUltraLeft1.getRangeInches());
-        SmartDashboard.putNumber("Ultra Value4: ", mUltraLeft2.getRangeInches());
-        //}
+        //SmartDashboard.putNumber("MotorOutputPercentLeft", mLeftMaster.getMotorOutputPercent());
+        //SmartDashboard.putNumber("ClosedLoopErrorLeft", mLeftMaster.getClosedLoopError(Constants.kPIDLoopIDx));
+        /*
+        SmartDashboard.putNumber("The BAD ULtra", mUltraLeft2.getRangeInches());
+        SmartDashboard.putNumber("NAVX ANGLE", navX.getAngle());
+        SmartDashboard.putNumber("BARometric Pressure", navX.getBarometricPressure());
+        SmartDashboard.putNumber("YAW", navX.getYaw());
+        SmartDashboard.putNumber("Navx Rate", navX.getRate());
+        SmartDashboard.putNumber("Gyro x", navX.getRawGyroX());
+        SmartDashboard.putNumber("Gyro y", navX.getRawGyroY());
+        SmartDashboard.putNumber("Gyro z", navX.getRawGyroZ());
+        for(Ultrasonic ultra: mUltrasonics){
+            SmartDashboard.putNumber("Ultra Value: " + ultra.getName(), ultra.getRangeInches());
+        }
+
         //SmartDashboard.putNumber("Ultra Value: analog ultra", mUltraFront.getValue());
+        */
     }
 
     /**
@@ -200,6 +211,19 @@ public class Drive extends Subsystem implements SubsystemBase {
      */
     @Override
     public void zeroSensors() {
-
+        mRightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
+        mLeftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
+        //navX.zeroYaw();
     }
+
+    public void setNeturalMode(NeutralMode mode) {
+        mRightMaster.setNeutralMode(mode);
+        mRightSlave1.setNeutralMode(mode);
+        mRightSlave2.setNeutralMode(mode);
+        mLeftMaster.setNeutralMode(mode);
+        mLeftSlave1.setNeutralMode(mode);
+        mLeftSlave2.setNeutralMode(mode);
+    }
+
+
 }

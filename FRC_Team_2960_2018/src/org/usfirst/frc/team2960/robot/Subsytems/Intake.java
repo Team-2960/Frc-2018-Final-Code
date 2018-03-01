@@ -3,6 +3,7 @@ package org.usfirst.frc.team2960.robot.Subsytems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
 
 /**
@@ -18,7 +19,7 @@ public class Intake extends Subsystem implements SubsystemBase{
     /**
      * Enum for the different states of the intake
      */
-    public enum mIntakeState {forward, backward, stop}
+    public enum mIntakeState {forward, backward, stop, rotate}
 
     private TalonSRX mIntakeMaster, mIntakeSlave;
 
@@ -56,7 +57,7 @@ public class Intake extends Subsystem implements SubsystemBase{
 
         //Slave
         mIntakeSlave = new TalonSRX(Constants.mIntakeSlaveId);
-        mIntakeSlave.follow(mIntakeMaster);
+        //mIntakeSlave.follow(mIntakeMaster);
         mIntakeSlave.setInverted(true);
 
 
@@ -73,10 +74,20 @@ public class Intake extends Subsystem implements SubsystemBase{
                 setIntakeZero();
                 break;
             case forward:
+                mIntakeSlave.setInverted(true);
                 mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
+                mIntakeSlave.set(ControlMode.PercentOutput, 1.0);
+
                 break;
             case backward:
+                mIntakeSlave.setInverted(true);
                 mIntakeMaster.set(ControlMode.PercentOutput, -1.0);
+                mIntakeSlave.set(ControlMode.PercentOutput, -.5);
+                break;
+            case rotate:
+                mIntakeSlave.setInverted(true);
+                mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
+                mIntakeSlave.set(ControlMode.PercentOutput, .5);
                 break;
             default:
                 break;
@@ -88,6 +99,7 @@ public class Intake extends Subsystem implements SubsystemBase{
      */
     private void setIntakeZero(){
         mIntakeMaster.set(ControlMode.PercentOutput, 0);
+        mIntakeSlave.set(ControlMode.PercentOutput, 0);
     }
 
     /**
@@ -111,7 +123,6 @@ public class Intake extends Subsystem implements SubsystemBase{
      */
     @Override
     public void toSmartDashboard() {
-
     }
 
     /**

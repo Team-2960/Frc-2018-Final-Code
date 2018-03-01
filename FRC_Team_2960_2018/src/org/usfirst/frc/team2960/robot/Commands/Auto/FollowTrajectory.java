@@ -1,11 +1,14 @@
 package org.usfirst.frc.team2960.robot.Commands.Auto;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.followers.DistanceFollower;
+import jaci.pathfinder.followers.EncoderFollower;
 import jaci.pathfinder.modifiers.TankModifier;
 import org.usfirst.frc.team2960.robot.Constants;
 import org.usfirst.frc.team2960.robot.Subsytems.Drive;
@@ -14,8 +17,30 @@ public class FollowTrajectory extends Command{
 
     private Trajectory trajectory;
     private TankModifier modifier;
-    DistanceFollower left;
-    DistanceFollower right;
+    EncoderFollower left;
+    EncoderFollower right;
+    public Runnable run = new Runnable() {
+        @Override
+        public void run() {
+            System.out.println(drive.getLeftEncoder());
+
+
+            double leftOutput = left.calculate(-drive.getRightEncoder());
+            double rightOutput = right.calculate(drive.getLeftEncoder());
+
+            double gyroHeading = drive.getHeading();
+            double desiredHeading = Pathfinder.r2d(left.getHeading());
+
+            double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
+            double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
+
+            drive.setSpeed((rightOutput /*- turn*/), -(leftOutput /*+ turn*/));
+            SmartDashboard.putNumber("Right Drive", rightOutput);
+            SmartDashboard.putNumber("Left Drive", leftOutput);
+        }
+    };
+    public Notifier notifier = new Notifier(run);
+
     private Drive drive = Drive.getInstance();
     public FollowTrajectory(Trajectory trajectory) {
         this.trajectory = trajectory;
@@ -27,12 +52,24 @@ public class FollowTrajectory extends Command{
      */
     @Override
     protected void initialize() {
-        left = new DistanceFollower();
-        right = new DistanceFollower();
+        left = new EncoderFollower(modifier.getLeftTrajectory());
+        right = new EncoderFollower(modifier.getRightTrajectory());
+        left.configureEncoder(-drive.getLeftEncoder(), 4096, .1524);
+        right.configureEncoder(drive.getRightEncoder(), 4096, .1524);
         left.configurePIDVA(Constants.kLeftTrajectoryP, Constants.kLeftTrajectoryI, Constants.kLeftTrajectoryD,
-                Constants.kTrajectoryVelocityRatio, Constants.kLeftTrajectoryAccelerationGain);
+        Constants.kTrajectoryVelocityRatio, Constants.kLeftTrajectoryAccelerationGain);
         right.configurePIDVA(Constants.kRightTrajectoryP, Constants.kRightTrajectoryI, Constants.kRightTrajectoryD,
-                Constants.kTrajectoryVelocityRatio, Constants.kRightTrajectoryAccelerationGain);
+        Constants.kTrajectoryVelocityRatio, Constants.kRightTrajectoryAccelerationGain);
+        notifier.startPeriodic(.05);
+    }
+
+    /**
+     * Called when the command ended peacefully. This is where you may want to wrap up loose ends,
+     * like shutting off a motor that was being used in the command.
+     */
+    @Override
+    protected void end() {
+        drive.setSpeed(0,0);
     }
 
     /**
@@ -40,17 +77,12 @@ public class FollowTrajectory extends Command{
      */
     @Override
     protected void execute() {
-        double leftOutput = left.calculate(drive.getLeftEncoder());
-        double rightOutput = right.calculate(drive.getRightEncoder());
 
-        double gyroHeading = drive.getHeading();
-        double desiredHeading = Pathfinder.r2d(left.getHeading());
 
-        double angleDifference = Pathfinder.boundHalfDegrees(desiredHeading - gyroHeading);
-        double turn = 0.8 * (-1.0 / 80.0) * angleDifference;
-
-        drive.setSpeed(rightOutput - turn, leftOutput + turn);
     }
+
+
+
 
     /**
      * Returns whether this command is finished. If it is, then the command will be removed and {@link
@@ -69,7 +101,7 @@ public class FollowTrajectory extends Command{
      */
     @Override
     protected boolean isFinished() {
-        if (right.isFinished() && left.isFinished()) {
+        if (right.isFinished() || left.isFinished()) {
             return true;
         }
         return false;

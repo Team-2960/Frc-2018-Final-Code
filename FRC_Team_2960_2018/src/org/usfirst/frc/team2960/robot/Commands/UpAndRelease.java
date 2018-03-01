@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class UpAndRelease extends CommandGroup {
 
-    public UpAndRelease() {
+    public UpAndRelease(int level) {
 
     }
 
