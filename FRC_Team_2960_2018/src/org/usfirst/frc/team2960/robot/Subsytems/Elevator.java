@@ -173,7 +173,7 @@ public class Elevator extends Subsystem implements SubsystemBase{
      */
     @Override
     public void update() {
-
+        mElevatorMaster.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, Constants.kTimeoutMs);
     }
 
     /**
@@ -225,6 +225,6 @@ public class Elevator extends Subsystem implements SubsystemBase{
     public void setupLimitSwiches(){
         mElevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
         mElevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-        //mElevatorMaster.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, Constants.kTimeoutMs);
+        //
     }
 }

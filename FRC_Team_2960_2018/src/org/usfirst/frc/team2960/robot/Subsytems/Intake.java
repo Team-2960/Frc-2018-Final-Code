@@ -58,7 +58,7 @@ public class Intake extends Subsystem implements SubsystemBase{
 
         //Slave
         mIntakeSlave = new TalonSRX(Constants.mIntakeSlaveId);
-        mIntakeSlave.follow(mIntakeMaster);
+        //mIntakeSlave.follow(mIntakeMaster);
         mIntakeSlave.setInverted(true);
 
 
@@ -77,16 +77,18 @@ public class Intake extends Subsystem implements SubsystemBase{
             case forward:
                 mIntakeSlave.setInverted(true);
                 mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
+                mIntakeSlave.set(ControlMode.PercentOutput, 1.0);
 
                 break;
             case backward:
                 mIntakeSlave.setInverted(true);
                 mIntakeMaster.set(ControlMode.PercentOutput, -1.0);
-
+                mIntakeSlave.set(ControlMode.PercentOutput, -.5);
                 break;
             case rotate:
-                mIntakeSlave.setInverted(false);
+                mIntakeSlave.setInverted(true);
                 mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
+                mIntakeSlave.set(ControlMode.PercentOutput, .5);
                 break;
             default:
                 break;
@@ -98,6 +100,7 @@ public class Intake extends Subsystem implements SubsystemBase{
      */
     private void setIntakeZero(){
         mIntakeMaster.set(ControlMode.PercentOutput, 0);
+        mIntakeSlave.set(ControlMode.PercentOutput, 0);
     }
 
     /**

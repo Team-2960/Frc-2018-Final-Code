@@ -48,21 +48,21 @@ public class Constants {
     public static int kTimeoutMs = 10;
     public static int kSlotIdx = 0;
 
-    public static int kCruiseVelocity = 1000; //Sensor UnitPer100ms (Comp) 498 (practice) 1000
-    public static int kAcceleration = 500; //Sensor UnitPer100ms
+    public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms (Comp) 498 (practice) 1000
+    public static int kAcceleration = 3000; //Sensor UnitPer100ms
 
     //PID Constants
     public static double mElevator_kF = 0.2;
     public static double mElevator_kP = 5; // (practice) 5 (Comp) 1 for now
     public static double mElevator_kI = 0;
-    public static double mElevator_kD = 0;
+    public static double mElevator_kD = 0.5;
 
     //Elevator Heights
-    public static double kElevatorSwitch =  -5097.0;
+    public static double kElevatorSwitch =  -7097.0;
     public static double kElevatorGround = 0;
-    public static double kElevatorScaleUp = -19099.0;
+    public static double kElevatorScaleUp = -20000;
     public static double kElevatorScaleDown = -14550.0;
-    public static double kElevatorScaleBalanced = -15877.0;
+    public static double kElevatorScaleBalanced = -16877.0;
 
     //Trajectory Constants
     public static double kLeftTrajectoryP = 1;
