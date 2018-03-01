@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="Jama-1.0.3">
+    <archive path="/Users/malcolmmachesky/wpilib/user/java/lib/Jama-1.0.3.jar" />
+  </library>
+  <library name="Librarys for things">
+    <archive path="/Users/malcolmmachesky/wpilib/user/java/lib/CTRE_Phoenix.jar" />
+    <archive path="/Users/malcolmmachesky/wpilib/user/java/lib/navx_frc.jar" />
+  </library>
+  <library name="Pathfinder-Java">
+    <archive path="/Users/malcolmmachesky/Downloads/Pathfinder-Java.jar" />
+  </library>
+  <library name="cscore-sources">
+    <archive path="/Users/malcolmmachesky/wpilib/java/current/lib/cscore.jar" />
+    <archive path="/Users/malcolmmachesky/wpilib/java/current/lib/ntcore.jar" />
+    <archive path="/Users/malcolmmachesky/wpilib/java/current/lib/opencv.jar" />
+    <archive path="/Users/malcolmmachesky/wpilib/java/current/lib/WPILib.jar" />
+    <archive path="/Users/malcolmmachesky/wpilib/java/current/lib/wpiutil.jar" />
+  </library>
+  <library name="json-simple-1.1.1">
+    <archive path="/Users/malcolmmachesky/wpilib/user/java/lib/json-simple-1.1.1.jar" />
+  </library>
+</eclipse-userlibraries>
+

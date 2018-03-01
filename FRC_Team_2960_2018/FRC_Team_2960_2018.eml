@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/../out/test/FRC_Team_2960_2018"/>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<levels>
+		<level name="Librarys for things" value="project"/>
+		<level name="cscore-sources" value="project"/>
+		<level name="Pathfinder-Java" value="project"/>
+		<level name="Jama-1.0.3" value="project"/>
+		<level name="json-simple-1.1.1" value="project"/>
+	</levels>
+</component>
