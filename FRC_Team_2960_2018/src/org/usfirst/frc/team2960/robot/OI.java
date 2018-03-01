@@ -38,6 +38,50 @@ public class OI {
 
 
     public void operateRobot(Joystick joystick) {
+        //Elevator
+        if(joystick.getRawButton(1)){
+            elevator.setState(Elevator.mElevatorState.Ground);
+        }
+        else if(joystick.getRawButton(2)){
+            elevator.setState(Elevator.mElevatorState.Switch);
+        }
+        else if(joystick.getRawButton(3)){
+            elevator.setState(Elevator.mElevatorState.ScaleDown);
+        }
+        else if(joystick.getRawButton(4)){
+            elevator.setState(Elevator.mElevatorState.ScaleBalanced);
+        }
+        else if(joystick.getRawButton(5)){
+            elevator.setState(Elevator.mElevatorState.ScaleUp);
+        }
+
+        //Intake
+        if(joystick.getRawButton(6)){
+            intake.setIntakeState(Intake.mIntakeState.forward);
+        }
+        else if(joystick.getRawButton(7)){
+            intake.setIntakeState(Intake.mIntakeState.backward);
+        }
+        else
+            intake.setIntakeState(Intake.mIntakeState.stop);
+
+        //Winch
+        if(joystick.getRawButton(8)){
+            winch.setWinchState(Winch.mWinchState.winchUp);
+        }
+        else
+            winch.setWinchState(Winch.mWinchState.winchStop);
+
+        //Hook
+        if(joystick.getRawButton(9)){
+            winch.setHookState(Winch.mHookState.hookDeployment);
+        }
+        else if(joystick.getRawButton(10)){
+            winch.setHookState(Winch.mHookState.hookDeploymentbackword);
+        }
+        else
+            winch.setHookState(Winch.mHookState.hookDeploymentStop);
+
         /*
         //Intake
         //if(joystick.getRawButton(1)) {
@@ -83,14 +127,11 @@ public class OI {
         }
         //Elevator
 
-        */
-
         if (joystick.getRawButton(7)) {
             elevator.zeroSensors();
         }
 
       //Elevator
-
         if(joystick.getRawButton(1)) {
             elevator.setState(Elevator.mElevatorState.Ground);
         }
@@ -111,6 +152,7 @@ public class OI {
         if(joystick.getRawButton(6)) {
             elevator.testElevator(joystick.getRawAxis(1));
         }
+        */
     }
 
 }
