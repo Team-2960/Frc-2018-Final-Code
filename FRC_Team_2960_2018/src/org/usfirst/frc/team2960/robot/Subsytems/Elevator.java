@@ -48,7 +48,7 @@ public class Elevator extends Subsystem implements SubsystemBase{
      * @param state the desired state of the elevator
      * @see mElevatorState
      */
-    public void setState(mElevatorState state, int rangeUp) {
+    public void setState(mElevatorState state, double rangeUp) {
         switch (state) {
             case Ground:
                 mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorGround + rangeUp);
