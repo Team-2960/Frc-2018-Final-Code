@@ -10,7 +10,7 @@ public class OI {
     private Intake intake = Intake.getInstance();
     private Winch winch = Winch.getInstance();
     private Elevator elevator = Elevator.getInstance();
-
+    private boolean intakeOperatorOverride = false;
 
     public void driveRobot(Joystick joystick) {
         drive.setSpeed(-joystick.getRawAxis(5), joystick.getRawAxis(1));
@@ -19,51 +19,69 @@ public class OI {
             drive.zeroSensors();
             elevator.zeroSensors();
         }
-
-        if(joystick.getRawButton(6)) {
-            intake.setIntakeState(Intake.mIntakeState.forward);
-        }
-        else if(joystick.getRawButton(5)) {
-            intake.setIntakeState(Intake.mIntakeState.backward);
-        }
-        else {
-            intake.setIntakeState(Intake.mIntakeState.stop);
-        }
-        if(joystick.getRawButton(2)){
-            intake.setIntakeState(Intake.mIntakeState.rotate);
+        if(!intakeOperatorOverride) {
+            if (joystick.getRawButton(6)) {
+                intake.setIntakeState(Intake.mIntakeState.forward);
+            } else if (joystick.getRawButton(5)) {
+                intake.setIntakeState(Intake.mIntakeState.backward);
+            } else {
+                intake.setIntakeState(Intake.mIntakeState.stop);
+            }
+            if (joystick.getRawButton(2)) {
+                intake.setIntakeState(Intake.mIntakeState.rotate);
+            }
         }
 
     }
 
 
-
     public void operateRobot(Joystick joystick) {
+        int range = 0;
         //Elevator
-        if(joystick.getRawButton(1)){
-            elevator.setState(Elevator.mElevatorState.Ground);
+        if(joystick.getRawButton(6)){
+            eelevator.testElevator(joystick.getRawAxis(1));
         }
-        else if(joystick.getRawButton(2)){
-            elevator.setState(Elevator.mElevatorState.Switch);
-        }
-        else if(joystick.getRawButton(3)){
-            elevator.setState(Elevator.mElevatorState.ScaleDown);
-        }
-        else if(joystick.getRawButton(4)){
-            elevator.setState(Elevator.mElevatorState.ScaleBalanced);
-        }
-        else if(joystick.getRawButton(5)){
-            elevator.setState(Elevator.mElevatorState.ScaleUp);
+        else {
+            if(joystick.getRawButton(1)){
+                range = (Constants.kElevatorGround - Constants.kElevatorSwitch);
+                range = range * (1 - joystick.getRawAxis(1));
+                elevator.setState(Elevator.mElevatorState.Ground, range);
+            }
+            else if(joystick.getRawButton(2)){
+                range = (Constants.kElevatorScaleDown - Constants.kElevatorSwitch);
+                range = range * (1 - joystick.getRawAxis(1));
+                elevator.setState(Elevator.mElevatorState.Switch, range);
+            }
+            else if(joystick.getRawButton(3)){
+                range = (Constants.kElevatorScaleBalanced - Constants.kElevatorScaleDown);
+                range = range * (1 - joystick.getRawAxis(1));
+                elevator.setState(Elevator.mElevatorState.ScaleDown, range);
+            }
+            else if(joystick.getRawButton(4)){
+                range = (Constants.kElevatorScaleUp - Constants.kElevatorScaleBalanced);
+                range = range * (1 - joystick.getRawAxis(1));
+                elevator.setState(Elevator.mElevatorState.ScaleBalanced, range);
+            }
+            else if(joystick.getRawButton(5)){
+                range = 0;
+                elevator.setState(Elevator.mElevatorState.ScaleUp, range);
+            }
         }
 
         //Intake
         if(joystick.getRawButton(6)){
             intake.setIntakeState(Intake.mIntakeState.forward);
+            intakeOperatorOverride = true;
         }
         else if(joystick.getRawButton(7)){
             intake.setIntakeState(Intake.mIntakeState.backward);
+            intakeOperatorOverride = true;
         }
-        else
+        else {
             intake.setIntakeState(Intake.mIntakeState.stop);
+            intakeOperatorOverride = true;
+        }
+
 
         //Winch
         if(joystick.getRawButton(8)){
