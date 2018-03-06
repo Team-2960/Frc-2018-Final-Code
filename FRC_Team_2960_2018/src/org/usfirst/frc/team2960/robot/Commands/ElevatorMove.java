@@ -32,7 +32,6 @@ public class ElevatorMove extends Command{
     @Override
     protected boolean isFinished() {
         return false;
-
     }
 
     /**

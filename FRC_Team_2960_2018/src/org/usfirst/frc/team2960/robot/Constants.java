@@ -16,6 +16,7 @@ public class Constants {
     public static int mIntakeMasterId = 10;
     public static int mIntakeSlaveId = 11;
     public static int mHookDeploymentId = 12;
+    public static int mintakeAdjustId = 13;
 
     //DIO (Digital In And Out)
 
@@ -50,7 +51,7 @@ public class Constants {
     public static int kSlotIdx = 0;
 
     public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms (Comp) 498 (practice) 1000
-    public static int kAcceleration = 3000; //Sensor UnitPer100ms
+    public static int kAcceleration = 3000; //Sensor UnitPer100ms 3000
 
     //PID Constants
     public static double mElevator_kF = 0.2;

@@ -67,7 +67,7 @@ public class Drive extends Subsystem implements SubsystemBase {
         navX = new AHRS(I2C.Port.kMXP);
 
         //Ultrasonic setup
-
+        /*
         mUltraRight1 = new Ultrasonic(Constants.mUltrasonicRight1Out, Constants.mUltrasonicRight1In);
         mUltraRight2 = new Ultrasonic(Constants.mUltrasonicRight2Out, Constants.mUltrasonicRight2In);
         mUltraLeft1 = new Ultrasonic(Constants.mUltrasonicLeft1Out, Constants.mUltrasonicLeft1In);
@@ -75,11 +75,14 @@ public class Drive extends Subsystem implements SubsystemBase {
 
         mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
         mUltraRight1.setAutomaticMode(true);
+        */
         //mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
 
         turnPidOutput = new TurnPidOutput(this);
         movePidOutput = new MovePidOutput(this);
         movePidInput = new MovePidInput(this);
+
+
 
 
     }
