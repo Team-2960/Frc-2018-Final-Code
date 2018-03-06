@@ -11,7 +11,9 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
-
+import org.usfirst.frc.team2960.robot.Pid.MovePidInput;
+import org.usfirst.frc.team2960.robot.Pid.MovePidOutput;
+import org.usfirst.frc.team2960.robot.Pid.TurnPidOutput;
 
 
 /**
@@ -46,7 +48,13 @@ public class Drive extends Subsystem implements SubsystemBase {
 
     private Ultrasonic[] mUltrasonics;
 
-    /*
+    private PIDController turnPidController;
+    private PIDController movePidController;
+    private PIDOutput turnPidOutput;
+    private PIDOutput movePidOutput;
+    private PIDSource movePidInput;
+
+    /**
      * Private constructor for Drive Class
      */
     private Drive() {
@@ -65,6 +73,12 @@ public class Drive extends Subsystem implements SubsystemBase {
         mUltrasonics = new Ultrasonic[]{mUltraRight1, mUltraRight2, mUltraLeft1, mUltraLeft2};
         mUltraRight1.setAutomaticMode(true);
         //mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
+
+        turnPidOutput = new TurnPidOutput();
+        movePidOutput = new MovePidOutput();
+        movePidInput = new MovePidInput();
+
+
     }
 
 
@@ -147,6 +161,14 @@ public class Drive extends Subsystem implements SubsystemBase {
 
     public double getLeftDistanceInMeters() {
         return getLeftEncoder() * Constants.inchesPerTick * Constants.meterConversion;
+    }
+
+    public double getRightEncoderVelocity() {
+        return mRightMaster.getSelectedSensorVelocity(Constants.kSlotIdx);
+    }
+
+    public double getLeftEncoderVelocity() {
+        return mLeftMaster.getSelectedSensorVelocity(Constants.kSlotIdx);
     }
 
     /**

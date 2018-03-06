@@ -76,6 +76,8 @@ public class Constants {
     public static double kRightTrajectoryD = 0;
     public static double kRightTrajectoryAccelerationGain = 0;
 
+    //Pid
+    public static double kMovePidKp = 0;
 
 
 }

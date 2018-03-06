@@ -126,21 +126,8 @@ public class Elevator extends Subsystem implements SubsystemBase{
 
         setupLimitSwiches();
     }
-    
 
 
-    public boolean atLevel(){
-        if(mElevatorMaster.getMotorOutputPercent() == 0)
-            return true;
-
-        else
-            return false;
-        
-    }
-
-
-
-    // TODO: 2/3/18 Delete below function after testing talons
     public void testElevator(double speed) {
         //if(getBottomPhotoeye() || getTopPhotoeye()){
             //mElevatorMaster.set(ControlMode.Velocity, 0);
