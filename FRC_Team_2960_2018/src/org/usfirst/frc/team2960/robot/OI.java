@@ -75,7 +75,7 @@ public class OI {
         }
         else if(joystick.getRawButton(13)){
             intake.setIntakeState(Intake.mIntakeState.backward);
-            intakeOperatorOverride = true;
+            intakeOperatorOverride = false;
         }
         else {
             intake.setIntakeState(Intake.mIntakeState.stop);
