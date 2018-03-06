@@ -11,7 +11,7 @@ public class IntakeMove extends Command {
 
     public IntakeMove(Intake.mIntakeState intakeState){
         super();
-        intakeState = this.intakeState;
+        this.intakeState = intakeState;
     }
 
     /**

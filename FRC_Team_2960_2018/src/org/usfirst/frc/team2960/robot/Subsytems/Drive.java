@@ -54,6 +54,9 @@ public class Drive extends Subsystem implements SubsystemBase {
     private PIDOutput movePidOutput;
     private PIDSource movePidInput;
 
+    private boolean isTurning = false;
+    private boolean isMoving = false;
+
     /**
      * Private constructor for Drive Class
      */
@@ -74,9 +77,9 @@ public class Drive extends Subsystem implements SubsystemBase {
         mUltraRight1.setAutomaticMode(true);
         //mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
 
-        turnPidOutput = new TurnPidOutput();
-        movePidOutput = new MovePidOutput();
-        movePidInput = new MovePidInput();
+        turnPidOutput = new TurnPidOutput(this);
+        movePidOutput = new MovePidOutput(this);
+        movePidInput = new MovePidInput(this);
 
 
     }
@@ -99,7 +102,6 @@ public class Drive extends Subsystem implements SubsystemBase {
         //Right Master
         mRightMaster = new TalonSRX(Constants.mRightMasterId);
         mRightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
-
         //Right Slaves
         mRightSlave1 = new TalonSRX(Constants.mRightSlave1Id);
         mRightSlave1.follow(mRightMaster);
@@ -117,6 +119,13 @@ public class Drive extends Subsystem implements SubsystemBase {
 
         mLeftSlave2 = new TalonSRX(Constants.mLeftSlave2Id);
         mLeftSlave2.follow(mLeftMaster);
+
+        movePidController = new PIDController(Constants.kPidMovementP, Constants.kPidMovementI, Constants.kPidMovementD, movePidInput, movePidOutput);
+        turnPidController = new PIDController(Constants.kPidTurnP, Constants.kPidTurnI, Constants.kPidTurnD, navX, turnPidOutput);
+
+        turnPidController.setInputRange(-180.0f, 180.0f);
+        turnPidController.setOutputRange(-1.0, 1.0);
+        turnPidController.setAbsoluteTolerance(Constants.kTolerance);
     }
 
     public void setSpeed(double right, double left){
@@ -143,6 +152,62 @@ public class Drive extends Subsystem implements SubsystemBase {
         return m_Instance;
     }
 
+    public boolean turnToTarget(double target){
+        if(!isMoving){
+            isTurning = true;
+            turnPidController.setSetpoint(target);
+            if(turnPidController.onTarget()){
+                isTurning = false;
+                return true;
+            }
+            else
+                return false;
+        }
+        else{
+            isTurning = false;
+            return true;
+        }
+    }
+
+    public boolean moveForward(double distance, double speed){
+
+        double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(getLeftEncoder())) / 2;
+        double away = Math.abs(distance - encoderDistance);
+        double direction;
+        if(!isTurning){
+            isMoving = true;
+            if(distance > encoderDistance){
+                direction = 1;
+            }else{
+                direction = -1;
+            }
+
+            if(away >= 40){
+                movePidController.setSetpoint(-(speed) * direction);
+                return false;
+            }else if (away < 40 && away > 20){
+                movePidController.setSetpoint(-(speed * .75) * direction);
+                return false;
+            }else if(away < 20 && away > 10){
+                movePidController.setSetpoint(-(speed * .5) * direction);
+                return false;
+            }else if(away < 10 && away > 1){
+                movePidController.setSetpoint(-(speed * .25) * direction);
+                return false;
+            }else if (away <= 1){
+                movePidController.setSetpoint(0);
+                isMoving = false;
+                return true;
+            }
+            return false;
+        }
+        else{
+            isMoving = false;
+            return true;
+        }
+
+    }
+
     public int getRightEncoder() {
         return mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
     }
@@ -150,6 +215,15 @@ public class Drive extends Subsystem implements SubsystemBase {
     public int getLeftEncoder() {
         return mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
     }
+
+    public double ticksToInches(double encoderValue){
+        double inches = encoderValue * Constants.inchesPerTick;
+        return inches;
+    }
+    public double ticksPerHundredMillisecondToInchesPerSecond(double encoderVelocity){
+            double InchesPerSecond = ticksToInches(encoderVelocity * 10);
+            return InchesPerSecond;
+        }
 
     public double getHeading() {
        return navX.getAngle();

@@ -77,7 +77,16 @@ public class Constants {
     public static double kRightTrajectoryAccelerationGain = 0;
 
     //Pid
-    public static double kMovePidKp = 0;
+    public static double kPidMovementP = 1;
+    public static double kPidMovementI = 0;
+    public static double kPidMovementD = 0;
+
+    public static double kPidTurnP = 1;
+    public static double kPidTurnI = 0;
+    public static double kPidTurnD = 0;
+
+    //NavX Tolerance
+    public static double kTolerance = 2.0;  //The navX tolerance in degrees
 
 
 }

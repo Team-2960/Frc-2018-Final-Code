@@ -5,7 +5,11 @@ import org.usfirst.frc.team2960.robot.Subsytems.Drive;
 
 public class MovePidOutput implements PIDOutput {
 
-    private Drive drive = Drive.getInstance();
+    private Drive drive;
+
+    public MovePidOutput(Drive drive){
+        this.drive = drive;
+    }
     /**
      * Set the output to the value calculated by PIDController.
      *

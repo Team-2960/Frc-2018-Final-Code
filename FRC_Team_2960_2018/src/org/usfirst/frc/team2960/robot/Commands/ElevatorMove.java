@@ -7,13 +7,11 @@ import org.usfirst.frc.team2960.robot.Subsytems.Elevator;
 
 public class ElevatorMove extends Command{
 
-    private double level;
     Elevator elevator = Elevator.getInstance();
+    private Elevator.mElevatorState state;
 
-    public ElevatorMove(double level) {
-        super("ElevatorMove");
-
-        this.level = level;
+    public ElevatorMove(Elevator.mElevatorState state) {
+        this.state = state;
     }
 
     /**
@@ -33,10 +31,7 @@ public class ElevatorMove extends Command{
      */
     @Override
     protected boolean isFinished() {
-        if(elevator.atLevel())
-            return true;
-        else
-            return false;
+        return false;
 
     }
 
@@ -53,7 +48,7 @@ public class ElevatorMove extends Command{
      */
     @Override
     protected void execute() {
-        //elevator.goToLevel(level);
+        elevator.setState(state, 0);
     }
 
     /**

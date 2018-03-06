@@ -6,9 +6,12 @@ import org.usfirst.frc.team2960.robot.Subsytems.Drive;
 
 public class MovePidInput implements PIDSource {
 
-    private Drive drive = Drive.getInstance();
+    private Drive drive;
     private PIDSourceType m_PidSource;
 
+    public MovePidInput(Drive drive){
+        this.drive = drive;
+    }
 
 
 
@@ -41,7 +44,7 @@ public class MovePidInput implements PIDSource {
     public double pidGet() {
         switch (m_PidSource) {
             case kRate:
-                return ((drive.getRightEncoderVelocity() + drive.getLeftEncoderVelocity())/2);
+                return ((drive.ticksPerHundredMillisecondToInchesPerSecond(drive.getRightEncoderVelocity()) + drive.ticksPerHundredMillisecondToInchesPerSecond(drive.getLeftEncoderVelocity()))/2);
             case kDisplacement:
                 return 0;
             default:
