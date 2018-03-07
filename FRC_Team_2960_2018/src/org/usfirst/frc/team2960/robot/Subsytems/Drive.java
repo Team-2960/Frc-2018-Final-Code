@@ -169,26 +169,37 @@ public class Drive extends Subsystem implements SubsystemBase {
             return false;
         */
         double degreesToGo = Math.abs(target -navX.getAngle());
-        if(degreesToGo >= 5){
+        if(degreesToGo >= 10){
             if(target > 0){
-                setSpeed(0,-speed);
+                setSpeed(-speed,-speed);
             }
             else if(target < 0){
-                setSpeed(-speed,0);
+                setSpeed(speed,speed);
+            }
+            return false;
+        }
+        else if(degreesToGo < 10 && degreesToGo >= 5){
+            if(target > 0){
+                setSpeed(-speed * .5,-speed * .5);
+            }
+            else if(target < 0){
+                setSpeed(speed * .5,speed * .5);
             }
             return false;
         }
         else if(degreesToGo < 5){
-            for(int pulseTimes = 0; pulseTimes < 3; pulseTimes++) {
+            /*for(int pulseTimes = 0; pulseTimes < 3; pulseTimes++) {
                 if(target > 0){
                     setSpeed(0,speed);
                 }
                 else if(target < 0){
-                    setSpeed(speed,0);
+                    setSpeed(-speed,0);
                 }
                 Timer.delay(.03);
             }
+            */
             setSpeed(0, 0);
+
             return true;
         }
         return false;
@@ -196,10 +207,11 @@ public class Drive extends Subsystem implements SubsystemBase {
 
     public boolean moveForward(double distance, double speed){
 
-        double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(getLeftEncoder())) / 2;
+        double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(-getLeftEncoder())) / 2;
         double away = Math.abs(distance - encoderDistance);
         double direction;
-
+        System.out.println("Away: " + away);
+        System.out.println("Encoders: " + (getRightEncoder() + getLeftEncoder()) / 2);
 
             if(distance > encoderDistance){
                 direction = 1;
@@ -207,35 +219,38 @@ public class Drive extends Subsystem implements SubsystemBase {
                 direction = -1;
             }
 
-            if(away >= 2){
-                setSpeed(-(speed) * direction, -(speed) * direction);
+            if(away >= 40){
+                setSpeed((speed) * direction, -(speed) * direction);
                 return false;
             }
-            /*else if (away < 40 && away > 20){
-                setSpeed(-(speed * .75) * direction, -(speed * .75) * direction);
+            else if (away < 40 && away >20){
+                setSpeed((speed * .75) * direction, -(speed * .75) * direction);
                 return false;
             }else if(away < 20 && away > 10){
-                setSpeed(-(speed * .5) * direction, -(speed * .5) * direction);
+                setSpeed((speed * .5) * direction, -(speed * .5) * direction);
                 return false;
 
             }
-            */
-            else if(away < 2/* && away > 1*/){
-                //setSpeed(-(speed * .25) * direction, -(speed * .25) * direction);
-                for(int pulseTimes = 0; pulseTimes < 3; pulseTimes++) {
-                    setSpeed(speed * direction, speed * direction);
-                    Timer.delay(.03);
-                }
+            else if(away < 10&& away > 5){
+                setSpeed((speed * .25) * direction, -(speed * .25) * direction);
+                /*
                 setSpeed(0, 0);
+                Timer.delay(.09);
+                setSpeed(-speed * direction, speed * direction);
+                Timer.delay(.61);
+                setSpeed(0, 0);
+                Timer.delay(.3);
+                setSpeed(0, 0);
+                */
                 return true;
             }
-            /*
-            else if (away <= 1){
+
+            else if (away <= 5){
 
                 setSpeed(0,0);
                 return true;
             }
-            */
+
             return false;
 
 

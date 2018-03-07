@@ -17,7 +17,8 @@ public class TestAuto extends CommandGroup{
         //Trajectory testAutoTrajectory = Pathfinder.readFromCSV(testAuto);
 
         //addSequential(new FollowTrajectory(trajectory));
-        addSequential(new MoveForwardDistance(50, 1));
-        addSequential(new TurnToTarget(90));
+        //addSequential(new MoveForwardDistance(170, .5));  //Goes about 290, set to 180
+
+        addSequential(new TurnToTarget(30, .75));
     }
 }

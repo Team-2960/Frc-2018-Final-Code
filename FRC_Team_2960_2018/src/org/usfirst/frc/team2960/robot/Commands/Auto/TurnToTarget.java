@@ -8,9 +8,11 @@ public class TurnToTarget extends CommandGroup{
     Drive drive = Drive.getInstance();
     private boolean isFinish = false;
     private double angle;
+    private double speed;
 
-    public TurnToTarget(double angle){
+    public TurnToTarget(double angle, double speed){
         this.angle = angle;
+        this.speed = speed;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class TurnToTarget extends CommandGroup{
 
     @Override
     protected void execute() {
-        isFinish = drive.turnToTarget(angle);
+        isFinish = drive.turnToTarget(angle, speed);
     }
 
     @Override

@@ -36,10 +36,10 @@ public class OI {
 
     public void testRobot(Joystick joystick) {
         if (joystick.getRawButton(1)) {
-            drive.turnToTarget(180);
+            //drive.turnToTarget(180, 1);
         }
         if(joystick.getRawButton(2)) {
-            drive.turnToTarget(0);
+            //drive.turnToTarget(0);
         }
 
     }
