@@ -154,23 +154,44 @@ public class Drive extends Subsystem implements SubsystemBase {
         return m_Instance;
     }
 
-    public boolean turnToTarget(double target){
-        if(!isMoving){
-            isTurning = true;
-            turnPidController.enable();
-            turnPidController.setSetpoint(target);
-            if(turnPidController.onTarget()){
-                isTurning = false;
-                turnPidController.disable();
-                return true;
-            }
-            else
-                return false;
-        }
-        else{
+    public boolean turnToTarget(double target, double speed){
+        //Positive target to turn right, Negative to turn Left
+        navX.resetDisplacement();
+        /*
+        turnPidController.enable();
+        turnPidController.setSetpoint(target);
+        if(turnPidController.onTarget()){
             isTurning = false;
+            turnPidController.disable();
             return true;
         }
+        else
+            return false;
+        */
+        double degreesToGo = Math.abs(target -navX.getAngle());
+        if(degreesToGo >= 5){
+            if(target > 0){
+                setSpeed(0,-speed);
+            }
+            else if(target < 0){
+                setSpeed(-speed,0);
+            }
+            return false;
+        }
+        else if(degreesToGo < 5){
+            for(int pulseTimes = 0; pulseTimes < 3; pulseTimes++) {
+                if(target > 0){
+                    setSpeed(0,speed);
+                }
+                else if(target < 0){
+                    setSpeed(speed,0);
+                }
+                Timer.delay(.03);
+            }
+            setSpeed(0, 0);
+            return true;
+        }
+        return false;
     }
 
     public boolean moveForward(double distance, double speed){
@@ -186,22 +207,35 @@ public class Drive extends Subsystem implements SubsystemBase {
                 direction = -1;
             }
 
-            if(away >= 40){
+            if(away >= 2){
                 setSpeed(-(speed) * direction, -(speed) * direction);
                 return false;
-            }else if (away < 40 && away > 20){
+            }
+            /*else if (away < 40 && away > 20){
                 setSpeed(-(speed * .75) * direction, -(speed * .75) * direction);
                 return false;
             }else if(away < 20 && away > 10){
                 setSpeed(-(speed * .5) * direction, -(speed * .5) * direction);
                 return false;
-            }else if(away < 10 && away > 1){
-                setSpeed(-(speed * .25) * direction, -(speed * .25) * direction);
-                return false;
-            }else if (away <= 1){
+
+            }
+            */
+            else if(away < 2/* && away > 1*/){
+                //setSpeed(-(speed * .25) * direction, -(speed * .25) * direction);
+                for(int pulseTimes = 0; pulseTimes < 3; pulseTimes++) {
+                    setSpeed(speed * direction, speed * direction);
+                    Timer.delay(.03);
+                }
+                setSpeed(0, 0);
+                return true;
+            }
+            /*
+            else if (away <= 1){
+
                 setSpeed(0,0);
                 return true;
             }
+            */
             return false;
 
 
