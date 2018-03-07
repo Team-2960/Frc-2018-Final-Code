@@ -3,22 +3,20 @@ package org.usfirst.frc.team2960.robot.Subsytems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
-import org.usfirst.frc.team2960.robot.Pid.MovePidInput;
-import org.usfirst.frc.team2960.robot.Pid.MovePidOutput;
 import org.usfirst.frc.team2960.robot.Pid.TurnPidOutput;
 
 
 /**
  * Class for controlling the drive motors on our robot
  * @author Malcolm Machesky
+ * @author Alex Bolejack
  *
  * Includes 6 mRightMasteron SRX's for controlling the drive train through a WCP SS Gearbox
  *
@@ -49,10 +47,8 @@ public class Drive extends Subsystem implements SubsystemBase {
     private Ultrasonic[] mUltrasonics;
 
     private PIDController turnPidController;
-    private PIDController movePidController;
     private PIDOutput turnPidOutput;
-    private PIDOutput movePidOutput;
-    private PIDSource movePidInput;
+
 
     private boolean isTurning = false;
     private boolean isMoving = false;
@@ -61,10 +57,12 @@ public class Drive extends Subsystem implements SubsystemBase {
      * Private constructor for Drive Class
      */
     private Drive() {
+        navX = new AHRS(I2C.Port.kMXP);
+        turnPidOutput = new TurnPidOutput(this);
         //Talons
         setupTalons();
         //NavX
-        navX = new AHRS(I2C.Port.kMXP);
+
 
         //Ultrasonic setup
         /*
@@ -78,9 +76,8 @@ public class Drive extends Subsystem implements SubsystemBase {
         */
         //mUltraFront = new AnalogInput(Constants.mUltrasonicFront);
 
-        turnPidOutput = new TurnPidOutput(this);
-        movePidOutput = new MovePidOutput(this);
-        movePidInput = new MovePidInput(this);
+
+
 
 
 
@@ -123,12 +120,14 @@ public class Drive extends Subsystem implements SubsystemBase {
         mLeftSlave2 = new TalonSRX(Constants.mLeftSlave2Id);
         mLeftSlave2.follow(mLeftMaster);
 
-        movePidController = new PIDController(Constants.kPidMovementP, Constants.kPidMovementI, Constants.kPidMovementD, movePidInput, movePidOutput);
+
         turnPidController = new PIDController(Constants.kPidTurnP, Constants.kPidTurnI, Constants.kPidTurnD, navX, turnPidOutput);
 
         turnPidController.setInputRange(-180.0f, 180.0f);
         turnPidController.setOutputRange(-1.0, 1.0);
         turnPidController.setAbsoluteTolerance(Constants.kTolerance);
+
+        LiveWindow.add(turnPidController);
     }
 
     public void setSpeed(double right, double left){
@@ -158,9 +157,11 @@ public class Drive extends Subsystem implements SubsystemBase {
     public boolean turnToTarget(double target){
         if(!isMoving){
             isTurning = true;
+            turnPidController.enable();
             turnPidController.setSetpoint(target);
             if(turnPidController.onTarget()){
                 isTurning = false;
+                turnPidController.disable();
                 return true;
             }
             else
@@ -177,8 +178,8 @@ public class Drive extends Subsystem implements SubsystemBase {
         double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(getLeftEncoder())) / 2;
         double away = Math.abs(distance - encoderDistance);
         double direction;
-        if(!isTurning){
-            isMoving = true;
+
+
             if(distance > encoderDistance){
                 direction = 1;
             }else{
@@ -186,28 +187,23 @@ public class Drive extends Subsystem implements SubsystemBase {
             }
 
             if(away >= 40){
-                movePidController.setSetpoint(-(speed) * direction);
+                setSpeed(-(speed) * direction, -(speed) * direction);
                 return false;
             }else if (away < 40 && away > 20){
-                movePidController.setSetpoint(-(speed * .75) * direction);
+                setSpeed(-(speed * .75) * direction, -(speed * .75) * direction);
                 return false;
             }else if(away < 20 && away > 10){
-                movePidController.setSetpoint(-(speed * .5) * direction);
+                setSpeed(-(speed * .5) * direction, -(speed * .5) * direction);
                 return false;
             }else if(away < 10 && away > 1){
-                movePidController.setSetpoint(-(speed * .25) * direction);
+                setSpeed(-(speed * .25) * direction, -(speed * .25) * direction);
                 return false;
             }else if (away <= 1){
-                movePidController.setSetpoint(0);
-                isMoving = false;
+                setSpeed(0,0);
                 return true;
             }
             return false;
-        }
-        else{
-            isMoving = false;
-            return true;
-        }
+
 
     }
 

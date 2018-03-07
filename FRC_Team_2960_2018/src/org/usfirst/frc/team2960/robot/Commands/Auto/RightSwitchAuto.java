@@ -15,7 +15,7 @@ public class RightSwitchAuto extends CommandGroup{
         File leftSwitchAuto = new File("CenterRightS.csv");
         Trajectory leftSwitchTrajectory = Pathfinder.readFromCSV(leftSwitchAuto);
         addParallel(new FollowTrajectory(leftSwitchTrajectory));
-        addParallel(new ElevatorMove(1));
+        //addParallel(new ElevatorMove(1));
         addSequential(new IntakeMove(Intake.mIntakeState.forward), 10);
     }
 

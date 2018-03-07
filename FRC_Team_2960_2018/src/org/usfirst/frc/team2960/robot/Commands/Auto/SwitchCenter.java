@@ -11,7 +11,7 @@ import org.usfirst.frc.team2960.robot.Subsytems.Intake;
 public class SwitchCenter extends CommandGroup {
 
     public SwitchCenter(){
-        addSequential(new MoveForwardDistance(5, 1));
+        /*addSequential(new MoveForwardDistance(5, 1));
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
         if(gameData.charAt(0) == 'L'){
@@ -26,6 +26,26 @@ public class SwitchCenter extends CommandGroup {
             addParallel(new ElevatorMove(Elevator.mElevatorState.Switch), 5);
             addSequential(new MoveForwardDistance(155.9, 1));
             addSequential(new IntakeMove(Intake.mIntakeState.forward), 2);
+        }*/
+        addSequential(new IntakeAdjustMove(), .1);
+        String gameData;
+        gameData = DriverStation.getInstance().getGameSpecificMessage();
+        addSequential(new MoveForwardTime(.1, -.5));
+        if (gameData.charAt(0) == 'L') {
+            addSequential(new MoveForwardTimeSide(.4, -.5, false));
+            addParallel(new ElevatorMove(Elevator.mElevatorState.Switch), 5);
+            addSequential(new MoveForwardTime(1, -.5));
+            addSequential(new IntakeAdjustMove(), .75);
+            addSequential(new IntakeMove(Intake.mIntakeState.backward), 1.5);
+
+        }
+        else {
+            addSequential(new MoveForwardTimeSide(.25, -.5, true));
+            addParallel(new ElevatorMove(Elevator.mElevatorState.Switch), 5);
+            addSequential(new MoveForwardTime(1.2, -.5));
+            addSequential(new IntakeAdjustMove(), .75);
+            addSequential(new IntakeMove(Intake.mIntakeState.backward), 1.5);
+
         }
     }
 }

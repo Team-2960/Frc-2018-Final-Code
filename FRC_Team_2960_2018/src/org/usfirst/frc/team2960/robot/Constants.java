@@ -51,7 +51,7 @@ public class Constants {
     public static int kSlotIdx = 0;
 
     public static int kCruiseVelocity = 10000; //Sensor UnitPer100ms (Comp) 498 (practice) 1000
-    public static int kAcceleration = 3000; //Sensor UnitPer100ms 3000
+    public static int kAcceleration = 2500; //Sensor UnitPer100ms 3000
 
     //PID Constants
     public static double mElevator_kF = 0.2;
@@ -78,11 +78,9 @@ public class Constants {
     public static double kRightTrajectoryAccelerationGain = 0;
 
     //Pid
-    public static double kPidMovementP = 1;
-    public static double kPidMovementI = 0;
-    public static double kPidMovementD = 0;
 
-    public static double kPidTurnP = 1;
+
+    public static double kPidTurnP = .2;
     public static double kPidTurnI = 0;
     public static double kPidTurnD = 0;
 

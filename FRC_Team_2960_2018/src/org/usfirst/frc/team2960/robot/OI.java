@@ -10,16 +10,16 @@ public class OI {
     private Intake intake = Intake.getInstance();
     private Winch winch = Winch.getInstance();
     private Elevator elevator = Elevator.getInstance();
-    private boolean intakeOperatorOverride = false;
+    //private boolean intakeOperatorOverride = false;
 
     public void driveRobot(Joystick joystick) {
         drive.setSpeed(-joystick.getRawAxis(5), joystick.getRawAxis(1));
 
         if (joystick.getRawButton(1)) {
-            drive.zeroSensors();
-            elevator.zeroSensors();
+            //drive.zeroSensors();
+            //elevator.zeroSensors();
         }
-        if(!intakeOperatorOverride) {
+        //if(!intakeOperatorOverride) {
             if (joystick.getRawButton(6)) {
                 intake.setIntakeState(Intake.mIntakeState.forward);
             } else if (joystick.getRawButton(5)) {
@@ -30,6 +30,16 @@ public class OI {
             if (joystick.getRawButton(2)) {
                 intake.setIntakeState(Intake.mIntakeState.rotate);
             }
+        //}
+
+    }
+
+    public void testRobot(Joystick joystick) {
+        if (joystick.getRawButton(1)) {
+            drive.turnToTarget(180);
+        }
+        if(joystick.getRawButton(2)) {
+            drive.turnToTarget(0);
         }
 
     }
@@ -39,27 +49,27 @@ public class OI {
         double range = 0;
         //Elevator
         if(joystick.getRawButton(16)){
-            elevator.testElevator(joystick.getRawAxis(1));
+            elevator.testElevator(joystick.getRawAxis(4));
         }
         else {
             if(joystick.getRawButton(1)){
                 range = (Constants.kElevatorGround - Constants.kElevatorSwitch);
-                range = range * (joystick.getRawAxis(1));
+                range = range * (joystick.getRawAxis(4));
                 elevator.setState(Elevator.mElevatorState.Ground, range);
             }
             else if(joystick.getRawButton(3)){
                 range = (Constants.kElevatorScaleDown - Constants.kElevatorSwitch);
-                range = range * (joystick.getRawAxis(1));
+                range = range * (joystick.getRawAxis(4));
                 elevator.setState(Elevator.mElevatorState.Switch, range);
             }
             else if(joystick.getRawButton(5)){
                 range = (Constants.kElevatorScaleBalanced - Constants.kElevatorScaleDown);
-                range = range * (joystick.getRawAxis(1));
+                range = range * (joystick.getRawAxis(4));
                 elevator.setState(Elevator.mElevatorState.ScaleDown, range);
             }
             else if(joystick.getRawButton(7)){
                 range = (Constants.kElevatorScaleUp - Constants.kElevatorScaleBalanced);
-                range = range * (joystick.getRawAxis(1));
+                range = range * (joystick.getRawAxis(4));
                 elevator.setState(Elevator.mElevatorState.ScaleBalanced, range);
             }
             else if(joystick.getRawButton(9)){
@@ -70,16 +80,16 @@ public class OI {
 
         //Intake
         if(joystick.getRawButton(14)){
-            intake.setIntakeState(Intake.mIntakeState.forward);
-            intakeOperatorOverride = true;
+            intake.setIntakeAdjustState(Intake.mIntakeAdjust.forward);
+            //intakeOperatorOverride = true;
         }
         else if(joystick.getRawButton(13)){
-            intake.setIntakeState(Intake.mIntakeState.backward);
-            intakeOperatorOverride = false;
+            intake.setIntakeAdjustState(Intake.mIntakeAdjust.backward);
+            //intakeOperatorOverride = false;
         }
         else {
-            intake.setIntakeState(Intake.mIntakeState.stop);
-            intakeOperatorOverride = true;
+            intake.setIntakeAdjustState(Intake.mIntakeAdjust.stop);
+            //intakeOperatorOverride = true;
         }
 
 

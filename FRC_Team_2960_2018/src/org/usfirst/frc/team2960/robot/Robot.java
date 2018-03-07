@@ -18,6 +18,7 @@ import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team2960.robot.Commands.Auto.AutoCross;
+import org.usfirst.frc.team2960.robot.Commands.Auto.SwitchCenter;
 import org.usfirst.frc.team2960.robot.Commands.Auto.TestAuto;
 import org.usfirst.frc.team2960.robot.Subsytems.*;
 
@@ -44,6 +45,7 @@ public class Robot extends IterativeRobot {
 
 	private Joystick driveJoystick;
 	private Joystick operateJoystick;
+	private Joystick testJoystick;
 
 	private SubsystemBase[] mSubsytemArray;
 
@@ -62,6 +64,8 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		driveJoystick = new Joystick(0);
 		operateJoystick = new Joystick(1);
+		testJoystick = new Joystick(2);
+
 
 		pdp = new PowerDistributionPanel();
 
@@ -72,12 +76,6 @@ public class Robot extends IterativeRobot {
 		Drive.getInstance().setNeturalMode(NeutralMode.Brake);
 
 		Drive.getInstance().zeroSensors();
-		Waypoint[] points = new Waypoint[] {
-				new Waypoint(0,0,0),
-				new Waypoint(.1,0,0)
-		};
-		Trajectory.Config config = new Trajectory.Config(Trajectory.FitMethod.HERMITE_CUBIC, Trajectory.Config.SAMPLES_HIGH, 0.05, Constants.kMaxVelocityOfTrajectory, .5, 60.0);
-		trajectory = Pathfinder.generate(points, config);
 	}
 
 	/**
@@ -96,7 +94,7 @@ public class Robot extends IterativeRobot {
 		//m_autoSelected = m_chooser.getSelected();
 		//switch (m_autoSelected) {
 			//case kCustomAuto:
-				kAutonomousCommand = new TestAuto(trajectory);
+				kAutonomousCommand = new SwitchCenter();
 		//}
 
 		System.out.println("Auto selected: " + m_autoSelected);
@@ -120,6 +118,7 @@ public class Robot extends IterativeRobot {
 		//Elevator.getInstance().zeroSensors();
 		oi.driveRobot(driveJoystick);
 		oi.operateRobot(operateJoystick);
+		oi.testRobot(testJoystick);
 		SmartDashboard.putNumber("Joystick Value", driveJoystick.getRawAxis(1));
 
 		toSmartDashboard();

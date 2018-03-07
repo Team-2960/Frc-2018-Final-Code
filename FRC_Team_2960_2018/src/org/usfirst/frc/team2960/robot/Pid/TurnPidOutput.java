@@ -17,6 +17,6 @@ public class TurnPidOutput implements PIDOutput {
      */
     @Override
     public void pidWrite(double output) {
-        drive.setSpeed(output, output);
+        drive.setSpeed(-output, output);
     }
 }

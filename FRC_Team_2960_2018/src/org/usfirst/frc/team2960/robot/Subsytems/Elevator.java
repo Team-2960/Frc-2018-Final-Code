@@ -51,19 +51,19 @@ public class Elevator extends Subsystem implements SubsystemBase{
     public void setState(mElevatorState state, double rangeUp) {
         switch (state) {
             case Ground:
-                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorGround /*+ rangeUp*/);
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorGround + rangeUp);
                 break;
             case Switch:
-                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorSwitch /*+ rangeUp*/);
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorSwitch  + rangeUp);
                 break;
             case ScaleUp:
-                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleUp /*+ rangeUp*/);
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleUp  + rangeUp);
                 break;
             case ScaleDown:
-                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleDown /*+ rangeUp*/);
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleDown  + rangeUp);
                 break;
             case ScaleBalanced:
-                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleBalanced /*+ rangeUp*/);
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleBalanced  + rangeUp);
                 break;
         }
     }
