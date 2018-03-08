@@ -63,7 +63,7 @@ public class MoveForwardTime extends Command {
      */
     @Override
     protected void execute() {
-        Drive.getInstance().setSpeed(-speed, speed);
+        Drive.getInstance().setSpeed(speed, -speed);
     }
 
     /**

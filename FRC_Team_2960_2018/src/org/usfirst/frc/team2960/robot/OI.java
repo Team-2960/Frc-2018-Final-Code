@@ -20,16 +20,16 @@ public class OI {
             //elevator.zeroSensors();
         }
         //if(!intakeOperatorOverride) {
-            if (joystick.getRawButton(6)) {
-                intake.setIntakeState(Intake.mIntakeState.rotate);
-            } else if (joystick.getRawButton(5)) {
-                intake.setIntakeState(Intake.mIntakeState.backward);
-            } else {
-                intake.setIntakeState(Intake.mIntakeState.stop);
-            }
-            if (joystick.getRawButton(2)) {
-                intake.setIntakeState(Intake.mIntakeState.forward);
-            }
+        if (joystick.getRawButton(6)) {
+            intake.setIntakeState(Intake.mIntakeState.rotate);
+        } else if (joystick.getRawButton(5)) {
+            intake.setIntakeState(Intake.mIntakeState.backward);
+        } else {
+            intake.setIntakeState(Intake.mIntakeState.stop);
+        }
+        if (joystick.getRawButton(2)) {
+            intake.setIntakeState(Intake.mIntakeState.forward);
+        }
         //}
 
     }
@@ -38,7 +38,7 @@ public class OI {
         if (joystick.getRawButton(1)) {
             //drive.turnToTarget(180, 1);
         }
-        if(joystick.getRawButton(2)) {
+        if (joystick.getRawButton(2)) {
             //drive.turnToTarget(0);
         }
 
@@ -46,6 +46,7 @@ public class OI {
 
 
     public void operateRobot(Joystick joystick) {
+
         double range = 0;
         //Elevator
         if(joystick.getRawButton(16)){
@@ -109,6 +110,47 @@ public class OI {
         }
         else
             winch.setHookState(Winch.mHookState.hookDeploymentStop);
+
+/*        *//**
+         * @author Grace Shenefelt
+         *//*
+        if (joystick.getRawButton(2)) {
+            elevator.testElevator(joystick.getRawAxis(1));
+        } else {
+            if (joystick.getRawButton(12)) {
+                elevator.setState(Elevator.mElevatorState.Ground, 0);
+            } else if (joystick.getRawButton(11)) {
+                elevator.setState(Elevator.mElevatorState.Switch, 0);
+            } else if (joystick.getRawButton(10)) {
+                elevator.setState(Elevator.mElevatorState.ScaleDown, 0);
+            } else if (joystick.getRawButton(9)) {
+                elevator.setState(Elevator.mElevatorState.ScaleBalanced, 0);
+            } else if (joystick.getRawButton(8)) {
+                elevator.setState(Elevator.mElevatorState.ScaleUp, 0);
+            }
+        }
+
+        if (joystick.getRawButton(5)) {
+            intake.setIntakeAdjustState(Intake.mIntakeAdjust.forward);
+        } else if (joystick.getRawButton(3)) {
+            intake.setIntakeAdjustState(Intake.mIntakeAdjust.backward);
+        } else {
+            intake.setIntakeAdjustState(Intake.mIntakeAdjust.stop);
+        }
+        if (joystick.getRawButton(6)) {
+            winch.setHookState(Winch.mHookState.hookDeployment);
+        } else if (joystick.getRawButton(4)) {
+            winch.setHookState(Winch.mHookState.hookDeploymentbackword);
+
+        } else {
+            winch.setHookState(Winch.mHookState.hookDeploymentStop);
+        }
+
+        if (joystick.getRawButton(1)) {
+            winch.setWinchState(Winch.mWinchState.winchUp);
+        } else {
+            winch.setWinchState(Winch.mWinchState.winchStop);
+        }*/
 
         /*
         //Intake
@@ -182,5 +224,4 @@ public class OI {
         }
         */
     }
-
 }

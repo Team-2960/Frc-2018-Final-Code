@@ -30,23 +30,25 @@ public class SwitchCenter extends CommandGroup {
         addSequential(new IntakeAdjustMove(), .1);
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
-        addSequential(new MoveForwardTime(.1, -.5));
+        addSequential(new MoveForwardTime(.1, .5));
         if (gameData.charAt(0) == 'L') {
-            addSequential(new MoveForwardTimeSide(.4, -.5, false));
+            addSequential(new MoveForwardTimeSide(.55, .5, false));
             addParallel(new ElevatorMove(Elevator.mElevatorState.Switch), 5);
-            addSequential(new MoveForwardTime(1, -.5));
+            addSequential(new MoveForwardTime(1.05, .5));
+            addSequential(new MoveForwardTimeSide(.2, .5, true));
             addSequential(new IntakeAdjustMove(), .75);
             addSequential(new IntakeMove(Intake.mIntakeState.backward), 1.5);
 
         }
         else {
-            addSequential(new MoveForwardTimeSide(.25, -.5, true));
+            addSequential(new MoveForwardTimeSide(.5, .5, true));
             addParallel(new ElevatorMove(Elevator.mElevatorState.Switch), 5);
-            addSequential(new MoveForwardTime(1.2, -.5));
+            addSequential(new MoveForwardTime(1, .5));
+            addParallel(new MoveForwardTimeSide(.15, .5, false));
             addSequential(new IntakeAdjustMove(), .75);
             addSequential(new IntakeMove(Intake.mIntakeState.backward), 1.5);
 
         }
-        addSequential(new MoveForwardDistance(.5, .5));
+        addSequential(new MoveForwardTime(.5, -.5));
     }
 }

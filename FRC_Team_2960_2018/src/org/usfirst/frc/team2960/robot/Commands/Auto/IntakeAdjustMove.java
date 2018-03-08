@@ -66,7 +66,7 @@ public class IntakeAdjustMove extends Command {
      */
     @Override
     protected void end() {
-        intake.setIntakeAdjustState(Intake.mIntakeAdjust.stop);
+
     }
 
 
@@ -86,6 +86,6 @@ public class IntakeAdjustMove extends Command {
      */
     @Override
     protected void interrupted() {
-        super.interrupted();
+        intake.setIntakeAdjustState(Intake.mIntakeAdjust.stop);
     }
 }

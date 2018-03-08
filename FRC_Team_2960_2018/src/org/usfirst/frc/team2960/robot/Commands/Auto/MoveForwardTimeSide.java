@@ -64,10 +64,10 @@ public class MoveForwardTimeSide extends Command{
     @Override
     protected void execute() {
         if(side) {
-            Drive.getInstance().setSpeed(0, speed);
+            Drive.getInstance().setSpeed(0, -speed);
         }
         else{
-            Drive.getInstance().setSpeed(-speed, 0);
+            Drive.getInstance().setSpeed(speed, 0);
         }
     }
 
