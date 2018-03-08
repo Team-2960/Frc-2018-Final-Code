@@ -20,7 +20,7 @@ public class Winch extends Subsystem implements SubsystemBase {
      * States of the winch Subsystem
      */
     public enum mWinchState { winchUp, winchStop, winchDown}
-    public enum mHookState {hookDeployment, hookDeploymentStop, hookDeploymentbackword};
+    public enum mHookState {hookDeployment, hookDeploymentStop, hookDeploymentbackword}
 
 
     /**

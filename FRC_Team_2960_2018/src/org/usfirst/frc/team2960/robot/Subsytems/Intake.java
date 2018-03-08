@@ -10,6 +10,7 @@ import org.usfirst.frc.team2960.robot.Constants;
  * Class to control the intake on the 2018 robot
  *
  * Includes 2 TalonSRX speed controllers to control 2 bag motors on 70 to 1 Vex versa planetary gearboxes
+ * Also includes the window motor for the adjust of the intake
  */
 public class Intake extends Subsystem implements SubsystemBase{
 
@@ -98,6 +99,10 @@ public class Intake extends Subsystem implements SubsystemBase{
         }
     }
 
+    /**
+     * Sets the state of the intake Adjust
+     * @param state The desired state of the intake adjust
+     */
     public void setIntakeAdjustState(mIntakeAdjust state) {
         switch (state) {
             case forward:

@@ -54,23 +54,23 @@ public class OI {
         }
         else {
             if(joystick.getRawButton(1)){
-                range = (Constants.kElevatorGround - Constants.kElevatorSwitch);
-                range = range * (joystick.getRawAxis(4));
+//                range = (Constants.kElevatorGround - Constants.kElevatorSwitch);
+//                range = range * (joystick.getRawAxis(4));
                 elevator.setState(Elevator.mElevatorState.Ground, range);
             }
             else if(joystick.getRawButton(3)){
-                range = (Constants.kElevatorScaleDown - Constants.kElevatorSwitch);
-                range = range * (joystick.getRawAxis(4));
+//                range = (Constants.kElevatorScaleDown - Constants.kElevatorSwitch);
+//                range = range * (joystick.getRawAxis(4));
                 elevator.setState(Elevator.mElevatorState.Switch, range);
             }
             else if(joystick.getRawButton(5)){
-                range = (Constants.kElevatorScaleBalanced - Constants.kElevatorScaleDown);
-                range = range * (joystick.getRawAxis(4));
+//                range = (Constants.kElevatorScaleBalanced - Constants.kElevatorScaleDown);
+//                range = range * (joystick.getRawAxis(4));
                 elevator.setState(Elevator.mElevatorState.ScaleDown, range);
             }
             else if(joystick.getRawButton(7)){
-                range = (Constants.kElevatorScaleUp - Constants.kElevatorScaleBalanced);
-                range = range * (joystick.getRawAxis(4));
+//                range = (Constants.kElevatorScaleUp - Constants.kElevatorScaleBalanced);
+//                range = range * (joystick.getRawAxis(4));
                 elevator.setState(Elevator.mElevatorState.ScaleBalanced, range);
             }
             else if(joystick.getRawButton(9)){

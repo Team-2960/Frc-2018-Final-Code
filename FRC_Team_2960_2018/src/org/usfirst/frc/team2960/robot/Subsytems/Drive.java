@@ -18,7 +18,7 @@ import org.usfirst.frc.team2960.robot.Pid.TurnPidOutput;
  * @author Malcolm Machesky
  * @author Alex Bolejack
  *
- * Includes 6 mRightMasteron SRX's for controlling the drive train through a WCP SS Gearbox
+ * Includes 6 mRight Master on Talon SRX's for controlling the drive train through a WCP SS Gearbox
  *
  */
 public class Drive extends Subsystem implements SubsystemBase {

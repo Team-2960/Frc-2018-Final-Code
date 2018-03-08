@@ -68,6 +68,7 @@ public class Elevator extends Subsystem implements SubsystemBase{
         }
     }
 
+
     /**
      * Private Constructors for Elevator Class
      */
@@ -206,6 +207,5 @@ public class Elevator extends Subsystem implements SubsystemBase{
     public void setupLimitSwiches(){
         mElevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
         mElevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-        //
     }
 }
