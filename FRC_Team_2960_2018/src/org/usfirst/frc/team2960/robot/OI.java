@@ -21,14 +21,14 @@ public class OI {
         }
         //if(!intakeOperatorOverride) {
             if (joystick.getRawButton(6)) {
-                intake.setIntakeState(Intake.mIntakeState.forward);
+                intake.setIntakeState(Intake.mIntakeState.rotate);
             } else if (joystick.getRawButton(5)) {
                 intake.setIntakeState(Intake.mIntakeState.backward);
             } else {
                 intake.setIntakeState(Intake.mIntakeState.stop);
             }
             if (joystick.getRawButton(2)) {
-                intake.setIntakeState(Intake.mIntakeState.rotate);
+                intake.setIntakeState(Intake.mIntakeState.forward);
             }
         //}
 

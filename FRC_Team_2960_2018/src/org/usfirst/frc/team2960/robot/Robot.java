@@ -95,7 +95,7 @@ public class Robot extends IterativeRobot {
 		//m_autoSelected = m_chooser.getSelected();
 		//switch (m_autoSelected) {
 			//case kCustomAuto:
-				kAutonomousCommand = new TestAuto();
+				kAutonomousCommand = new SwitchCenter();
 		//}
 
 		System.out.println("Auto selected: " + m_autoSelected);

@@ -47,5 +47,6 @@ public class SwitchCenter extends CommandGroup {
             addSequential(new IntakeMove(Intake.mIntakeState.backward), 1.5);
 
         }
+        addSequential(new MoveForwardDistance(.5, .5));
     }
 }
