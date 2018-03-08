@@ -46,7 +46,6 @@ public class Robot extends IterativeRobot {
 
 	private Joystick driveJoystick;
 	private Joystick operateJoystick;
-	private Joystick testJoystick;
 
 	private SubsystemBase[] mSubsytemArray;
 
@@ -65,7 +64,6 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		driveJoystick = new Joystick(0);
 		operateJoystick = new Joystick(1);
-		testJoystick = new Joystick(2);
 
 
 		pdp = new PowerDistributionPanel();
@@ -119,7 +117,6 @@ public class Robot extends IterativeRobot {
 		//Elevator.getInstance().zeroSensors();
 		oi.driveRobot(driveJoystick);
 		oi.operateRobot(operateJoystick);
-		oi.testRobot(testJoystick);
 		SmartDashboard.putNumber("Joystick Value", driveJoystick.getRawAxis(1));
 
 		toSmartDashboard();
