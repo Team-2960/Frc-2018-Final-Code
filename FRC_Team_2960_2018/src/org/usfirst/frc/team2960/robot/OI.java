@@ -10,7 +10,7 @@ public class OI {
     private Intake intake = Intake.getInstance();
     private Winch winch = Winch.getInstance();
     private Elevator elevator = Elevator.getInstance();
-    private boolean isButtonBox = true;
+    private boolean isButtonBox = false;
     //private boolean intakeOperatorOverride = false;
 
     public void driveRobot(Joystick joystick) {
@@ -115,6 +115,11 @@ public class OI {
                 elevator.setState(Elevator.mElevatorState.ScaleBalanced, 0);
             } else if (joystick.getRawButton(8)) {
                 elevator.setState(Elevator.mElevatorState.ScaleUp, 0);
+            }
+
+            if(joystick.getRawButton(7))
+            {
+                elevator.zeroSensors();
             }
         }
 

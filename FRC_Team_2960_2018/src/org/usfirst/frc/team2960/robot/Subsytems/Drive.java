@@ -58,7 +58,8 @@ public class Drive extends Subsystem implements SubsystemBase {
     /**
      * Private constructor for Drive Class
      */
-    private Drive() {
+    private Drive()
+    {
         navX = new AHRS(I2C.Port.kMXP);
         turnPidOutput = new TurnPidOutput(this);
         elevator = Elevator.getInstance();
@@ -94,14 +95,16 @@ public class Drive extends Subsystem implements SubsystemBase {
      * CommandBase in the users program after all the Subsystems are created.
      */
     @Override
-    protected void initDefaultCommand() {
+    protected void initDefaultCommand()
+    {
 
     }
 
     /**
      * Method to setup settings on the 6 mRightMaster talons
      */
-    private void setupTalons() {
+    private void setupTalons()
+    {
         //Right Master
         mRightMaster = new TalonSRX(Constants.mRightMasterId);
         mRightMaster.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
@@ -130,12 +133,39 @@ public class Drive extends Subsystem implements SubsystemBase {
         turnPidController.setOutputRange(-1.0, 1.0);
         turnPidController.setAbsoluteTolerance(Constants.kTolerance);
 
-        LiveWindow.add(turnPidController);
+        //Velocity control setup
+
+        mRightMaster.configNominalOutputForward(0, Constants.kTimeoutMs);
+        mRightMaster.configNominalOutputReverse(0, Constants.kTimeoutMs);
+        mRightMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
+        mRightMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+        mRightMaster.config_kF(Constants.kPIDLoopIDx, Constants.velocityKf, Constants.kTimeoutMs);
+        mRightMaster.config_kP(Constants.kPIDLoopIDx, Constants.velocityKp, Constants.kTimeoutMs);
+        mRightMaster.config_kI(Constants.kPIDLoopIDx, Constants.velocityKi, Constants.kTimeoutMs);
+        mRightMaster.config_kD(Constants.kPIDLoopIDx, Constants.velocityKd, Constants.kTimeoutMs);
+
+        mLeftMaster.configNominalOutputForward(0, Constants.kTimeoutMs);
+        mLeftMaster.configNominalOutputReverse(0, Constants.kTimeoutMs);
+        mLeftMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
+        mLeftMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
+
+        mLeftMaster.config_kF(Constants.kPIDLoopIDx, Constants.velocityKf, Constants.kTimeoutMs);
+        mLeftMaster.config_kP(Constants.kPIDLoopIDx, Constants.velocityKp, Constants.kTimeoutMs);
+        mLeftMaster.config_kI(Constants.kPIDLoopIDx, Constants.velocityKi, Constants.kTimeoutMs);
+        mLeftMaster.config_kD(Constants.kPIDLoopIDx, Constants.velocityKd, Constants.kTimeoutMs);
     }
 
-    public void setSpeed(double right, double left){
+    public void setSpeed(double right, double left)
+    {
         mRightMaster.set(ControlMode.PercentOutput, -right);
         mLeftMaster.set(ControlMode.PercentOutput, -left);
+    }
+
+    public void setVelocity(double right, double left)
+    {
+        mRightMaster.set(ControlMode.Velocity, right);
+        mLeftMaster.set(ControlMode.Velocity, left);
     }
 
     /**
@@ -150,14 +180,16 @@ public class Drive extends Subsystem implements SubsystemBase {
      * Function to get the private instance of Drive
      * @return Singleton of the drive class
      */
-    public static Drive getInstance()  {
+    public static Drive getInstance()
+    {
         if (m_Instance == null) {
             m_Instance = new Drive();
         }
         return m_Instance;
     }
 
-    public boolean turnToTarget(double target, double speed){
+    public boolean turnToTarget(double target, double speed)
+    {
         //Positive target to turn right, Negative to turn Left
         navX.resetDisplacement();
         /*
@@ -208,7 +240,8 @@ public class Drive extends Subsystem implements SubsystemBase {
         return false;
     }
 
-    public boolean moveForward(double distance, double speed){
+    public boolean moveForward(double distance, double speed)
+    {
 
         double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(-getLeftEncoder())) / 2;
         double away = Math.abs(distance - encoderDistance);
@@ -262,7 +295,8 @@ public class Drive extends Subsystem implements SubsystemBase {
             return false;
     }
 
-    public boolean elvatorUpAtDistance(double distance){
+    public boolean elvatorUpAtDistance(double distance)
+    {
         double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(-getLeftEncoder())) / 2;
         double away = Math.abs(distance - encoderDistance);
         double direction;
@@ -282,40 +316,50 @@ public class Drive extends Subsystem implements SubsystemBase {
         }
     }
 
-    public int getRightEncoder() {
+    public int getRightEncoder()
+    {
         return mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
     }
 
-    public int getLeftEncoder() {
+    public int getLeftEncoder()
+    {
         return mLeftMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx);
     }
 
-    public double ticksToInches(double encoderValue){
+    public double ticksToInches(double encoderValue)
+    {
         double inches = encoderValue * Constants.inchesPerTick;
         return inches;
     }
-    public double ticksPerHundredMillisecondToInchesPerSecond(double encoderVelocity){
-            double InchesPerSecond = ticksToInches(encoderVelocity * 10);
-            return InchesPerSecond;
-        }
 
-    public double getHeading() {
+    public double inchesToTicks(double inches) {
+        double ticks = inches / Constants.inchesPerTick;
+        return ticks;
+    }
+
+
+    public double getHeading()
+    {
        return navX.getAngle();
     }
 
-    public double getRightDistanceInMeters() {
+    public double getRightDistanceInMeters()
+    {
         return getRightEncoder() * Constants.inchesPerTick * Constants.meterConversion;
     }
 
-    public double getLeftDistanceInMeters() {
+    public double getLeftDistanceInMeters()
+    {
         return getLeftEncoder() * Constants.inchesPerTick * Constants.meterConversion;
     }
 
-    public double getRightEncoderVelocity() {
+    public double getRightEncoderVelocity()
+    {
         return mRightMaster.getSelectedSensorVelocity(Constants.kSlotIdx);
     }
 
-    public double getLeftEncoderVelocity() {
+    public double getLeftEncoderVelocity()
+    {
         return mLeftMaster.getSelectedSensorVelocity(Constants.kSlotIdx);
     }
 
@@ -323,7 +367,8 @@ public class Drive extends Subsystem implements SubsystemBase {
      * Updates the Subsystem
      */
     @Override
-    public void update() {
+    public void update()
+    {
 
     }
 
@@ -331,7 +376,8 @@ public class Drive extends Subsystem implements SubsystemBase {
      * Startup code for the Subsystem
      */
     @Override
-    public void startup() {
+    public void startup()
+    {
 
     }
 
@@ -339,7 +385,8 @@ public class Drive extends Subsystem implements SubsystemBase {
      * Output the Subsystems Values to SmartDashboard
      */
     @Override
-    public void toSmartDashboard() {
+    public void toSmartDashboard()
+    {
 
         SmartDashboard.putNumber("SensorVelRight", mRightMaster.getSelectedSensorVelocity(Constants.kPIDLoopIDx));
         SmartDashboard.putNumber("SensorPosRight",  mRightMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
@@ -372,7 +419,8 @@ public class Drive extends Subsystem implements SubsystemBase {
      * Stops all tasks in the Subsystem
      */
     @Override
-    public void stop() {
+    public void stop()
+    {
 
     }
 
@@ -380,13 +428,15 @@ public class Drive extends Subsystem implements SubsystemBase {
      * Zero all Sensors in the Subsystem
      */
     @Override
-    public void zeroSensors() {
+    public void zeroSensors()
+    {
         mRightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
         mLeftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
         //navX.zeroYaw();
     }
 
-    public void setNeturalMode(NeutralMode mode) {
+    public void setNeturalMode(NeutralMode mode)
+    {
         mRightMaster.setNeutralMode(mode);
         mRightSlave1.setNeutralMode(mode);
         mRightSlave2.setNeutralMode(mode);
@@ -394,6 +444,50 @@ public class Drive extends Subsystem implements SubsystemBase {
         mLeftSlave1.setNeutralMode(mode);
         mLeftSlave2.setNeutralMode(mode);
     }
+
+
+    /**
+     * Moves the robot to a specified distance with a speed
+     * @param distance desired distance you want to go in inches
+     * @param speed desired speed you want to go in inches per second
+     * @return returns if the robot is at the distance
+     */
+    public boolean goToDistanceVelocity(double distance, double speed)
+    {
+        double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(-getLeftEncoder())) / 2;
+        double away = (distance - encoderDistance);
+        double direction;
+
+        if(distance > encoderDistance){
+            direction = 1;
+        }else{
+            direction = -1;
+        }
+        double slowDownDistance = 20;
+        double slope =  slowDownDistance / inchesPerSecondToTicksPer100ms(speed);
+        if (away > slowDownDistance) {
+            setVelocity(-inchesPerSecondToTicksPer100ms(speed), inchesPerSecondToTicksPer100ms(speed));
+        }
+        else if(away <= slowDownDistance) {
+            setVelocity(-(slope * away), (slope * away));
+            return false;
+        }
+        else if (away <= 1) {
+            return true;
+        }
+        else if (away <= 0) {
+            setVelocity(-(slope * away), (slope * away));
+        }
+        return false;
+    }
+
+    public double inchesPerSecondToTicksPer100ms(double inchesPerSecond) {
+        double ticksPerSecond = inchesToTicks(inchesPerSecond);
+        return ticksPerSecond / 10;
+    }
+
+
+
 
 
 }
