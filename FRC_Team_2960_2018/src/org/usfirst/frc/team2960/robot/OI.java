@@ -10,7 +10,7 @@ public class OI {
     private Intake intake = Intake.getInstance();
     private Winch winch = Winch.getInstance();
     private Elevator elevator = Elevator.getInstance();
-    private boolean isButtonBox = false;
+    private boolean isButtonBox = true;
     //private boolean intakeOperatorOverride = false;
 
     public void driveRobot(Joystick joystick) {
@@ -25,7 +25,11 @@ public class OI {
             intake.setIntakeState(Intake.mIntakeState.rotate);
         } else if (joystick.getRawButton(5)) {
             intake.setIntakeState(Intake.mIntakeState.backward);
-        } else {
+        }
+        else if(joystick.getRawAxis(2) > .75){
+            intake.setIntakeState(Intake.mIntakeState.backwardSlow);
+        }
+        else {
             intake.setIntakeState(Intake.mIntakeState.stop);
         }
         if (joystick.getRawButton(2)) {
@@ -114,9 +118,9 @@ public class OI {
             }
         }
 
-        if (joystick.getRawButton(5)) {
+        if (joystick.getRawButton(3)) {
             intake.setIntakeAdjustState(Intake.mIntakeAdjust.forward);
-        } else if (joystick.getRawButton(3)) {
+        } else if (joystick.getRawButton(5)) {
             intake.setIntakeAdjustState(Intake.mIntakeAdjust.backward);
         } else {
             intake.setIntakeAdjustState(Intake.mIntakeAdjust.stop);
@@ -131,7 +135,7 @@ public class OI {
         }
 
         if (joystick.getRawButton(1)) {
-            winch.setWinchState(Winch.mWinchState.winchUp);
+            winch.setWinchState(Winch.mWinchState.winchDown);
         } else {
             winch.setWinchState(Winch.mWinchState.winchStop);
         }

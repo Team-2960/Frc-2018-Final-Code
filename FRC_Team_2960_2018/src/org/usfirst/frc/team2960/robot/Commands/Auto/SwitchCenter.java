@@ -33,7 +33,7 @@ public class SwitchCenter extends CommandGroup {
         addSequential(new MoveForwardTime(.1, .5));
         if (gameData.charAt(0) == 'L') {
             addSequential(new MoveForwardTimeSide(.55, .5, false));
-            addParallel(new ElevatorMove(Elevator.mElevatorState.Switch), 5);
+            addParallel(new ElevatorMove(Elevator.mElevatorState.Switch, 0), 5);
             addSequential(new MoveForwardTime(1.05, .5));
             addSequential(new MoveForwardTimeSide(.2, .5, true));
             addSequential(new IntakeAdjustMove(), .75);
@@ -42,7 +42,7 @@ public class SwitchCenter extends CommandGroup {
         }
         else {
             addSequential(new MoveForwardTimeSide(.5, .5, true));
-            addParallel(new ElevatorMove(Elevator.mElevatorState.Switch), 5);
+            addParallel(new ElevatorMove(Elevator.mElevatorState.Switch, 0), 5);
             addSequential(new MoveForwardTime(1, .5));
             addParallel(new MoveForwardTimeSide(.15, .5, false));
             addSequential(new IntakeAdjustMove(), .75);

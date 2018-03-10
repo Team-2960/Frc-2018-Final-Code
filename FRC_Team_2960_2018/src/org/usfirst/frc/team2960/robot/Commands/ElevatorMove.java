@@ -3,15 +3,20 @@ package org.usfirst.frc.team2960.robot.Commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.IllegalUseOfCommandException;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import org.usfirst.frc.team2960.robot.Subsytems.Drive;
 import org.usfirst.frc.team2960.robot.Subsytems.Elevator;
 
 public class ElevatorMove extends Command{
 
     Elevator elevator = Elevator.getInstance();
-    private Elevator.mElevatorState state;
+    Drive drive = Drive.getInstance();
 
-    public ElevatorMove(Elevator.mElevatorState state) {
+    private Elevator.mElevatorState state;
+    private double distance;
+
+    public ElevatorMove(Elevator.mElevatorState state, double distance) {
         this.state = state;
+        this.distance = distance;
     }
 
     /**
@@ -47,6 +52,7 @@ public class ElevatorMove extends Command{
      */
     @Override
     protected void execute() {
+        //if(drive.elvatorUpAtDistance(distance))
         elevator.setState(state, 0);
     }
 

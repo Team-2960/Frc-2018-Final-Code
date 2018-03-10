@@ -15,7 +15,7 @@ public class LeftScaleAuto extends CommandGroup {
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
         addSequential(new MoveForwardTime(.1, -.5));
-        addParallel(new ElevatorMove(Elevator.mElevatorState.ScaleBalanced), 5);
+        addParallel(new ElevatorMove(Elevator.mElevatorState.ScaleBalanced, 0), 5);
         if (gameData.charAt(1) == 'L' && !isRight) {
             addSequential(new MoveForwardDistance(296, 1));
             addSequential(new TurnToTarget(90, .5));

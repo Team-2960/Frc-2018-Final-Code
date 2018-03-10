@@ -17,10 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
-import org.usfirst.frc.team2960.robot.Commands.Auto.AutoCross;
-import org.usfirst.frc.team2960.robot.Commands.Auto.MoveForwardDistance;
-import org.usfirst.frc.team2960.robot.Commands.Auto.SwitchCenter;
-import org.usfirst.frc.team2960.robot.Commands.Auto.TestAuto;
+import org.usfirst.frc.team2960.robot.Commands.Auto.*;
 import org.usfirst.frc.team2960.robot.Subsytems.*;
 
 import javax.sound.sampled.Port;
@@ -93,7 +90,7 @@ public class Robot extends IterativeRobot {
 		//m_autoSelected = m_chooser.getSelected();
 		//switch (m_autoSelected) {
 			//case kCustomAuto:
-				kAutonomousCommand = new SwitchCenter();
+				kAutonomousCommand = new TestAuto();
 		//}
 
 		System.out.println("Auto selected: " + m_autoSelected);

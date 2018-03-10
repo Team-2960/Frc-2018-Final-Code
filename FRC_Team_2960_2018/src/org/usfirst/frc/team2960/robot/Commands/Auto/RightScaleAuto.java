@@ -14,7 +14,7 @@ public class RightScaleAuto extends CommandGroup {
         String gameData;
         gameData = DriverStation.getInstance().getGameSpecificMessage();
         addSequential(new MoveForwardTime(.1, -.5));
-        addParallel(new ElevatorMove(Elevator.mElevatorState.ScaleBalanced), 5);
+        //addParallel(new ElevatorMove(Elevator.mElevatorState.ScaleBalanced), 5);
         if (gameData.charAt(1) == 'R') {
             addSequential(new MoveForwardDistance(296, 1));
             addSequential(new TurnToTarget(-90, .5));

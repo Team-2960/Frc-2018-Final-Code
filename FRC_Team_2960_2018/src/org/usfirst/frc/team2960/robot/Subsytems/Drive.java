@@ -49,6 +49,8 @@ public class Drive extends Subsystem implements SubsystemBase {
     private PIDController turnPidController;
     private PIDOutput turnPidOutput;
 
+    private Elevator elevator;
+
 
     private boolean isTurning = false;
     private boolean isMoving = false;
@@ -59,6 +61,7 @@ public class Drive extends Subsystem implements SubsystemBase {
     private Drive() {
         navX = new AHRS(I2C.Port.kMXP);
         turnPidOutput = new TurnPidOutput(this);
+        elevator = Elevator.getInstance();
         //Talons
         setupTalons();
         //NavX
@@ -213,47 +216,70 @@ public class Drive extends Subsystem implements SubsystemBase {
         System.out.println("Away: " + away);
         System.out.println("Encoders: " + (getRightEncoder() + getLeftEncoder()) / 2);
 
-            if(distance > encoderDistance){
-                direction = 1;
-            }else{
-                direction = -1;
-            }
+        if(distance > encoderDistance){
+            direction = 1;
+        }else{
+            direction = -1;
+        }
 
-            if(away >= 40){
+            //85
+            if(away >= 60){
                 setSpeed((speed) * direction, -(speed) * direction);
                 return false;
             }
-            else if (away < 40 && away >20){
-                setSpeed((speed * .75) * direction, -(speed * .75) * direction);
-                return false;
-            }else if(away < 20 && away > 10){
+            //85 - 65
+            else if (away < 60 && away >40){
                 setSpeed((speed * .5) * direction, -(speed * .5) * direction);
                 return false;
+            //65 - 45
+            }else if(away < 40 && away > 20){
+                setSpeed((speed * .25) * direction, -(speed * .25) * direction);
+                return false;
 
             }
-            else if(away < 10&& away > 5){
-                setSpeed((speed * .25) * direction, -(speed * .25) * direction);
-                /*
-                setSpeed(0, 0);
-                Timer.delay(.09);
+
+            //45-15
+            if(away < 20 && away > 0){
+                //setSpeed((speed * .125) * direction, -(speed * .125) * direction);
+
+                //setSpeed(0, 0);
+                //Timer.delay(.09);
                 setSpeed(-speed * direction, speed * direction);
-                Timer.delay(.61);
+                Timer.delay(.575);
                 setSpeed(0, 0);
-                Timer.delay(.3);
-                setSpeed(0, 0);
-                */
+                //Timer.delay(.3);
+                //setSpeed(0, 0);
+
                 return true;
             }
-
-            else if (away <= 5){
+            //15
+            else if (away <= 20){
 
                 setSpeed(0,0);
                 return true;
             }
 
             return false;
+    }
 
+    public boolean elvatorUpAtDistance(double distance){
+        double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(-getLeftEncoder())) / 2;
+        double away = Math.abs(distance - encoderDistance);
+        double direction;
+        System.out.println("Away: " + away);
+        System.out.println("Encoders: " + (getRightEncoder() + getLeftEncoder()) / 2);
 
+        if(distance > encoderDistance){
+            direction = 1;
+        }else{
+            direction = -1;
+        }
+        if(away == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public int getRightEncoder() {

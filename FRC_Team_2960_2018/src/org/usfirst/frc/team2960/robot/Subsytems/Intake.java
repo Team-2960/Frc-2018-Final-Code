@@ -20,7 +20,7 @@ public class Intake extends Subsystem implements SubsystemBase{
     /**
      * Enum for the different states of the intake
      */
-    public enum mIntakeState {forward, backward, stop, rotate}
+    public enum mIntakeState {forward, backward, stop, rotate, backwardSlow}
 
     public enum mIntakeAdjust {forward, backward, stop}
 
@@ -94,6 +94,10 @@ public class Intake extends Subsystem implements SubsystemBase{
                 mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
                 mIntakeSlave.set(ControlMode.PercentOutput, 1.0);
                 break;
+            case backwardSlow:
+                mIntakeSlave.setInverted(true);
+                mIntakeMaster.set(ControlMode.PercentOutput, -.25);
+                mIntakeSlave.set(ControlMode.PercentOutput, -.125);
             default:
                 break;
         }

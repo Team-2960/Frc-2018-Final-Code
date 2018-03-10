@@ -30,7 +30,7 @@ public class IntakeAdjustMove extends Command {
      */
     @Override
     protected void execute() {
-        intake.setIntakeAdjustState(Intake.mIntakeAdjust.backward);
+        intake.setIntakeAdjustState(Intake.mIntakeAdjust.forward);
     }
 
 
