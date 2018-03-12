@@ -28,7 +28,7 @@ public class Elevator extends Subsystem implements SubsystemBase{
     /**
      * States of the Elevator Subsystem
      */
-    public enum mElevatorState {Switch, ScaleDown, ScaleBalanced, ScaleUp, Ground};
+    public enum mElevatorState {Switch, ScaleDown, ScaleBalanced, ScaleUp, Ground, MovingHeight}
 
     /**
      * Method to get Singleton of the Subsystem
@@ -64,6 +64,9 @@ public class Elevator extends Subsystem implements SubsystemBase{
                 break;
             case ScaleBalanced:
                 mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorScaleBalanced  + rangeUp);
+                break;
+            case MovingHeight:
+                mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorMovingHeight + rangeUp);
                 break;
         }
     }

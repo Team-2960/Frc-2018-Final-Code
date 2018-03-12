@@ -65,6 +65,7 @@ public class Constants {
     public static double kElevatorScaleUp = -20000;
     public static double kElevatorScaleDown = -14550.0;
     public static double kElevatorScaleBalanced = -16877.0;
+    public static double kElevatorMovingHeight = -1500.0;
 
     //Trajectory Constants
     public static double kLeftTrajectoryP = 1;

@@ -67,8 +67,9 @@ public class Robot extends IterativeRobot {
 
 
 		mSubsytemArray = new SubsystemBase[]{Drive.getInstance(), Elevator.getInstance(), Intake.getInstance(), Winch.getInstance(), LEDs.getInstance()};
-
-		CameraServer.getInstance().startAutomaticCapture();
+        UsbCamera camera;
+		camera = CameraServer.getInstance().startAutomaticCapture();
+		camera.setResolution(320, 240);
 		Drive.getInstance().setNeturalMode(NeutralMode.Brake);
 
 		Drive.getInstance().zeroSensors();

@@ -115,6 +115,8 @@ public class OI {
                 elevator.setState(Elevator.mElevatorState.ScaleBalanced, 0);
             } else if (joystick.getRawButton(8)) {
                 elevator.setState(Elevator.mElevatorState.ScaleUp, 0);
+            } else if(joystick.getPOV(0) == 0){
+                elevator.setState(Elevator.mElevatorState.MovingHeight, 0);
             }
 
             if(joystick.getRawButton(7))
