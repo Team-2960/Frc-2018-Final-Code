@@ -463,7 +463,7 @@ public class Drive extends Subsystem implements SubsystemBase {
         }else{
             direction = -1;
         }
-        double slowDownDistance = 20;
+        double slowDownDistance = 40;
         double slope =  slowDownDistance / inchesPerSecondToTicksPer100ms(speed);
         if (away > slowDownDistance) {
             setVelocity(-inchesPerSecondToTicksPer100ms(speed), inchesPerSecondToTicksPer100ms(speed));
@@ -476,7 +476,7 @@ public class Drive extends Subsystem implements SubsystemBase {
             return true;
         }
         else if (away <= 0) {
-            setVelocity(-(slope * away), (slope * away));
+            setVelocity((slope * away), -(slope * away));
         }
         return false;
     }

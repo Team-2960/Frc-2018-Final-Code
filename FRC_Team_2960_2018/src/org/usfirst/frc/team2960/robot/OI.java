@@ -146,6 +146,10 @@ public class OI {
         } else {
             winch.setWinchState(Winch.mWinchState.winchStop);
         }
+
+        if(joystick.getRawButton(7)) {
+            drive.zeroSensors();
+        }
         }
 
 
