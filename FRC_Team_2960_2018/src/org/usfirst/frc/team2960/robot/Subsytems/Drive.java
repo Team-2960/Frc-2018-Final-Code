@@ -203,26 +203,29 @@ public class Drive extends Subsystem implements SubsystemBase {
         else
             return false;
         */
-        double degreesToGo = Math.abs(target -navX.getAngle());
+        double slowDownDistance = 20;
+        double slope =  slowDownDistance / inchesPerSecondToTicksPer100ms(speed);
+
+        double degreesToGo = Math.abs(target - navX.getAngle());
         if(degreesToGo >= 10){
             if(target > 0){
-                setSpeed(-speed,-speed);
+                setVelocity(-inchesPerSecondToTicksPer100ms(speed),-inchesPerSecondToTicksPer100ms(speed));
             }
             else if(target < 0){
-                setSpeed(speed,speed);
+                setVelocity(inchesPerSecondToTicksPer100ms(speed),inchesPerSecondToTicksPer100ms(speed));
             }
             return false;
         }
-        else if(degreesToGo < 10 && degreesToGo >= 5){
+        else if(degreesToGo <= slowDownDistance){
             if(target > 0){
-                setSpeed(-speed * .5,-speed * .5);
+                setVelocity(-(slope * degreesToGo), -(slope * degreesToGo));
             }
             else if(target < 0){
-                setSpeed(speed * .5,speed * .5);
+                setVelocity((slope * degreesToGo), (slope * degreesToGo));
             }
             return false;
         }
-        else if(degreesToGo < 5){
+        else if(degreesToGo <= 0){
             /*for(int pulseTimes = 0; pulseTimes < 3; pulseTimes++) {
                 if(target > 0){
                     setSpeed(0,speed);
@@ -402,9 +405,12 @@ public class Drive extends Subsystem implements SubsystemBase {
         SmartDashboard.putNumber("The BAD ULtra", mUltraLeft2.getRangeInches());
         SmartDashboard.putNumber("NAVX ANGLE", navX.getAngle());
         SmartDashboard.putNumber("BARometric Pressure", navX.getBarometricPressure());
+        */
         SmartDashboard.putNumber("YAW", navX.getYaw());
         SmartDashboard.putNumber("Navx Rate", navX.getRate());
         SmartDashboard.putNumber("Gyro x", navX.getRawGyroX());
+        SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
+        /*
         SmartDashboard.putNumber("Gyro y", navX.getRawGyroY());
         SmartDashboard.putNumber("Gyro z", navX.getRawGyroZ());
         for(Ultrasonic ultra: mUltrasonics){
