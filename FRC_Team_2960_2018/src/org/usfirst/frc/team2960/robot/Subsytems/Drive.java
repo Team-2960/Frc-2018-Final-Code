@@ -443,18 +443,21 @@ public class Drive extends Subsystem implements SubsystemBase {
         System.out.println("Away: " + away);
         double slowDownDistance = distance;
         double slope =  (inchesPerSecondToTicksPer100ms(speed) / (slowDownDistance));
+        int reverseDistance = 19;
         if (away > slowDownDistance) {
             setVelocity(-inchesPerSecondToTicksPer100ms(speed), inchesPerSecondToTicksPer100ms(speed));
         }
-        else if(away <= slowDownDistance && away >= 7) {
+        else if(away <= slowDownDistance && away > 30) {
             setVelocity(-(slope * away), (slope * away));
             return false;
         }
-        else if (Math.abs(away) <= 7 && away >= 2) {
-            setVelocity((slope * away) * 30, -(slope * away)*30);
+        else if (Math.abs(away) <= 40 && away >= 26) {
+            if(away > reverseDistance)
+                away = reverseDistance;
+            setVelocity((slope * away) * speed, -(slope * away)*speed);
             return false;
         }
-        else if (Math.abs(away) <= 2)
+        else if (Math.abs(away) <= 26)
         {
             setVelocity(0,0);
             System.out.println("STOPPPPPPPPPEDDDDDDDDD");
