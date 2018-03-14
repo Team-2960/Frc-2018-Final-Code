@@ -191,7 +191,6 @@ public class Drive extends Subsystem implements SubsystemBase {
     public boolean turnToTarget(double target, double speed)
     {
         //Positive target to turn right, Negative to turn Left
-        navX.resetDisplacement();
         /*
         turnPidController.enable();
         turnPidController.setSetpoint(target);
@@ -204,9 +203,9 @@ public class Drive extends Subsystem implements SubsystemBase {
             return false;
         */
         double slowDownDistance = 20;
-        double slope =  slowDownDistance / inchesPerSecondToTicksPer100ms(speed);
+        double slope = inchesPerSecondToTicksPer100ms(speed)/ slowDownDistance;
 
-        double degreesToGo = Math.abs(target - navX.getAngle());
+        double degreesToGo = (target - navX.getAngle());
         if(degreesToGo >= 10){
             if(target > 0){
                 setVelocity(-inchesPerSecondToTicksPer100ms(speed),-inchesPerSecondToTicksPer100ms(speed));
@@ -296,27 +295,6 @@ public class Drive extends Subsystem implements SubsystemBase {
             }
 
             return false;
-    }
-
-    public boolean elvatorUpAtDistance(double distance)
-    {
-        double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(-getLeftEncoder())) / 2;
-        double away = Math.abs(distance - encoderDistance);
-        double direction;
-        System.out.println("Away: " + away);
-        System.out.println("Encoders: " + (getRightEncoder() + getLeftEncoder()) / 2);
-
-        if(distance > encoderDistance){
-            direction = 1;
-        }else{
-            direction = -1;
-        }
-        if(away == 0){
-            return true;
-        }
-        else{
-            return false;
-        }
     }
 
     public int getRightEncoder()
@@ -462,27 +440,24 @@ public class Drive extends Subsystem implements SubsystemBase {
     {
         double encoderDistance = (ticksToInches(getRightEncoder()) + ticksToInches(-getLeftEncoder())) / 2;
         double away = (distance - encoderDistance);
-        double direction;
-
-        if(distance > encoderDistance){
-            direction = 1;
-        }else{
-            direction = -1;
-        }
-        double slowDownDistance = 40;
-        double slope =  slowDownDistance / inchesPerSecondToTicksPer100ms(speed);
+        System.out.println("Away: " + away);
+        double slowDownDistance = distance;
+        double slope =  (inchesPerSecondToTicksPer100ms(speed) / (slowDownDistance));
         if (away > slowDownDistance) {
             setVelocity(-inchesPerSecondToTicksPer100ms(speed), inchesPerSecondToTicksPer100ms(speed));
         }
-        else if(away <= slowDownDistance) {
+        else if(away <= slowDownDistance && away >= 7) {
             setVelocity(-(slope * away), (slope * away));
             return false;
         }
-        else if (away <= 1) {
-            return true;
+        else if (Math.abs(away) <= 7 && away >= 1) {
+            setVelocity((slope * away) * 30, -(slope * away)*30);
+            return false;
         }
-        else if (away <= 0) {
-            setVelocity((slope * away), -(slope * away));
+        else if (Math.abs(away) <= 1)
+        {
+            setVelocity(0,0);
+            return true;
         }
         return false;
     }
