@@ -35,6 +35,10 @@ public class OI {
         if (joystick.getRawButton(2)) {
             intake.setIntakeState(Intake.mIntakeState.rotate);
         }
+        //ToDo: Remove this code during match
+        if(joystick.getRawButton(7) && joystick.getRawButton(8)){
+            winch.setWinchState(Winch.mWinchState.winchUp);
+        }
         //}
 
     }
