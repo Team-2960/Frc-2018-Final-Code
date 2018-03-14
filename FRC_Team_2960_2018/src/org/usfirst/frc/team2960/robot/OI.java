@@ -17,8 +17,9 @@ public class OI {
         drive.setSpeed(-joystick.getRawAxis(5), joystick.getRawAxis(1));
 
         if (joystick.getRawButton(1)) {
-            //drive.zeroSensors();
-            //elevator.zeroSensors();
+            drive.zeroSensors();
+            elevator.zeroSensors();
+            // TODO: 3/13/18 FIx Controls
         }
         //if(!intakeOperatorOverride) {
         if (joystick.getRawButton(6)) {
@@ -89,7 +90,7 @@ public class OI {
 
             //Winch
             if (joystick.getRawButton(15)) {
-                winch.setWinchState(Winch.mWinchState.winchUp);
+                winch.setWinchState(Winch.mWinchState.winchDown);
             } else
                 winch.setWinchState(Winch.mWinchState.winchStop);
 
@@ -116,17 +117,20 @@ public class OI {
             } else if (joystick.getRawButton(10)) {
                 elevator.setState(Elevator.mElevatorState.ScaleDown, 0);
             } else if (joystick.getRawButton(9)) {
-                elevator.setState(Elevator.mElevatorState.ScaleBalanced, 0);
+                //elevator.setState(Elevator.mElevatorState.ScaleBalanced, 0);
             } else if (joystick.getRawButton(8)) {
                 elevator.setState(Elevator.mElevatorState.ScaleUp, 0);
             } else if(joystick.getPOV(0) == 0){
                 elevator.setState(Elevator.mElevatorState.MovingHeight, 0);
             }
-
-            if(joystick.getRawButton(7))
-            {
-                elevator.zeroSensors();
+            else if (joystick.getRawButton(7)) {
+                elevator.setState(Elevator.mElevatorState.ScaleBalanced, 0);
             }
+
+//            if(joystick.getRawButton(7))
+//            {
+//                elevator.zeroSensors();
+//            }
         }
 
         if (joystick.getRawButton(3)) {
