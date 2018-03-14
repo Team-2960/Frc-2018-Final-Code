@@ -91,8 +91,8 @@ public class Intake extends Subsystem implements SubsystemBase{
                 break;
             case rotate:
                 mIntakeSlave.setInverted(true);
-                mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
-                mIntakeSlave.set(ControlMode.PercentOutput, 1.0);
+                mIntakeMaster.set(ControlMode.PercentOutput, -1.0);
+                mIntakeSlave.set(ControlMode.PercentOutput, -1.0);
                 break;
             case backwardSlow:
                 mIntakeSlave.setInverted(true);

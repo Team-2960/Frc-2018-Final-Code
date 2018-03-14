@@ -450,13 +450,14 @@ public class Drive extends Subsystem implements SubsystemBase {
             setVelocity(-(slope * away), (slope * away));
             return false;
         }
-        else if (Math.abs(away) <= 7 && away >= 1) {
+        else if (Math.abs(away) <= 7 && away >= 2) {
             setVelocity((slope * away) * 30, -(slope * away)*30);
             return false;
         }
-        else if (Math.abs(away) <= 1)
+        else if (Math.abs(away) <= 2)
         {
             setVelocity(0,0);
+            System.out.println("STOPPPPPPPPPEDDDDDDDDD");
             return true;
         }
         return false;
