@@ -16,7 +16,7 @@ public class TestAuto extends CommandGroup{
         //addSequential(new ElevatorMove(Elevator.mElevatorState.Switch, 0));
         //addSequential(new TurnToTarget(30, .75));
 
-        addSequential(new MoveForwardDistanceVelocity(172 / 1.8, 72));  //183
+        addSequential(new MoveForwardDistanceVelocity(172 / 1.8, 72));  //183 New 172/1.8
         addSequential(new TurnToTarget(90, 24));
     }
 }
