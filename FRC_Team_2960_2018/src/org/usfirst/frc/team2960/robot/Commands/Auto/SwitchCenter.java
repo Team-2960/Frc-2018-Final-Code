@@ -32,10 +32,10 @@ public class SwitchCenter extends CommandGroup {
         gameData = DriverStation.getInstance().getGameSpecificMessage();
         addSequential(new MoveForwardTime(.1, .5));
         if (gameData.charAt(0) == 'L') {
-            addSequential(new MoveForwardTimeSide(.6, .5, false));
+            addSequential(new MoveForwardTimeSide(.85, .5, false));
             addParallel(new ElevatorMove(Elevator.mElevatorState.Switch, 0), 5);
             addSequential(new MoveForwardTime(.9, .5));
-            addSequential(new MoveForwardTimeSide(.3, .5, true));
+            addSequential(new MoveForwardTimeSide(.5, .5, true));
             addSequential(new IntakeAdjustMove(), .75);
             addSequential(new IntakeMove(Intake.mIntakeState.backward), 1.5);
 
