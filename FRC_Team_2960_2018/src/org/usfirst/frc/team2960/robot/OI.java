@@ -90,7 +90,7 @@ public class OI {
 
             //Winch
             if (joystick.getRawButton(15)) {
-                winch.setWinchState(Winch.mWinchState.winchDown);
+                winch.setWinchState(Winch.mWinchState.winchUp);
             } else
                 winch.setWinchState(Winch.mWinchState.winchStop);
 
@@ -149,8 +149,9 @@ public class OI {
             winch.setHookState(Winch.mHookState.hookDeploymentStop);
         }
 
+        //ToDo: Change from Winch Up to Winch Down
         if (joystick.getRawButton(1)) {
-            winch.setWinchState(Winch.mWinchState.winchDown);
+            winch.setWinchState(Winch.mWinchState.winchUp);
         } else {
             winch.setWinchState(Winch.mWinchState.winchStop);
         }

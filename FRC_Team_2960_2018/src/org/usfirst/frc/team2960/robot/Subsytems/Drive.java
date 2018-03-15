@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import org.opencv.core.Mat;
 import org.usfirst.frc.team2960.robot.Constants;
 import org.usfirst.frc.team2960.robot.Pid.TurnPidOutput;
 
@@ -60,11 +61,12 @@ public class Drive extends Subsystem implements SubsystemBase {
      */
     private Drive()
     {
-        navX = new AHRS(I2C.Port.kMXP);
+        navX = new AHRS(SPI.Port.kMXP);
         turnPidOutput = new TurnPidOutput(this);
         elevator = Elevator.getInstance();
         //Talons
         setupTalons();
+        zeroSensors();
         //NavX
 
 
@@ -205,7 +207,7 @@ public class Drive extends Subsystem implements SubsystemBase {
         double slowDownDistance = 20;
         double slope = inchesPerSecondToTicksPer100ms(speed)/ slowDownDistance;
 
-        double degreesToGo = (target - navX.getAngle());
+        double degreesToGo = (target - (-navX.getAngle()));
         if(degreesToGo >= 10){
             if(target > 0){
                 setVelocity(-inchesPerSecondToTicksPer100ms(speed),-inchesPerSecondToTicksPer100ms(speed));
@@ -224,7 +226,7 @@ public class Drive extends Subsystem implements SubsystemBase {
             }
             return false;
         }
-        else if(degreesToGo <= 0){
+        else if(Math.abs(degreesToGo) <= 5){
             /*for(int pulseTimes = 0; pulseTimes < 3; pulseTimes++) {
                 if(target > 0){
                     setSpeed(0,speed);
@@ -235,7 +237,7 @@ public class Drive extends Subsystem implements SubsystemBase {
                 Timer.delay(.03);
             }
             */
-            setSpeed(0, 0);
+            setVelocity(0, 0);
 
             return true;
         }
@@ -388,6 +390,7 @@ public class Drive extends Subsystem implements SubsystemBase {
         SmartDashboard.putNumber("Navx Rate", navX.getRate());
         SmartDashboard.putNumber("Gyro x", navX.getRawGyroX());
         SmartDashboard.putNumber("Gyro Angle", navX.getAngle());
+        SmartDashboard.putBoolean("GYRO WORKING", navX.isConnected());
         /*
         SmartDashboard.putNumber("Gyro y", navX.getRawGyroY());
         SmartDashboard.putNumber("Gyro z", navX.getRawGyroZ());
@@ -416,7 +419,7 @@ public class Drive extends Subsystem implements SubsystemBase {
     {
         mRightMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
         mLeftMaster.setSelectedSensorPosition(0, Constants.kPIDLoopIDx, Constants.kTimeoutMs);
-        //navX.zeroYaw();
+        navX.zeroYaw();
     }
 
     public void setNeturalMode(NeutralMode mode)
@@ -443,21 +446,23 @@ public class Drive extends Subsystem implements SubsystemBase {
         System.out.println("Away: " + away);
         double slowDownDistance = distance;
         double slope =  (inchesPerSecondToTicksPer100ms(speed) / (slowDownDistance));
-        int reverseDistance = 19;
+        //274 slowDownDistance
+        //int reverseDistance = 19;
         if (away > slowDownDistance) {
             setVelocity(-inchesPerSecondToTicksPer100ms(speed), inchesPerSecondToTicksPer100ms(speed));
         }
-        else if(away <= slowDownDistance && away > 30) {
+        else if(away <= slowDownDistance && away > 75) {
             setVelocity(-(slope * away), (slope * away));
             return false;
         }
-        else if (Math.abs(away) <= 40 && away >= 26) {
-            if(away > reverseDistance)
-                away = reverseDistance;
-            setVelocity((slope * away) * speed, -(slope * away)*speed);
+        else if (Math.abs(away) <= 70 && away > 1) {
+            //if(away > reverseDistance)
+                //away = reverseDistance;
+            //setVelocity((slope * away) * (speed * 0.95), -(slope * away)*(speed * 0.95));
+            setVelocity(-(slope * 65), (slope * 65));
             return false;
         }
-        else if (Math.abs(away) <= 26)
+        else if (Math.abs(away) <= 1)
         {
             setVelocity(0,0);
             System.out.println("STOPPPPPPPPPEDDDDDDDDD");

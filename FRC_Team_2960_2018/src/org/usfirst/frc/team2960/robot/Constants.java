@@ -85,8 +85,8 @@ public class Constants {
     public static double kPidTurnI = 0;
     public static double kPidTurnD = 0;
 
-    public static double velocityKf = .1097;
-    public static double velocityKp = 0.12;//.25 ++ .12
+    public static double velocityKf = 0.219980275862069;
+    public static double velocityKp = 0.02;//.25 ++ .12
     public static double velocityKi = 0.;
     public static double velocityKd = 0;//.15
 

@@ -1,6 +1,8 @@
 package org.usfirst.frc.team2960.robot.Commands.Auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import org.usfirst.frc.team2960.robot.Commands.ElevatorMove;
+import org.usfirst.frc.team2960.robot.Subsytems.Elevator;
 
 
 public class TestAuto extends CommandGroup{
@@ -15,8 +17,12 @@ public class TestAuto extends CommandGroup{
 
         //addSequential(new ElevatorMove(Elevator.mElevatorState.Switch, 0));
         //addSequential(new TurnToTarget(30, .75));
+        //GOOOD
+        addSequential(new IntakeAdjustMove(), .1);
+        addSequential(new MoveForwardDistanceVelocity(215, 102));//183 ++ 172 ++ dist 248 speed 42
+        addParallel(new ElevatorMove(Elevator.mElevatorState.ScaleUp,0 ));
+        addSequential(new TurnToTarget(30, 120));
+        addSequential(new MoveForwardDistanceVelocity(215, 50));
 
-        addSequential(new MoveForwardDistanceVelocity(274, 72));  //183 ++ 172 ++ dist 248 speed 42
-        //addSequential(new TurnToTarget(90, 24));
     }
 }

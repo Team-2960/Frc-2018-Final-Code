@@ -93,7 +93,7 @@ public class Robot extends IterativeRobot {
 			//case kCustomAuto:
 				kAutonomousCommand = new TestAuto();
 		//}
-
+		Drive.getInstance().zeroSensors();
 		System.out.println("Auto selected: " + m_autoSelected);
 		if(kAutonomousCommand != null) kAutonomousCommand.start();
 	}
