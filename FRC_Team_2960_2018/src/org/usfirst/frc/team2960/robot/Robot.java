@@ -8,6 +8,7 @@
 package org.usfirst.frc.team2960.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
@@ -19,6 +20,9 @@ import jaci.pathfinder.Trajectory;
 import jaci.pathfinder.Waypoint;
 import org.usfirst.frc.team2960.robot.Commands.Auto.*;
 import org.usfirst.frc.team2960.robot.Subsytems.*;
+import com.ctre.phoenix.motorcontrol.*;
+
+import java.lang.invoke.SwitchPoint;
 
 import javax.sound.sampled.Port;
 
@@ -36,7 +40,6 @@ public class Robot extends IterativeRobot {
 	private Command kAutonomousCommand = null;
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
-	private PowerDistributionPanel pdp;
 
 
 	private OI oi;
@@ -63,8 +66,10 @@ public class Robot extends IterativeRobot {
 		operateJoystick = new Joystick(1);
 
 
-		pdp = new PowerDistributionPanel();
 
+		//TalonSRX _tal = new TalonSRX(9);
+
+		//System.out.println("Talon constructed ");
 
 		mSubsytemArray = new SubsystemBase[]{Drive.getInstance(), Elevator.getInstance(), Intake.getInstance(), Winch.getInstance(), LEDs.getInstance()};
         UsbCamera camera;
@@ -91,9 +96,10 @@ public class Robot extends IterativeRobot {
 		//m_autoSelected = m_chooser.getSelected();
 		//switch (m_autoSelected) {
 			//case kCustomAuto:
-				kAutonomousCommand = new TestAuto();
+				kAutonomousCommand = new SwitchCenter();
 		//}
 		Drive.getInstance().zeroSensors();
+		Elevator.getInstance().zeroSensors();
 		System.out.println("Auto selected: " + m_autoSelected);
 		if(kAutonomousCommand != null) kAutonomousCommand.start();
 	}
@@ -119,7 +125,6 @@ public class Robot extends IterativeRobot {
 
 		toSmartDashboard();
 		LEDs.getInstance().sendData("BlueBanner");
-		SmartDashboard.putData("PDP", pdp);
 
 		Timer.delay(.005);
 

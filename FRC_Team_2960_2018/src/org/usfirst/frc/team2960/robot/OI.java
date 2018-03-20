@@ -11,16 +11,19 @@ public class OI {
     private Winch winch = Winch.getInstance();
     private Elevator elevator = Elevator.getInstance();
     private boolean isButtonBox = false;
-    //private boolean intakeOperatorOverride = false;
+    private boolean isOveride = false;
+    private boolean intakeOperatorOverride = false;
 
     public void driveRobot(Joystick joystick) {
         drive.setSpeed(-joystick.getRawAxis(5), joystick.getRawAxis(1));
 
+        /*
         if (joystick.getRawButton(1)) {
             drive.zeroSensors();
             elevator.zeroSensors();
             // TODO: 3/13/18 FIx Controls
         }
+        */
         //if(!intakeOperatorOverride) {
         if (joystick.getRawButton(6)) {
             intake.setIntakeState(Intake.mIntakeState.forward);
@@ -36,10 +39,16 @@ public class OI {
         if (joystick.getRawButton(2)) {
             intake.setIntakeState(Intake.mIntakeState.rotate);
         }
-        //ToDo: Remove this code during match
-        if(joystick.getRawButton(7) && joystick.getRawButton(8)){
-            winch.setWinchState(Winch.mWinchState.winchUp);
-        }
+        
+        //if(!intakeOperatorOverride) {
+        
+        	if (joystick.getRawButton(1)) {
+                elevator.setState(Elevator.mElevatorState.Ground, 0);
+            } else if (joystick.getRawButton(2)) {
+                elevator.setState(Elevator.mElevatorState.Switch, 0);
+            } else if (joystick.getRawButton(3)) {
+                elevator.setState(Elevator.mElevatorState.ScaleUp, 0);
+            }
         //}
 
     }
@@ -104,33 +113,54 @@ public class OI {
         }
         else {
 
+
             /**
              * @author Grace Shenefelt
              */
         if (joystick.getRawButton(2)) {
             elevator.testElevator(joystick.getRawAxis(1));
-        } else {
+            isOveride = true;
+            intakeOperatorOverride = true;
+        }
+       
+        else if(isOveride && joystick.getRawButtonReleased(2)) {
+        	elevator.setState(Elevator.mElevatorState.stopManual, 0);
+        	isOveride = false;
+        }
+        else {
             if (joystick.getRawButton(12)) {
                 elevator.setState(Elevator.mElevatorState.Ground, 0);
+                intakeOperatorOverride = true;
             } else if (joystick.getRawButton(11)) {
                 elevator.setState(Elevator.mElevatorState.Switch, 0);
+                intakeOperatorOverride = true;
             } else if (joystick.getRawButton(10)) {
                 elevator.setState(Elevator.mElevatorState.ScaleDown, 0);
+                intakeOperatorOverride = true;
             } else if (joystick.getRawButton(9)) {
-                //elevator.setState(Elevator.mElevatorState.ScaleBalanced, 0);
+                elevator.setState(Elevator.mElevatorState.ScaleBalanced, 0);
+                intakeOperatorOverride = true;
             } else if (joystick.getRawButton(8)) {
                 elevator.setState(Elevator.mElevatorState.ScaleUp, 0);
+                intakeOperatorOverride = true;
             } else if(joystick.getPOV(0) == 0){
                 elevator.setState(Elevator.mElevatorState.MovingHeight, 0);
+                intakeOperatorOverride = true;
             }
+            else {
+            	intakeOperatorOverride = false;
+            }
+
+            //For spare Joystick
+            /*
             else if (joystick.getRawButton(7)) {
                 elevator.setState(Elevator.mElevatorState.ScaleBalanced, 0);
             }
-
-//            if(joystick.getRawButton(7))
-//            {
-//                elevator.zeroSensors();
-//            }
+            */
+            if(joystick.getRawButton(7))
+            {
+                elevator.zeroSensors();
+            }
         }
 
         if (joystick.getRawButton(3)) {
@@ -149,9 +179,9 @@ public class OI {
             winch.setHookState(Winch.mHookState.hookDeploymentStop);
         }
 
-        //ToDo: Change from Winch Up to Winch Down
+        //ToDo: Change from Winch Up to Winch Down for comp bot, other way for practice
         if (joystick.getRawButton(1)) {
-            winch.setWinchState(Winch.mWinchState.winchUp);
+            winch.setWinchState(Winch.mWinchState.winchDown);
         } else {
             winch.setWinchState(Winch.mWinchState.winchStop);
         }

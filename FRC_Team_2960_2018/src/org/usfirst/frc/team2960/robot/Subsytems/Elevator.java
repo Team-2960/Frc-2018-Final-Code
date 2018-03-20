@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.hal.ConstantsJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.usfirst.frc.team2960.robot.Constants;
 
@@ -28,7 +29,7 @@ public class Elevator extends Subsystem implements SubsystemBase{
     /**
      * States of the Elevator Subsystem
      */
-    public enum mElevatorState {Switch, ScaleDown, ScaleBalanced, ScaleUp, Ground, MovingHeight}
+    public enum mElevatorState {Switch, ScaleDown, ScaleBalanced, ScaleUp, Ground, MovingHeight, stopManual}
 
     /**
      * Method to get Singleton of the Subsystem
@@ -68,6 +69,10 @@ public class Elevator extends Subsystem implements SubsystemBase{
             case MovingHeight:
                 mElevatorMaster.set(ControlMode.MotionMagic, Constants.kElevatorMovingHeight + rangeUp);
                 break;
+            case stopManual:
+            	mElevatorMaster.set(ControlMode.MotionMagic, mElevatorMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
+            	break;
+            	
         }
     }
 

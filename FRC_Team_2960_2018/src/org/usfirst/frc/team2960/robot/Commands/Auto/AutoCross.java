@@ -9,7 +9,7 @@ import java.io.File;
 public class AutoCross extends CommandGroup
 {
     public AutoCross() {
-        addSequential(new MoveForwardTime(7, .2));
+        addSequential(new MoveForwardTime(5, .2));
     }
 
 }
