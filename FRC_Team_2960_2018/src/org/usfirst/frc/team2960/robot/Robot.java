@@ -96,7 +96,7 @@ public class Robot extends IterativeRobot {
 		//m_autoSelected = m_chooser.getSelected();
 		//switch (m_autoSelected) {
 			//case kCustomAuto:
-				kAutonomousCommand = new SwitchCenter();
+				kAutonomousCommand = new TestAuto();
 		//}
 		Drive.getInstance().zeroSensors();
 		Elevator.getInstance().zeroSensors();

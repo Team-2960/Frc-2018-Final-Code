@@ -85,10 +85,15 @@ public class Constants {
     public static double kPidTurnI = 0;
     public static double kPidTurnD = 0;
 
-    public static double velocityKf = 0.219980275862069;
-    public static double velocityKp = 0.02;//.25 ++ .12
-    public static double velocityKi = 0.;
-    public static double velocityKd = 0;//.15
+    public static double rightVelocityKf = 0.219980275862069;
+    public static double rightVelocityKp = 0.02;//.25 ++ .12
+    public static double rightVelocityKi = 0;
+    public static double rightVelocityKd = 0;//.15
+
+    public static double leftVelocityKf = 0.219980275862069;
+    public static double leftVelocityKp = 0.02;//.25 ++ .12
+    public static double leftVelocityKi = 0;
+    public static double leftVelocityKd = 0;//.15
 
     //NavX Tolerance
     public static double kTolerance = 2.0;  //The navX tolerance in degrees

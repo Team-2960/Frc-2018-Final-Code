@@ -142,20 +142,20 @@ public class Drive extends Subsystem implements SubsystemBase {
         mRightMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
         mRightMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
-        mRightMaster.config_kF(Constants.kPIDLoopIDx, Constants.velocityKf, Constants.kTimeoutMs);
-        mRightMaster.config_kP(Constants.kPIDLoopIDx, Constants.velocityKp, Constants.kTimeoutMs);
-        mRightMaster.config_kI(Constants.kPIDLoopIDx, Constants.velocityKi, Constants.kTimeoutMs);
-        mRightMaster.config_kD(Constants.kPIDLoopIDx, Constants.velocityKd, Constants.kTimeoutMs);
+        mRightMaster.config_kF(Constants.kPIDLoopIDx, Constants.rightVelocityKf, Constants.kTimeoutMs);
+        mRightMaster.config_kP(Constants.kPIDLoopIDx, Constants.rightVelocityKp, Constants.kTimeoutMs);
+        mRightMaster.config_kI(Constants.kPIDLoopIDx, Constants.rightVelocityKi, Constants.kTimeoutMs);
+        mRightMaster.config_kD(Constants.kPIDLoopIDx, Constants.rightVelocityKd, Constants.kTimeoutMs);
 
         mLeftMaster.configNominalOutputForward(0, Constants.kTimeoutMs);
         mLeftMaster.configNominalOutputReverse(0, Constants.kTimeoutMs);
         mLeftMaster.configPeakOutputForward(1, Constants.kTimeoutMs);
         mLeftMaster.configPeakOutputReverse(-1, Constants.kTimeoutMs);
 
-        mLeftMaster.config_kF(Constants.kPIDLoopIDx, Constants.velocityKf, Constants.kTimeoutMs);
-        mLeftMaster.config_kP(Constants.kPIDLoopIDx, Constants.velocityKp, Constants.kTimeoutMs);
-        mLeftMaster.config_kI(Constants.kPIDLoopIDx, Constants.velocityKi, Constants.kTimeoutMs);
-        mLeftMaster.config_kD(Constants.kPIDLoopIDx, Constants.velocityKd, Constants.kTimeoutMs);
+        mLeftMaster.config_kF(Constants.kPIDLoopIDx, Constants.leftVelocityKf, Constants.kTimeoutMs);
+        mLeftMaster.config_kP(Constants.kPIDLoopIDx, Constants.leftVelocityKp, Constants.kTimeoutMs);
+        mLeftMaster.config_kI(Constants.kPIDLoopIDx, Constants.leftVelocityKi, Constants.kTimeoutMs);
+        mLeftMaster.config_kD(Constants.kPIDLoopIDx, Constants.leftVelocityKd, Constants.kTimeoutMs);
     }
 
     public void setSpeed(double right, double left)
@@ -452,14 +452,14 @@ public class Drive extends Subsystem implements SubsystemBase {
             setVelocity(-inchesPerSecondToTicksPer100ms(speed), inchesPerSecondToTicksPer100ms(speed));
         }
         else if(away <= slowDownDistance && away > 75) {
-            setVelocity(-(slope * away), (slope * away));
+            setVelocity(-(slope * away), (slope * (away +15)));
             return false;
         }
         else if (Math.abs(away) <= 70 && away > 1) {
             //if(away > reverseDistance)
                 //away = reverseDistance;
             //setVelocity((slope * away) * (speed * 0.95), -(slope * away)*(speed * 0.95));
-            setVelocity(-(slope * 65), (slope * 65));
+            setVelocity(-(slope * 65), (slope * 75));
             return false;
         }
         else if (Math.abs(away) <= 1)
