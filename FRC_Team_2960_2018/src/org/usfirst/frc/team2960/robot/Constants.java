@@ -62,7 +62,7 @@ public class Constants {
     //Elevator Heights
     public static double kElevatorSwitch =  -7097.0;
     public static double kElevatorGround = 0;
-    public static double kElevatorScaleUp = -20000;
+    public static double kElevatorScaleUp = -19000;
     public static double kElevatorScaleDown = -14550.0;
     public static double kElevatorScaleBalanced = -16877.0;
     public static double kElevatorMovingHeight = -1500;

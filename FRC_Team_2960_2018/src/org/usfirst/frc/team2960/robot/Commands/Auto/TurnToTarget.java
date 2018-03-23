@@ -17,7 +17,7 @@ public class TurnToTarget extends CommandGroup{
 
     @Override
     protected void initialize() {
-        super.initialize();
+       drive.zeroSensors();
     }
 
     /**
@@ -44,8 +44,10 @@ public class TurnToTarget extends CommandGroup{
      */
     @Override
     protected boolean isFinished() {
-        if(isFinish)
+        if(isFinish) {
+            System.out.println("TURN FINISHED");
             return true;
+        }
         else
             return false;
     }

@@ -21,7 +21,7 @@ public class OI {
         if (joystick.getRawButton(1)) {
             drive.zeroSensors();
             elevator.zeroSensors();
-            // TODO: 3/13/18 FIx Controls
+            // TODO: 3/13/18 Fix Controls
         }
         */
         //if(!intakeOperatorOverride) {
@@ -159,7 +159,7 @@ public class OI {
             */
             if(joystick.getRawButton(7))
             {
-                elevator.zeroSensors();
+                //elevator.zeroSensors();
             }
         }
 

@@ -1,19 +1,18 @@
 package org.usfirst.frc.team2960.robot.Commands.Auto;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import org.usfirst.frc.team2960.robot.Subsytems.Drive;
 
 
-public class MoveForwardDistanceVelocity extends Command {
-    Drive drive = Drive.getInstance();
-    private boolean isFinish = false;
-    private double distance;
-    private double speed;
-
-
-    public MoveForwardDistanceVelocity(double distance, double speed) {
-        this.distance = distance;
-        this.speed = speed;
+public class Wait extends Command {
+    private double time;
+    private Timer timer;
+    private boolean done = false;
+    public Wait(double time) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+        this.time = time;
+        timer = new Timer();
     }
 
 
@@ -23,7 +22,7 @@ public class MoveForwardDistanceVelocity extends Command {
      */
     @Override
     protected void initialize() {
-        drive.zeroSensors();
+        timer.start();
     }
 
 
@@ -33,7 +32,11 @@ public class MoveForwardDistanceVelocity extends Command {
      */
     @Override
     protected void execute() {
-        isFinish = drive.goToDistanceVelocity(distance, speed);
+        if(timer.get() >= time) {
+            done = true;
+        } else {
+            done = false;
+        }
     }
 
 
@@ -56,10 +59,8 @@ public class MoveForwardDistanceVelocity extends Command {
      */
     @Override
     protected boolean isFinished() {
-        if(isFinish)
-            return true;
-        else
-            return false;
+        // TODO: Make this return true when this Command no longer needs to run execute()
+        return done;
     }
 
 
@@ -71,7 +72,8 @@ public class MoveForwardDistanceVelocity extends Command {
      */
     @Override
     protected void end() {
-        drive.setVelocity(0,0);
+        timer.reset();
+        timer.stop();
     }
 
 

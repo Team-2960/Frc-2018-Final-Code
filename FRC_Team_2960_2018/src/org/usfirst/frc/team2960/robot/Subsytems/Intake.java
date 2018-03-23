@@ -80,24 +80,24 @@ public class Intake extends Subsystem implements SubsystemBase{
                 break;
             case forward:
                 mIntakeSlave.setInverted(true);
-                mIntakeMaster.set(ControlMode.PercentOutput, -.5);
-                mIntakeSlave.set(ControlMode.PercentOutput, -1.0);
+                mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
+                mIntakeSlave.set(ControlMode.PercentOutput, .5);
 
                 break;
             case backward:
                 mIntakeSlave.setInverted(true);
-                mIntakeMaster.set(ControlMode.PercentOutput, .5);
-                mIntakeSlave.set(ControlMode.PercentOutput, 1.0);
+                mIntakeMaster.set(ControlMode.PercentOutput, -1.0);
+                mIntakeSlave.set(ControlMode.PercentOutput, -.5);
                 break;
             case rotate:
                 mIntakeSlave.setInverted(true);
-                mIntakeMaster.set(ControlMode.PercentOutput, -1.0);
-                mIntakeSlave.set(ControlMode.PercentOutput, -1.0);
+                mIntakeMaster.set(ControlMode.PercentOutput, 1.0);
+                mIntakeSlave.set(ControlMode.PercentOutput, 1.0);
                 break;
             case backwardSlow:
                 mIntakeSlave.setInverted(true);
-                mIntakeMaster.set(ControlMode.PercentOutput, .25);
-                mIntakeSlave.set(ControlMode.PercentOutput, .5);
+                mIntakeMaster.set(ControlMode.PercentOutput, -.5);
+                mIntakeSlave.set(ControlMode.PercentOutput, -.25);
             default:
                 break;
         }

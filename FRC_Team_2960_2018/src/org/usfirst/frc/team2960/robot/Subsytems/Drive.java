@@ -24,6 +24,9 @@ import org.usfirst.frc.team2960.robot.Pid.TurnPidOutput;
  */
 public class Drive extends Subsystem implements SubsystemBase {
 
+
+    boolean range = false;
+
     private static Drive m_Instance;
 
     /**
@@ -208,38 +211,33 @@ public class Drive extends Subsystem implements SubsystemBase {
         double slope = inchesPerSecondToTicksPer100ms(speed)/ slowDownDistance;
 
         double degreesToGo = (target - (-navX.getAngle()));
-        if(degreesToGo >= 10){
-            if(target > 0){
-                setVelocity(-inchesPerSecondToTicksPer100ms(speed),-inchesPerSecondToTicksPer100ms(speed));
-            }
-            else if(target < 0){
-                setVelocity(inchesPerSecondToTicksPer100ms(speed),inchesPerSecondToTicksPer100ms(speed));
-            }
-            return false;
-        }
-        else if(degreesToGo <= slowDownDistance){
-            if(target > 0){
-                setVelocity(-(slope * degreesToGo), -(slope * degreesToGo));
-            }
-            else if(target < 0){
-                setVelocity((slope * degreesToGo), (slope * degreesToGo));
-            }
-            return false;
-        }
-        else if(Math.abs(degreesToGo) <= 5){
-            /*for(int pulseTimes = 0; pulseTimes < 3; pulseTimes++) {
-                if(target > 0){
-                    setSpeed(0,speed);
-                }
-                else if(target < 0){
-                    setSpeed(-speed,0);
-                }
-                Timer.delay(.03);
-            }
-            */
-            setVelocity(0, 0);
 
+
+
+
+
+        if(Math.abs(degreesToGo) <= 7 && Math.abs(getRightEncoderVelocity()) <= 300) {
+            setVelocity(0,0);
             return true;
+        }
+        else {
+            if(Math.abs(degreesToGo) >= 10 /*&& degreesToGo > slowDownDistance*/){
+                if(degreesToGo > 0){
+                    setVelocity(-inchesPerSecondToTicksPer100ms(speed),-inchesPerSecondToTicksPer100ms(speed));
+                }
+                else if(degreesToGo < 0){
+                    setVelocity(inchesPerSecondToTicksPer100ms(speed),inchesPerSecondToTicksPer100ms(speed));
+                }
+                return false;
+            }
+            else if(Math.abs(degreesToGo) <= slowDownDistance) {
+                if (degreesToGo > 0) {
+                    setVelocity(-(slope * degreesToGo), -(slope * degreesToGo));
+                } else if (degreesToGo < 0) {
+                    setVelocity((slope * degreesToGo), (slope * degreesToGo));
+                }
+                return false;
+            }
         }
         return false;
     }
