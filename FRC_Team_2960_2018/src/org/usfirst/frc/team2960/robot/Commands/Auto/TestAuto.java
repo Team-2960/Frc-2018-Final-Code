@@ -18,7 +18,7 @@ public class TestAuto extends CommandGroup{
         //addSequential(new MoveForwardDistance(240, .5));//Goes about 290, set to 180
 
         //addSequential(new ElevatorMove(Elevator.mElevatorState.Switch, 0));
-        addSequential(new IntakeAdjustMove(), .8);
+      /*  addSequential(new IntakeAdjustMove(), .8);
         addSequential(new MoveForwardDistanceVelocity(215, 102));//183 ++ 172 ++ dist 248 speed 42
         addParallel(new ElevatorMove(Elevator.mElevatorState.ScaleUp,0 ), 2);
         addSequential(new TurnToTarget(27, 120));
@@ -26,7 +26,17 @@ public class TestAuto extends CommandGroup{
         addSequential(new MoveForwardTime(.2, .3));
         //addSequential(new MoveForwardDistanceVelocity(14, 75));
         addSequential(new IntakeMove(Intake.mIntakeState.backwardSlow), 3);
+*/
 
+        addSequential(new IntakeAdjustMove(), .8);
+        addSequential(new MoveForwardDistanceVelocity(20, 102));//183 ++ 172 ++ dist 248 speed 42
+        addParallel(new ElevatorMove(Elevator.mElevatorState.ScaleUp,0 ), 2);
+        addSequential(new TurnToTarget(-27, 120));
+        addSequential(new Wait(.5));
+        //Test
+        addSequential(new MoveForwardTime(.6, .3));
+        //addSequential(new MoveForwardDistanceVelocity(14, 75));
+        addSequential(new IntakeMove(Intake.mIntakeState.backwardSlow), 3);
 
         //TEST TURN
         //addSequential(new TurnToTarget(45, 120));

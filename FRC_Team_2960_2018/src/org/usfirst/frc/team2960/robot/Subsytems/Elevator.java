@@ -168,7 +168,10 @@ public class Elevator extends Subsystem implements SubsystemBase{
      */
     @Override
     public void update() {
-        mElevatorMaster.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, Constants.kTimeoutMs);
+        if(zeroAtPhotoeye()) {
+            zeroSensors();
+        }
+        //mElevatorMaster.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, Constants.kTimeoutMs);
     }
 
     /**
@@ -178,6 +181,21 @@ public class Elevator extends Subsystem implements SubsystemBase{
     public void startup() {
 
     }
+
+
+    public boolean zeroAtPhotoeye() {
+        boolean atPhotoeye = false;
+        // TODO: 3/24/2018 Check if its forward or reverse 
+        return mElevatorMaster.getSensorCollection().isFwdLimitSwitchClosed();
+
+    }
+
+    // Code to zero
+    /*
+        if(zeroAtPhotoeye()) {
+            zeroSensors();
+        }
+     */
 
     /**
      * Output the Subsystems Values to SmartDashboard
@@ -191,8 +209,10 @@ public class Elevator extends Subsystem implements SubsystemBase{
         SmartDashboard.putNumber("SensorPos", mElevatorMaster.getSelectedSensorPosition(Constants.kPIDLoopIDx));
         /*
         SmartDashboard.putNumber("MotorOutputPercent", mElevatorMaster.getMotorOutputPercent());
-        SmartDashboard.putNumber("Closed Loop error", mElevatorMaster.getClosedLoopError(Constants.kPIDLoopIDx));
+        SmartDashbopdpard.putNumber("Closed Loop error", mElevatorMaster.getClosedLoopError(Constants.kPIDLoopIDx));
         */
+        SmartDashboard.putBoolean("Forward Limit Switch ", mElevatorMaster.getSensorCollection().isFwdLimitSwitchClosed());
+        SmartDashboard.putBoolean("Reverse Limit Switch", mElevatorMaster.getSensorCollection().isRevLimitSwitchClosed());
     }
 
     /**
@@ -213,7 +233,7 @@ public class Elevator extends Subsystem implements SubsystemBase{
     }
 
     public void setupLimitSwiches(){
-        mElevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
-        mElevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);
+        mElevatorMaster.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.kTimeoutMs);
+        mElevatorMaster.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, Constants.kTimeoutMs);
     }
 }

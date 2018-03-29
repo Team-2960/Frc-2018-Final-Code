@@ -16,7 +16,7 @@ public class SwitchRightSide extends CommandGroup{
 	    gameData = DriverStation.getInstance().getGameSpecificMessage();
 	    addSequential(new MoveForwardTime(.1, .5));
 	    if (gameData.charAt(0) == 'R') {
-	        addSequential(new MoveForwardDistanceVelocity(168, 102));
+	        addSequential(new MoveForwardDistanceVelocity(125, 102));
 	        addParallel(new ElevatorMove(Elevator.mElevatorState.Switch, 0), 5);
 	        addSequential(new TurnToTarget(90, 120));
 	        addSequential(new MoveForwardDistanceVelocity(10, 102));

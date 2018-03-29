@@ -96,7 +96,7 @@ public class Robot extends IterativeRobot {
 		//m_autoSelected = m_chooser.getSelected();
 		//switch (m_autoSelected) {
 			//case kCustomAuto:
-				kAutonomousCommand = new RightScaleAuto();
+				kAutonomousCommand = new SwitchRightSide();
 		//}
 		Drive.getInstance().zeroSensors();
 		Elevator.getInstance().zeroSensors();
@@ -112,7 +112,6 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		toSmartDashboard();
 	}
-
 	/**
 	 * This function is called periodically during operator control.
 	 */

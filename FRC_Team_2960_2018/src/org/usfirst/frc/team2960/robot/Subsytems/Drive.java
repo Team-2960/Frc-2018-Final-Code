@@ -35,7 +35,6 @@ public class Drive extends Subsystem implements SubsystemBase {
     private AHRS navX;
 
     // Talons
-    // TODO: 1/17/18 The Talons have to be changed for when we move to the new drivetrain!
     private TalonSRX mRightMaster, mRightSlave1, mRightSlave2, mLeftMaster, mLeftSlave1, mLeftSlave2;
 
     /**
@@ -207,21 +206,17 @@ public class Drive extends Subsystem implements SubsystemBase {
         else
             return false;
         */
-        double slowDownDistance = 20;
-        double slope = inchesPerSecondToTicksPer100ms(speed)/ slowDownDistance;
+        double slowDownDistance = 60;
+        //double slope = inchesPerSecondToTicksPer100ms(speed)/ slowDownDistance;
 
         double degreesToGo = (target - (-navX.getAngle()));
-
-
-
-
 
         if(Math.abs(degreesToGo) <= 7 && Math.abs(getRightEncoderVelocity()) <= 300) {
             setVelocity(0,0);
             return true;
         }
         else {
-            if(Math.abs(degreesToGo) >= 10 /*&& degreesToGo > slowDownDistance*/){
+            if(Math.abs(degreesToGo) > slowDownDistance /*10*/ /*&& degreesToGo > slowDownDistance*/){
                 if(degreesToGo > 0){
                     setVelocity(-inchesPerSecondToTicksPer100ms(speed),-inchesPerSecondToTicksPer100ms(speed));
                 }
@@ -231,11 +226,21 @@ public class Drive extends Subsystem implements SubsystemBase {
                 return false;
             }
             else if(Math.abs(degreesToGo) <= slowDownDistance) {
+                /*
                 if (degreesToGo > 0) {
                     setVelocity(-(slope * degreesToGo), -(slope * degreesToGo));
                 } else if (degreesToGo < 0) {
                     setVelocity((slope * degreesToGo), (slope * degreesToGo));
                 }
+                */
+
+                if(degreesToGo > 0){
+                    setVelocity(-inchesPerSecondToTicksPer100ms(speed / 2),-inchesPerSecondToTicksPer100ms(speed / 2));
+                }
+                else if(degreesToGo < 0){
+                    setVelocity(inchesPerSecondToTicksPer100ms(speed / 2),inchesPerSecondToTicksPer100ms(speed /2 ));
+                }
+
                 return false;
             }
         }

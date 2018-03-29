@@ -122,11 +122,12 @@ public class OI {
             isOveride = true;
             intakeOperatorOverride = true;
         }
-       
+
         else if(isOveride && joystick.getRawButtonReleased(2)) {
         	elevator.setState(Elevator.mElevatorState.stopManual, 0);
         	isOveride = false;
         }
+
         else {
             if (joystick.getRawButton(12)) {
                 elevator.setState(Elevator.mElevatorState.Ground, 0);
