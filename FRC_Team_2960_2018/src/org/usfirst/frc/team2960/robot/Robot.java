@@ -7,24 +7,24 @@
 
 package org.usfirst.frc.team2960.robot;
 
+import org.usfirst.frc.team2960.robot.Commands.Auto.SwitchRightSide;
+import org.usfirst.frc.team2960.robot.Subsytems.Drive;
+import org.usfirst.frc.team2960.robot.Subsytems.Elevator;
+import org.usfirst.frc.team2960.robot.Subsytems.Intake;
+import org.usfirst.frc.team2960.robot.Subsytems.LEDs;
+import org.usfirst.frc.team2960.robot.Subsytems.SubsystemBase;
+import org.usfirst.frc.team2960.robot.Subsytems.Winch;
+
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
-import jaci.pathfinder.Waypoint;
-import org.usfirst.frc.team2960.robot.Commands.Auto.*;
-import org.usfirst.frc.team2960.robot.Subsytems.*;
-import com.ctre.phoenix.motorcontrol.*;
-
-import java.lang.invoke.SwitchPoint;
-
-import javax.sound.sampled.Port;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -98,6 +98,7 @@ public class Robot extends IterativeRobot {
 			//case kCustomAuto:
 				kAutonomousCommand = new SwitchRightSide();
 		//}
+				//JAmes was here
 		Drive.getInstance().zeroSensors();
 		Elevator.getInstance().zeroSensors();
 		System.out.println("Auto selected: " + m_autoSelected);
