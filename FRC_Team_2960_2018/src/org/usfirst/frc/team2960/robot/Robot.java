@@ -98,7 +98,7 @@ public class Robot extends IterativeRobot {
 			//case kCustomAuto:
 				kAutonomousCommand = new SwitchRightSide();
 		//}
-		//JAmes was here
+		//JAmes was here #Changes
 		Drive.getInstance().zeroSensors();
 		Elevator.getInstance().zeroSensors();
 		System.out.println("Auto selected: " + m_autoSelected);
